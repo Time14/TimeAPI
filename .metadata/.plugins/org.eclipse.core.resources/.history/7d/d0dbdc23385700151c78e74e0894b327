@@ -1,0 +1,14 @@
+package time.api;
+
+import time.api.gamestate.GameStateManager;
+import time.api.library.Lib;
+
+public class Main {
+	
+	public static final void main(String[] args) {
+		
+		Lib.registerLib(new Lib<GameStateManager>(""));
+		
+		new Game().run("TimeWars", 800, 600);
+	}
+}

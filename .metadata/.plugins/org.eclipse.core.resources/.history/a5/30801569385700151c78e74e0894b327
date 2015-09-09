@@ -1,0 +1,10 @@
+package time.api.gamestate;
+
+import time.api.library.Lib;
+
+public class GameStateManager {
+	
+	public GameStateManager() {
+		
+	}
+}

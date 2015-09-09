@@ -1,0 +1,13 @@
+package time.api;
+
+import time.api.library.Lib;
+
+public class Main {
+	
+	public static final void main(String[] args) {
+		
+		Lib.registerLib(key, lib);
+		
+		new Game().run("TimeWars", 800, 600);
+	}
+}

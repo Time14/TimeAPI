@@ -5,4 +5,8 @@
 <fullyQualifiedTypeName name="time.api.Game"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GLContext"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="org.lwjgl.system.linux.LinuxLibrary"/>
+<fullyQualifiedTypeName name="time.api.library.Lib"/>
+<fullyQualifiedTypeName name="time.api.gamestate.GameStateManager"/>
 </qualifiedTypeNameHistroy>
