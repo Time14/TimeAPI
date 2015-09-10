@@ -9,4 +9,6 @@
 <fullyQualifiedTypeName name="org.lwjgl.system.linux.LinuxLibrary"/>
 <fullyQualifiedTypeName name="time.api.library.Lib"/>
 <fullyQualifiedTypeName name="time.api.gamestate.GameStateManager"/>
+<fullyQualifiedTypeName name="time.api.library.Library"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 </qualifiedTypeNameHistroy>
