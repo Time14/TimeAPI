@@ -1,5 +1,5 @@
 package time.api.gamestate;
 
-public class GameState {
+public abstract class GameState {
 	
 }

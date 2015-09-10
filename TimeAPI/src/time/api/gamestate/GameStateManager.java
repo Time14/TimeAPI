@@ -4,9 +4,24 @@ import time.api.library.Library;
 
 public class GameStateManager {
 	
-	private Library<GameState> libraries;
+	private Library<GameState> gameStateLibrary;
+	
+	private GameState currentState;
 	
 	public GameStateManager() {
-		libraries = new Library<>("GameStateLibrary");
+		gameStateLibrary = new Library<>("GameStateLibrary");
+	}
+	
+	public GameStateManager enterState(String key) {
+		return enterState(gameStateLibrary.get(key));
+	}
+	
+	public GameStateManager enterState(GameState gs) {
+		currentState = gs;
+		return this;
+	}
+	
+	public void update() {
+		
 	}
 }
