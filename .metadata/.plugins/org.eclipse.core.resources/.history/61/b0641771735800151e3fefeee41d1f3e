@@ -1,0 +1,35 @@
+package time.api.gamestate;
+
+import time.api.library.Library;
+
+public class GameStateManager {
+	
+	private Library<GameState> gameStateLibrary;
+	
+	private GameState currentState;
+	
+	public GameStateManager() {
+		gameStateLibrary = new Library<>("GameStateLibrary");
+	}
+	
+	public GameStateManager enterState(String key) {
+		return enterState(gameStateLibrary.get(key));
+	}
+	
+	public GameStateManager enterState(GameState gs) {
+		if(currentState != null)
+			currentState.exit();
+		
+		currentState = gs;
+		
+		currentState.init();
+		
+		return this;
+	}
+	
+	public void update(float dt) {
+		currentState.input();
+		currentState.update(dt);
+		currentState.draw();
+	}
+}

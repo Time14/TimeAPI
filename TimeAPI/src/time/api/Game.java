@@ -5,6 +5,8 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
+import time.api.gamestate.GameStateManager;
+
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -119,6 +121,8 @@ public class Game {
 		//Sets the clear color
 		GL11.glClearColor(1, 0, 0, 1);
 		
+		GameStateManager.enterState("Main");
+		
 		//The main loop
 		while(glfwWindowShouldClose(window) == GL11.GL_FALSE) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -126,5 +130,4 @@ public class Game {
 			glfwPollEvents();
 		}
 	}
-	
 }

@@ -1,9 +1,0 @@
-package time.api.gamestate;
-
-public class GameStateManager {
-	
-	public GameStateManager() {
-		
-	}
-	
-}

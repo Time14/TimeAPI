@@ -1,0 +1,62 @@
+package time.api.gamestate;
+
+import time.api.library.Library;
+
+public class GameStateManager {
+	
+	private static Library<GameState> gameStateLibrary = new Library<>("GameStateLibrary");;
+	
+	private static GameState currentState;
+	
+	/**
+	 * 
+	 * Registers a new GameState to this GameStateManager.
+	 * 
+	 * @param gs - the GameState to register
+	 */
+	public static void registerState(GameState gs) {
+		gameStateLibrary.put(gs.NAME, gs);
+	}
+	
+	/**
+	 * 
+	 * Exits the current GameState and initiates a new one with the corresponding key specified.
+	 * 
+	 * @param key - the key to fetch the GameState from
+	 * @return this GameStateManager instance
+	 */
+	public GameStateManager enterState(String key) {
+		return enterState(gameStateLibrary.get(key));
+	}
+	
+	
+	/**
+	 * 
+	 * Exits the current GameState and initiates the one specified.
+	 * 
+	 * @param gs - the new GameState
+	 * @return this GameStateManager instance
+	 */
+	public GameStateManager enterState(GameState gs) {
+		if(currentState != null)
+			currentState.exit();
+		
+		currentState = gs;
+		
+		currentState.init();
+		
+		return this;
+	}
+	
+	/**
+	 * 
+	 * Updates the currently activated GameState.
+	 * 
+	 * @param dt - the delta time
+	 */
+	public void update(float dt) {
+		currentState.input();
+		currentState.update(dt);
+		currentState.draw();
+	}
+}

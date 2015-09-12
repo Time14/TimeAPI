@@ -1,0 +1,11 @@
+package time.api;
+
+import time.api.gamestate.GameStateManager;
+
+public class Main {
+	
+	public static final void main(String[] args) {
+		
+		new Game(gsm).run("TimeWars", 1280, 720);
+	}
+}

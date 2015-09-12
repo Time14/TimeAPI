@@ -1,0 +1,7 @@
+package time.api.gamestate;
+
+public abstract class GameState {
+	
+	public abstract void init();
+	
+}

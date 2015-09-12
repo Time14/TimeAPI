@@ -2,4 +2,15 @@ package time.api.gamestate;
 
 public abstract class GameState {
 	
+	public final String NAME;
+	
+	public GameState(String name) {
+		NAME = name;
+	}
+	
+	public abstract void init();
+	public abstract void input();
+	public abstract void update(float dt);
+	public abstract void draw();
+	public abstract void exit();
 }

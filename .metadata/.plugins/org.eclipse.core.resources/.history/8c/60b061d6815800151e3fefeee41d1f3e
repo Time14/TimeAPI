@@ -1,0 +1,45 @@
+package time.api;
+
+import time.api.gamestate.GameState;
+import time.api.gamestate.GameStateManager;
+
+public class Main {
+	
+	public static final void main(String[] args) {
+		
+		GameStateManager.registerState(new GameState("") {
+
+			@Override
+			public void init() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void input() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void update(float dt) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void draw() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void exit() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		new Game().run("TimeWars", 1280, 720);
+	}
+}

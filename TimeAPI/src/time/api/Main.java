@@ -1,8 +1,38 @@
 package time.api;
 
+import time.api.gamestate.GameState;
+import time.api.gamestate.GameStateManager;
+
 public class Main {
 	
 	public static final void main(String[] args) {
+		
+		GameStateManager.registerState(new GameState("Main") {
+			@Override
+			public void init() {
+				System.out.println("Initiated " + NAME);
+			}
+
+			@Override
+			public void input() {
+				
+			}
+
+			@Override
+			public void update(float dt) {
+				
+			}
+
+			@Override
+			public void draw() {
+				
+			}
+
+			@Override
+			public void exit() {
+				
+			}
+		});
 		
 		new Game().run("TimeWars", 1280, 720);
 	}
