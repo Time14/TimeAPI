@@ -1,0 +1,43 @@
+package time.api.gamestate;
+
+public abstract class GameState {
+	
+	public final String NAME;
+	
+	public GameState(String name) {
+		NAME = name;
+	}
+	
+	/**
+	 * 
+	 * Called each time this GameState is entered.
+	 * 
+	 */
+	public abstract void init();
+	
+	/**
+	 * 
+	 * Called each GameStateManager update through the built in GLFW event thread.
+	 * 
+	 * @param window - the window that received the event
+	 * @param key - the keyboard key that was pressed or released
+	 * @param scancode - the system-specific scancode of the key
+	 * @param action - the key action. One of: GLFW.GLFW_PRESS, GLFW.GLFW_RELEASE, GLFW.GLFW_REPEAT
+	 * @param mods - bitfield describing which modifiers keys were held down
+	 */
+	public abstract void onKeyboard(long window, int key, int scancode, int action, int mods);
+	
+	/**
+	 * 
+	 * Called for each mouse event since the last GameStateManager update. 
+	 * 
+	 * @param window
+	 * @param button
+	 * @param action
+	 * @param mods
+	 */
+	public abstract void onMouse(long window, int button, int action, int mods);
+	public abstract void update(float dt);
+	public abstract void draw();
+	public abstract void exit();
+}

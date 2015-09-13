@@ -2,7 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
-<fullyQualifiedTypeName name="time.api.Game"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GLContext"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
@@ -10,6 +9,11 @@
 <fullyQualifiedTypeName name="time.api.library.Lib"/>
 <fullyQualifiedTypeName name="time.api.library.Library"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
-<fullyQualifiedTypeName name="time.api.gamestate.GameStateManager"/>
 <fullyQualifiedTypeName name="time.api.gamestate.GameState"/>
+<fullyQualifiedTypeName name="org.lwjgl.glfw.GLFWCharCallback"/>
+<fullyQualifiedTypeName name="org.lwjgl.glfw.GLFWKeyCallback"/>
+<fullyQualifiedTypeName name="time.api.gamestate.GameStateManager"/>
+<fullyQualifiedTypeName name="org.lwjgl.glfw.GLFWMouseButtonCallback"/>
+<fullyQualifiedTypeName name="time.api.Game"/>
+<fullyQualifiedTypeName name="org.lwjgl.glfw.GLFW"/>
 </qualifiedTypeNameHistroy>

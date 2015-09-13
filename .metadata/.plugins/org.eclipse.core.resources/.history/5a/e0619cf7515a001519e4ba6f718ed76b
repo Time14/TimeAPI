@@ -1,0 +1,46 @@
+package time.api;
+
+import time.api.gamestate.GameState;
+import time.api.gamestate.GameStateManager;
+
+public class Main {
+	
+	public static final void main(String[] args) {
+		
+		Game game = new Game();
+		
+		GameStateManager.registerState(new GameState("Main") {
+			@Override
+			public void init() {
+				System.out.println("Initiated " + NAME);
+			}
+
+			@Override
+			public void onKeyboard(long window, int key, int scancode, int action, int mods) {
+				game.stop();
+			}
+			
+			@Override
+			public void onMouse(long window, int button, int action, int mods) {
+				
+			}
+			
+			@Override
+			public void update(float dt) {
+				
+			}
+
+			@Override
+			public void draw() {
+				
+			}
+
+			@Override
+			public void exit() {
+				
+			}
+		});
+		
+		new Game().run("TimeWars", 1280, 720);
+	}
+}

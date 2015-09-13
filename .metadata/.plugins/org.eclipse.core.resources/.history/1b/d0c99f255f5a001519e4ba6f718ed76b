@@ -1,0 +1,22 @@
+package time.api.gamestate;
+
+public abstract class GameState {
+	
+	public final String NAME;
+	
+	public GameState(String name) {
+		NAME = name;
+	}
+	
+	/**
+	 * 
+	 * Called when this GameState is entered.
+	 * 
+	 */
+	public abstract void init();
+	public abstract void onKeyboard(long window, int key, int scancode, int action, int mods);
+	public abstract void onMouse(long window, int button, int action, int mods);
+	public abstract void update(float dt);
+	public abstract void draw();
+	public abstract void exit();
+}

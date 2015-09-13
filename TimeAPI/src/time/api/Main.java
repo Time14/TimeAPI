@@ -1,11 +1,15 @@
 package time.api;
 
+import org.lwjgl.glfw.GLFW;
+
 import time.api.gamestate.GameState;
 import time.api.gamestate.GameStateManager;
 
 public class Main {
 	
 	public static final void main(String[] args) {
+		
+		Game game = new Game();
 		
 		GameStateManager.registerState(new GameState("Main") {
 			@Override
@@ -14,10 +18,18 @@ public class Main {
 			}
 
 			@Override
-			public void input() {
+			public void onKeyboard(long window, int key, int scancode, int action, int mods) {
+				System.out.println(Integer.toBinaryString(mods));
+				if(key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
+					game.stop();
+				}
+			}
+			
+			@Override
+			public void onMouse(long window, int button, int action, int mods) {
 				
 			}
-
+			
 			@Override
 			public void update(float dt) {
 				
@@ -34,6 +46,6 @@ public class Main {
 			}
 		});
 		
-		new Game().run("TimeWars", 1280, 720);
+		game.run("TimeWars", 1280, 720);
 	}
 }
