@@ -1,0 +1,150 @@
+package physics;
+
+import advancedMath.Vector2f;
+
+public class Body {
+	/*
+	 * 		Body - Something that can simulate physics, with a collider. (Trigger or not)
+	 * 		Trigger
+	 * 		iMass
+	 * 		Elasticity
+	 * 		W, H
+	 * 		Position
+	 * 		Scale
+	 * 		Velocity
+	 * 		CheckCollision(body-b)
+	 */
+	
+	boolean trigger;
+	boolean absolute;
+
+	float invMass;
+	float epsilon;
+	float mu;
+	
+	Vector2f dim;
+	Vector2f pos;
+	Vector2f vel;
+	
+	public Body(float x, float y, float w, float h) {
+		
+		trigger = false;
+		absolute = false;
+		
+		invMass = 1;
+		epsilon = 1;
+		mu = 1;
+		
+		dim = new Vector2f(w, h);
+		pos = new Vector2f(x, y);
+		vel = new Vector2f(0, 0);
+	}
+	
+	public boolean isTrigger() {
+		return trigger;
+	}
+
+	public Body setTrigger(boolean trigger) {
+		this.trigger = trigger;
+		return this;
+	}
+	
+	public boolean isAbsolute() {
+		return trigger;
+	}
+
+	public Body setAbsolute(boolean absolute) {
+		this.absolute = absolute;
+		return this;
+	}
+
+	public float getInvMass() {
+		return invMass;
+	}
+
+	public void setMass(float mass) {
+		this.invMass = 1 / mass;
+	}
+
+	public float getEpsilon() {
+		return epsilon;
+	}
+
+	public void setEpsilon(float epsilon) {
+		this.epsilon = epsilon;
+	}
+
+	public float getFriction() {
+		return mu;
+	}
+
+	public void setFriction(float f) {
+		this.mu = f;
+	}
+
+	public Vector2f getDim() {
+		return dim;
+	}
+
+	public void setDim(Vector2f dim) {
+		this.dim = dim;
+	}
+
+	public Vector2f getPos() {
+		return pos;
+	}
+
+	public void setPos(Vector2f pos) {
+		this.pos = pos;
+	}
+
+	public Vector2f getVel() {
+		return vel;
+	}
+
+	public void setVel(Vector2f vel) {
+		this.vel = vel;
+	}
+	
+	public void freezeVelocity() {
+		this.vel.setX(0);
+		this.vel.setY(0);
+	}
+	
+	public void checkCollision(Body body, PhysicsEngine pe) {
+		
+		float overlapX = 2 * Math.abs(this.dim.getX() + body.dim.getX()) - Math.abs(this.pos.getX() - body.pos.getX());
+		if(overlapX < 0) return;		
+
+		float overlapY = 2 * Math.abs(this.dim.getY() + body.dim.getY()) - Math.abs(this.pos.getY() - body.pos.getY());
+		if(overlapY < 0) return;
+		
+		Vector2f normal = new Vector2f(0, 0);
+		float depth = 0;
+		if(overlapX < overlapY) {
+			normal.setY(1);
+			depth = overlapY;
+		}
+		else {
+			normal.setX(1);
+			depth = overlapX;
+		}
+		
+		new Collision(pe, normal, depth, this, body);
+		return;
+	}
+	
+	public void push(Vector2f force) {
+		vel.add(force.scale(invMass));
+	}
+	
+	public void addVel(Vector2f vel) {
+		this.vel.add(vel);
+	}
+	
+	public void update(float delta) {
+		//TODO
+		pos.add(vel.clone().scale(delta));
+	}
+	
+}

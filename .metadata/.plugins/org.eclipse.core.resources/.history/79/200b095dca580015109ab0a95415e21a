@@ -1,0 +1,36 @@
+package physics;
+
+import advancedMath.Vector2f;
+import debug.Debug;
+
+public class Collision {
+	
+	private Body[] bodies;
+	
+	private Vector2f normal;
+	
+	private float depth;
+	
+	public Collision(PhysicsEngine pe, Vector2f normal, float depth, Body ... b) {
+		this.normal = normal;
+		this.depth = depth;
+		
+		bodies = b;
+		
+		pe.addCollision(this);
+	}
+	
+	public void solve() {
+		//TODO
+		Debug.Log("A collision has occured!");
+		float dir = normal.dot(bodies[0].getVel().clone().add(bodies[1].getVel()));
+		
+		if(0 < dir) return;
+		
+		
+	}
+	
+	public void move() {
+		//TODO
+	}
+}
