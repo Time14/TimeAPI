@@ -1,0 +1,46 @@
+package physics;
+
+import advancedMath.Vector2f;
+import advancedMath.VectorXf;
+import debug.Debug;
+
+public class Collision {
+	
+	private Body[] bodies;
+	
+	private Vector2f normal;
+	
+	private float depth;
+	
+	public Collision(PhysicsEngine pe, Vector2f normal, float depth, Body ... b) {
+		this.normal = normal;
+		this.depth = depth;
+		
+		bodies = b;
+		
+		pe.addCollision(this);
+	}
+	
+	public void solve() {
+		//TODO
+		Debug.Log("A collision has occured!");
+		VectorXf v = bodies[0].getVel().clone().add(bodies[1].getVel());
+		float dir = normal.dot(v);
+		
+		if(0 > dir) return;
+		
+		float p = (1/bodies[0].getInvMass()) + (1/bodies[1].getInvMass());
+		float e = (float) 1 + ((bodies[0].getEpsilon() + bodies[1].getEpsilon()) * 0.5);
+
+		p *= v.getMagnitude() * e;
+		Debug.Log("p: " + p);
+		
+		bodies[0].push(normal.scale(p));
+		bodies[1].push(normal.scale(-1));
+		Debug.Log("" + bodies[0].getVel() + "\n" + bodies[1].getVel());
+	}
+	
+	public void move() {
+		//TODO
+	}
+}

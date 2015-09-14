@@ -1,0 +1,19 @@
+package debug;
+
+public class Debug {
+	
+	 /* Debug - A debug class that holds helper functions
+	  * 		DrawSquare(x, y, w, h)
+	  * 		Log(Message)
+	  */
+	
+	public static void drawSquare(int x, int y, int w, int h) {
+		glRectf(-0.75f,0.75f, 0.75f, -0.75f);
+	}
+	
+	public static void Log(String message) {
+		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+		System.out.println("[" + ste[2].getFileName() + " @ " + ste[2].getLineNumber() + "] " + message);
+	}
+	
+}

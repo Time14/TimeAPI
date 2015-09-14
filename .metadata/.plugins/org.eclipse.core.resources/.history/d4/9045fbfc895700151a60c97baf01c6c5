@@ -1,0 +1,38 @@
+package debug;
+
+import org.lwjgl.opengl.GL11;
+
+public class Debug {
+	
+	 /* Debug - A debug class that holds helper functions
+	  * 		DrawSquare(x, y, w, h)
+	  * 		Log(Message)
+	  */
+	
+	/**
+	 * 
+	 * 
+	 * @param x position
+	 * @param y position
+	 * @param w width
+	 * @param h height
+	 */
+	public static void drawSquare(int x, int y, int w, int h) {
+		//Set color
+		GL11.glColor3f(1, 1, 1);
+		
+		
+	}
+	
+	
+	/**
+	 * Prints the message and where it was called.
+	 * 
+	 * @param message The message you wish to print.
+	 */
+	public static void Log(String message) {
+		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+		System.out.println("[" + ste[2].getFileName() + " @ " + ste[2].getLineNumber() + "] " + message);
+	}
+	
+}

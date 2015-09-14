@@ -1,0 +1,13 @@
+package time.api;
+
+import advancedMath.Vector2f;
+import debug.Debug;
+
+public class Main {
+	
+	public static final void main(String[] args) {
+		Vector2f v = new Vector2f(0, 2);
+		
+		new Game().run("TimeWars", 800, 600);
+	}
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;physics.Tags&apos; to &apos;Tag&apos;&#x0D;&#x0A;- Original project: &apos;TimeAPI&apos;&#x0D;&#x0A;- Original element: &apos;physics.Tags&apos;&#x0D;&#x0A;- Renamed element: &apos;physics.Tag&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Tags&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;physics{Tags.java[Tags" matchStrategy="1" name="Tag" qualified="false" references="true" similarDeclarations="false" stamp="1442214038794" textual="false" version="1.0"/>
+</session>
