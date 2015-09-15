@@ -107,9 +107,10 @@ public class Game {
 		
 		//Displays window
 		glfwShowWindow(window);
+				
 	}
 	
-	/**
+	/*
 	 * 
 	 * Creates the OpenGL context and runs the main loop.
 	 * 
@@ -122,11 +123,19 @@ public class Game {
 		//Prints the OpenGL version
 		System.out.println("OpenGL " + GL11.glGetString(GL11.GL_VERSION));
 		
+		// Code for initilizing OpenGL to draw, debug mode
+//		GL11.glMatrixMode(GL11.GL_PROJECTION);
+//		GL11.glLoadIdentity();
+//		GL11.glOrtho(0, 800, 0, 600, 1, -1);
+//		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		
+		
 		//Sets the clear color
 		GL11.glClearColor(0, 0, 0, 1);
 		
 		GameStateManager.init(this, window);
 		GameStateManager.enterState("Main");
+		
 		
 		//The main loop
 		running = true;

@@ -1,0 +1,93 @@
+package physics;
+
+import java.util.HashSet;
+
+import advancedMath.Vector2f;
+import debug.Debug;
+
+
+/**
+ * A class to hold everything regarding physics 
+ * @author Eddie-boi
+ */
+
+public class PhysicsEngine {
+	
+	private HashSet<Body> bodies;
+	private HashSet<Collision> collisions;
+	//private HeshSet<Collision> collisions;
+	
+	/**
+	 * Inits the physics engine, I mean, what did you expect?
+	 */
+	public PhysicsEngine() {
+		bodies = new HashSet<Body>();
+		collisions = new HashSet<Collision>();
+	}
+	
+	/**
+	 * It... updates the physics engine... SUPRISE!
+	 * @param delta - The delta time between frames
+	 * @return - Allows chaining
+	 */
+	public PhysicsEngine update(float delta) {
+		
+		Vector2f gravity = new Vector2f(0.5f, -1.5f);
+		gravity.scale(delta);
+		for(Body a : bodies) {
+			a._clearTags();
+			a.addVel(gravity);
+			a.update(delta);
+		}
+		
+		
+		//These are to prevent double collisions
+		int i = 0;
+		int j = 0;
+		for(Body a : bodies) {
+			i++;
+			j = 0;
+			for(Body b : bodies) {
+				j++;
+				if(j <= i) continue;
+				a._checkCollision(b, this);
+			}
+		}
+		
+		for (Collision c : collisions) {
+			c._solve();
+		}
+		collisions.clear();
+		
+		return this;
+	}
+	
+	/**
+	 * A function that draws all bodies, horribly inefficient!
+	 * @return
+	 */
+	public PhysicsEngine _debugDraw() {
+		for(Body b : bodies)
+			Debug.drawRect(b);
+		return this;
+	}
+	 /**
+	  * Add a body to the physics simulation
+	  * @param body - the body you wish to add
+	  * @return
+	  */
+	public PhysicsEngine addBody(Body body) {
+		bodies.add(body);
+		return this;
+	}
+	 /**
+	  * A function you shouldn't call. It adds a collision between two bodies for the physics engine to handle
+	  * It is generally a dumb idea to try to use this function, if you aren't the physics engine....int j = 0;
+	  * @param col
+	  * @return
+	  */
+	public PhysicsEngine addCollision(Collision col) {
+		collisions.add(col);
+		return this;
+	}
+}

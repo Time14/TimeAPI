@@ -1,0 +1,7 @@
+package advancedMath;
+
+public class Vector2f extends VectorXf {
+	Vector2f(float x, float y) {
+		super(x, y);
+	}
+}

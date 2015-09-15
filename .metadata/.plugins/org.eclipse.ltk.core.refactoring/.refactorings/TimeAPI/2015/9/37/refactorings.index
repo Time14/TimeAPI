@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 1441832525721	Rename field 'elements'
 1441833154199	Rename type 'Library'
 1441833549858	Rename type 'Lib'
 1441896713630	Rename field 'libraries'
+=======
+1441884215863	Rename package 'math'
+1441896084431	Rename field 'velocity'
+>>>>>>> master
