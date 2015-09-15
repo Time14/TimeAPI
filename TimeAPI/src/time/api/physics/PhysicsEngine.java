@@ -38,7 +38,7 @@ public class PhysicsEngine {
 	 */
 	public PhysicsEngine update(float delta) {
 		
-		Vector2f gravity = new Vector2f(0.5f, -1.5f);
+		Vector2f gravity = new Vector2f(0f, 0f);
 		gravity.scale(delta);
 		for(Body a : bodies) {
 			a._clearTags();
