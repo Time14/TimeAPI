@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
 import time.api.gamestate.GameStateManager;
+import time.api.util.Time;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -16,7 +17,7 @@ import java.nio.ByteBuffer;
 public class Game {
 	
 	//v-sync?
-	public static final boolean VSYNC = true;
+	public static final boolean VSYNC = false;
 	
 	//Decorated?
 	public static final boolean DECORATED = true;
@@ -122,7 +123,7 @@ public class Game {
 		System.out.println("OpenGL " + GL11.glGetString(GL11.GL_VERSION));
 		
 		//Sets the clear color
-		GL11.glClearColor(1, 0, 0, 1);
+		GL11.glClearColor(0, 0, 0, 1);
 		
 		GameStateManager.init(this, window);
 		GameStateManager.enterState("Main");
@@ -131,8 +132,19 @@ public class Game {
 		running = true;
 		while(glfwWindowShouldClose(window) == GL11.GL_FALSE && running) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-			GameStateManager.update(1f);
+			Time.update();
+			GameStateManager.update(Time.getDelta());
 		}
+	}
+	
+	/**
+	 * 
+	 * Returns this games window.
+	 * 
+	 * @return the window of this game
+	 */
+	public long getWindow() {
+		return window;
 	}
 	
 	/**

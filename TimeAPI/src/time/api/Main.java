@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import time.api.gamestate.GameState;
 import time.api.gamestate.GameStateManager;
+import time.api.util.Time;
 
 public class Main {
 	
@@ -19,7 +20,6 @@ public class Main {
 
 			@Override
 			public void onKeyboard(long window, int key, int scancode, int action, int mods) {
-				System.out.println(Integer.toBinaryString(mods));
 				if(key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
 					game.stop();
 				}
@@ -32,9 +32,9 @@ public class Main {
 			
 			@Override
 			public void update(float dt) {
-				
+				GLFW.glfwSetWindowTitle(game.getWindow(), Integer.toString(Time.getFPS()));
 			}
-
+			
 			@Override
 			public void draw() {
 				
@@ -46,6 +46,6 @@ public class Main {
 			}
 		});
 		
-		game.run("TimeWars", 1280, 720);
+		 game.run("TimeWars", 1280, 720);
 	}
 }

@@ -1,0 +1,27 @@
+package time.api.util;
+
+import org.lwjgl.glfw.GLFW;
+
+public final class Time {
+	
+	private static float prevTime = getTime();
+	
+	private static float deltaTime;
+	
+	private static float deltaStack;
+	
+	public static final void update() {
+		float currentTime = getTime();
+		deltaTime = currentTime - prevTime;
+		prevTime = currentTime;
+		
+	}
+	
+	public static final float getTime() {
+		return (float)GLFW.glfwGetTime();
+	}
+	
+	public static final float getDelta() {
+		
+	}
+}
