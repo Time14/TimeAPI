@@ -1,13 +1,15 @@
-package physics;
+package time.api.physics;
 
 import java.util.HashSet;
 
-import advancedMath.Vector2f;
-import debug.Debug;
+import time.api.debug.Debug;
+import time.api.math.Vector2f;
 
 
 /**
- * A class to hold everything regarding physics 
+ * 
+ * A class to hold everything regarding physics.
+ * 
  * @author Eddie-boi
  */
 
@@ -18,7 +20,9 @@ public class PhysicsEngine {
 	//private HeshSet<Collision> collisions;
 	
 	/**
-	 * Inits the physics engine, I mean, what did you expect?
+	 * 
+	 * Initialized the physics engine.
+	 * 
 	 */
 	public PhysicsEngine() {
 		bodies = new HashSet<Body>();
@@ -26,9 +30,11 @@ public class PhysicsEngine {
 	}
 	
 	/**
-	 * It... updates the physics engine... SUPRISE!
-	 * @param delta - The delta time between frames
-	 * @return - Allows chaining
+	 * 
+	 * Updates the physics engine and progresses the physics world one step forward.
+	 * 
+	 * @param delta - the time passed since the previous frame
+	 * @return - this PhysicsEngine instance
 	 */
 	public PhysicsEngine update(float delta) {
 		
@@ -63,8 +69,10 @@ public class PhysicsEngine {
 	}
 	
 	/**
-	 * A function that draws all bodies, horribly inefficient!
-	 * @return
+	 * 
+	 * Draws all bodies within this PhysicsEngine. This is method is used for debugging only.
+	 * 
+	 * @return this PhysicsEngine instance
 	 */
 	public PhysicsEngine _debugDraw() {
 		for(Body b : bodies)
@@ -72,19 +80,23 @@ public class PhysicsEngine {
 		return this;
 	}
 	 /**
-	  * Add a body to the physics simulation
-	  * @param body - the body you wish to add
-	  * @return
+	  * 
+	  * Adds a body to the physics simulation.
+	  * 
+	  * @param body - the body to add
+	  * @return this PhysicsEngine instance
 	  */
 	public PhysicsEngine addBody(Body body) {
 		bodies.add(body);
 		return this;
 	}
 	 /**
-	  * A function you shouldn't call. It adds a collision between two bodies for the physics engine to handle
-	  * It is generally a dumb idea to try to use this function, if you aren't the physics engine....int j = 0;
-	  * @param col
-	  * @return
+	  * 
+	  * It adds a collision between two bodies for the physics engine to handle.
+	  * Do not run call this method since it should only be called internally by the PhysicsEngine. 
+	  * 
+	  * @param col - the collision to add
+	  * @return this PhysicsEngine instance
 	  */
 	public PhysicsEngine addCollision(Collision col) {
 		collisions.add(col);

@@ -1,25 +1,27 @@
-package advancedMath;
+package time.api.math;
 
-import debug.Debug;
+import time.api.debug.Debug;
 
 public class VectorXf {
 	
 	//The values stored in the vector 
 	private float[] vals;
 	
-	
 	/**
-	 * A generic vector class
 	 * 
-	 * @param f - all the components you want in the vector;
+	 * A generic vector class.
+	 * 
+	 * @param f - the components to add to this vector
 	 */
 	public VectorXf(float ... f) {
 		vals = f;
 	}
 	
 	/**
-	 * Returns the vectors distance from origo
-	 * @return
+	 * 
+	 * Returns the vectors distance from origin.
+	 * 
+	 * @return - the distance from origin
 	 */
 	public float getMagnitude() {
 		float s = 0;
@@ -30,42 +32,46 @@ public class VectorXf {
 	}
 	
 	/**
-	 * Returns the N-th vector element
 	 * 
-	 * @param n - the index of the value you want
-	 * @return
+	 * Returns the N-th vector element.
+	 * 
+	 * @param n - the index to fetch a component from
+	 * @return the N-th vector element
 	 */
 	public float getN(int n) {
 		if(n < 0 || vals.length < n) {
-			Debug.Log("value not in range", 3);
+			Debug.log("value not in range", 3);
 		}
 		return vals[n];
 	}
 	
 	/**
-	 * Tells you how many dimensions the vector has
-	 * @return
+	 * 
+	 * Tells you how many dimensions the vector has.
+	 * 
+	 * @return how many dimensions this vector has
 	 */
 	public int getDimension() {
 		return vals.length;
 	}
 	
 	/**
+	 * 
 	 * Sets the N-th vector element
 	 * 
-	 * @param n - the index of the value you want to set
-	 * @param f - the value you want to set it to
-	 * @return
+	 * @param n - the index of the component to set
+	 * @param f - the value to set
 	 */
-	public float setN(int n, float f) {
+	public void setN(int n, float f) {
 		if(n < 0 || vals.length < n) {
-			Debug.Log("value not in range", 3);
+			Debug.log("value not in range", 3);
 		}
-		return vals[n] = f;
 	}
 	
 	/**
+	 * 
 	 * Adds two vectors to eachother
+	 * 
 	 * @param v - the vector you want to add to this vector
 	 */
 	public VectorXf add(VectorXf v) {
@@ -78,8 +84,10 @@ public class VectorXf {
 	}
 	
 	/**
-	 * Subtacts two vectors to eachother
-	 * @param v - the vector you want to subtract from this vector
+	 * 
+	 * Subtracts a vector from this one.
+	 * 
+	 * @param v - the vector you want to subtract from this one
 	 */
 	public VectorXf sub(VectorXf v) {
 		float smallest = (v.vals.length < this.vals.length) ? v.vals.length : this.vals.length;
@@ -91,7 +99,9 @@ public class VectorXf {
 	}
 	
 	/**
-	 * returns the dot product of the two vectors
+	 * 
+	 * Returns the dot product of the the give vector and this one.
+	 * 
 	 * @param v - the vector you want to dot with this vector
 	 */
 	public float dot(VectorXf v) {
@@ -103,6 +113,13 @@ public class VectorXf {
 		return s;
 	}
 	
+	/**
+	 * 
+	 * Scales this vector with the given scalar.
+	 * 
+	 * @param f - the scalar to scale with
+	 * @return this vector instance
+	 */
 	public VectorXf scale(float f) {
 		for(int i = 0; i < vals.length; i++) {
 			this.vals[i] *= f;
@@ -110,6 +127,12 @@ public class VectorXf {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Returns a copy of this vector.
+	 * 
+	 * @return a copy of this vector instance
+	 */
 	public VectorXf clone() {
 		
 		switch (this.vals.length) {
@@ -130,11 +153,17 @@ public class VectorXf {
 		return new VectorXf(this.vals);
 	}
 	
+	/**
+	 * 
+	 * Returns a String representation of this vectors dimensions.
+	 * 
+	 * @return a String representation of this vectors dimensions
+	 */
 	public String toString() {
-		String s = "";
+		StringBuilder sb = new StringBuilder();
 		for(float f : this.vals) {
-			s += f + "\t";
+			sb.append(f + "\t");
 		}
-		return s;
+		return sb.subSequence(0, sb.length() - 1).toString();
 	}
 }

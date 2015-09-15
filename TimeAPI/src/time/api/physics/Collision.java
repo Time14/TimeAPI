@@ -1,8 +1,8 @@
-package physics;
+package time.api.physics;
 
-import advancedMath.Vector2f;
-import advancedMath.VectorXf;
-import debug.Debug;
+import time.api.debug.Debug;
+import time.api.math.Vector2f;
+import time.api.math.VectorXf;
 
 public class Collision {
 	
@@ -13,12 +13,13 @@ public class Collision {
 	private float depth;
 	
 	/**
-	 * Creates a collision object that will soon be solved
 	 * 
-	 * @param pe - The physics engine you want the collision to take place
-	 * @param normal - The normal vector of the collision
-	 * @param depth - How deep the collision is going
-	 * @param b - All the bodies that are colliding, I'm assuming it's 2.
+	 * Creates a collision object that will soon be solved.
+	 * 
+	 * @param pe - the physics engine where the collision will take place
+	 * @param normal - the normal vector of the collision
+	 * @param depth - how deep the collision is
+	 * @param b - the bodies that are colliding, supposedly 2
 	 */
 	public Collision(PhysicsEngine pe, Vector2f normal, float depth, Body ... b) {
 		this.normal = normal;
@@ -30,9 +31,11 @@ public class Collision {
 	}
 	
 	/**
-	 * Solves a collision, you shouldn't call this.
+	 * 
+	 * Solves a collision, you should not call this.
+	 * 
 	 */
-	public void _solve() {
+	protected void _solve() {
 		
 		VectorXf v = bodies[0].getVel().clone().add(bodies[1].getVel());
 		
@@ -77,9 +80,9 @@ public class Collision {
 	}
 	 
 	/**
-	 * Cleans up the collision from floating point error, you shouldn't call this;
+	 * Cleans up the collision from floating point errors, you should not call this.
 	 */
-	public void _move() {
+	protected void _move() {
 		float d = 0.02f;
 		for(Body b : bodies) {
 			if(!b.isAbsolute()){
