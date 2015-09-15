@@ -1,0 +1,33 @@
+package time.api.library;
+
+import java.util.HashMap;
+
+public class Library <T> {
+	
+	public final String NAME;
+	
+	private final HashMap<String, T> ELEMENTS;
+	
+	/**
+	 * 
+	 * Creates a new empty library for data storage and labeling.
+	 * 
+	 */
+	public Library(String name) {
+		NAME = name;
+		ELEMENTS = new HashMap<>();
+	}
+	
+	public final Library<T> put(String key, T value) {
+		ELEMENTS.put(key, value);
+		return this;
+	}
+	
+	public final T get(String key) {
+		return ELEMENTS.get(key);
+	}
+	
+	public final void destroy() {
+		ELEMENTS.clear();
+	}
+}

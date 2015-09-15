@@ -5,9 +5,8 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
-import debug.Debug;
-import physics.Body;
-import physics.PhysicsEngine;
+import time.api.gamestate.GameStateManager;
+import time.api.util.Time;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -18,7 +17,13 @@ import java.nio.ByteBuffer;
 public class Game {
 	
 	//v-sync?
-	public static final boolean VSYNC = true;
+	public static final boolean VSYNC = false;
+	
+	//Decorated?
+	public static final boolean DECORATED = true;
+	
+	//Controls the main loop
+	private volatile boolean running = false;
 	
 	//Window properties
 	private String title;
@@ -78,6 +83,9 @@ public class Game {
 		//Disable resizability
 		glfwWindowHint(GLFW_RESIZABLE, GL11.GL_TRUE);
 		
+		//Decorate or undecorated
+		glfwWindowHint(GLFW_DECORATED, DECORATED ? GL11.GL_TRUE : GL11.GL_FALSE);
+		
 		//Creates the window and assigns the handle
 		window = glfwCreateWindow(width, height, title, NULL, NULL);
 		
@@ -104,7 +112,7 @@ public class Game {
 	
 	/*
 	 * 
-	 * Creates the OpenGL context and runs the main loop
+	 * Creates the OpenGL context and runs the main loop.
 	 * 
 	 */
 	private void loop() {
@@ -123,22 +131,37 @@ public class Game {
 		
 		
 		//Sets the clear color
-		GL11.glClearColor(1, 0, 0, 1);
+		GL11.glClearColor(0, 0, 0, 1);
 		
+		GameStateManager.init(this, window);
+		GameStateManager.enterState("Main");
 		
-		//Init bodies
-		PhysicsEngine pe = new PhysicsEngine();
-		pe.addBody(new Body(0, 1, 0.25f, 0.75f));
-		pe.addBody(new Body(0, 0, 0.5f, 0.5f).setAbsolute(true));
 		
 		//The main loop
-		while(glfwWindowShouldClose(window) == GL11.GL_FALSE) {
-			pe.update(0.01f);
+		running = true;
+		while(glfwWindowShouldClose(window) == GL11.GL_FALSE && running) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-			pe._debugDraw();
-			glfwSwapBuffers(window);
-			glfwPollEvents();
+			Time.update();
+			GameStateManager.update(Time.getDelta());
 		}
 	}
 	
+	/**
+	 * 
+	 * Returns this games window.
+	 * 
+	 * @return the window of this game
+	 */
+	public long getWindow() {
+		return window;
+	}
+	
+	/**
+	 * 
+	 * Stops the main loop after this frame.
+	 * 
+	 */
+	public void stop() {
+		running = false;
+	}
 }

@@ -1,15 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
-<fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
-<fullyQualifiedTypeName name="time.api.Game"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GLContext"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
-<fullyQualifiedTypeName name="physics.PhysicsEngine"/>
-<fullyQualifiedTypeName name="physics.Body"/>
-<fullyQualifiedTypeName name="advancedMath.Vector2f"/>
-<fullyQualifiedTypeName name="debug.Debug"/>
-<fullyQualifiedTypeName name="advancedMath.VectorXf"/>
-</qualifiedTypeNameHistroy>
+<qualifiedTypeNameHistroy/>

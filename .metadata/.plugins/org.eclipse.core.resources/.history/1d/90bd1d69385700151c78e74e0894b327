@@ -1,0 +1,40 @@
+package time.api.library;
+
+import java.util.HashMap;
+
+public class Lib <T> {
+	
+	private static final HashMap<String, Library> LIBRARIES = new HashMap<>();
+	
+	public final String NAME;
+	
+	private final HashMap<String, T> ELEMENTS;
+	
+	public Lib(String name) {
+		NAME = name;
+		ELEMENTS = new HashMap<>();
+	}
+	
+	public final Library<T> put(String key, T value) {
+		ELEMENTS.put(key, value);
+		return this;
+	}
+	
+	public final T get(String key) {
+		return ELEMENTS.get(key);
+	}
+	
+	public static final Library getLib(String key) {
+		return LIBRARIES.get(key);
+	}
+	
+	public static final void registerLib(Library lib) {
+		LIBRARIES.put(lib.NAME, lib);
+	}
+	
+	public static final void destroy() {
+		for(Library l : LIBRARIES.values())
+			l.ELEMENTS.clear();
+		LIBRARIES.clear();
+	}
+}
