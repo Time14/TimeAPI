@@ -42,7 +42,7 @@ public class Collision {
 		Vector2f tangent = new Vector2f(normal.getY(), -normal.getX());
 		float dir = normal.dot(v);
 		
-		if(0 < dir) return;
+		if(0 > dir) return;
 		
 		//Bounce Calculations
 		float p = (1/bodies[0].getInvMass()) + (1/bodies[1].getInvMass());
