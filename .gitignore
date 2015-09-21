@@ -3,9 +3,3 @@
 .recommenders/**/*
 
 RemoteSystemsTempFiles/**/*
-
-#*/**/*
-#!SKNet/**/*
-#!TimeAPI/**/*
-#!.gitignore
-#!README.md
