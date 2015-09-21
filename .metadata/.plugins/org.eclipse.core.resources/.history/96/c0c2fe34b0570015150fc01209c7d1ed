@@ -1,5 +1,0 @@
-package advancedMath;
-
-public class Vector2f extends VectorXf {
-
-}
