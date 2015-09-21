@@ -316,11 +316,12 @@ public class Body {
 		float overlapY = 0.5f * Math.abs(this.dim.getY() + body.dim.getY()) - Math.abs(this.pos.getY() - body.pos.getY());
 		if(overlapY < 0) return;
 		
-		//Add in all tags
+		//Add in all my tags
 		for(Tag t : myTags) {
 			body.addCollidingTag(t);
 		}
 		
+		//Add in all the other bodies tags
 		for(Tag t : body.getTags()) {
 			addCollidingTag(t);
 		}
@@ -334,17 +335,15 @@ public class Body {
 		if(Math.abs(distance.getN(0)) > Math.abs(distance.getN(1))) {
 			distance.setN(1, 0);
 			distance.scale(Math.abs(1/distance.getN(0)));
-			depth = overlapY;
+			depth = overlapX;
 		}
 		else {
 			distance.setN(0, 0);
 			distance.scale(Math.abs(1/distance.getN(1)));
-			depth = overlapX;
+			depth = overlapY;
 		}
-		
-		
-		Vector2f normal = new Vector2f(distance.getN(0), distance.getN(1));
-		new Collision(pe, normal, depth, this, body);
+
+		new Collision(pe, new Vector2f(distance.getN(0), distance.getN(1)), depth, this, body);
 		return;
 	}
 	

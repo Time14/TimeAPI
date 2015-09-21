@@ -1,15 +1,19 @@
 package time.api.physics;
 
-import time.api.debug.Debug;
 import time.api.math.Vector2f;
 import time.api.math.VectorXf;
+import time.api.util.Time;
 
 public class Collision {
 	
+	// The constant that decides how much the bodies should move after collision.
+	private static float MOVE_CONSTANT = 3.55f;
+	// The frame rate the physics engine was tweaked for. 
+	// Changing this will result in numbers needing to be changed. 
+	private static int FRAME_RATE = 60;
+
 	private Body[] bodies;
-	
 	private Vector2f normal;
-	
 	private float depth;
 	
 	/**
@@ -31,9 +35,7 @@ public class Collision {
 	}
 	
 	/**
-	 * 
-	 * Solves a collision, you should not call this.
-	 * 
+	 * Solves this collision, you should not call this.
 	 */
 	protected void _solve() {
 		
@@ -42,53 +44,54 @@ public class Collision {
 		Vector2f tangent = new Vector2f(normal.getY(), -normal.getX());
 		float dir = normal.dot(v);
 		
-		if(0 > dir) return;
+		if(dir < 0) return;
 		
-		//Bounce Calculations
-		float p = (1/bodies[0].getInvMass()) + (1/bodies[1].getInvMass());
-		float e = (float) (((bodies[0].getEpsilon() + bodies[1].getEpsilon()) * 0.5 + 1) * 0.5);
-
-		p *= v.getMagnitude() * e;
+		// Bounce Calculations
+		float p = (dir * (1 + Math.min(bodies[0].getEpsilon(), bodies[1].getEpsilon()))) / (bodies[0].getInvMass() + bodies[1].getInvMass());
 		
 		//Friction calculations
-		dir = tangent.dot(v);
-		float mu = (bodies[0].getFriction() + bodies[1].getFriction()) * 0.5f;
-				
-		mu = normal.dot(v) * mu;
+		float mu = tangent.dot(v) * -Math.min(bodies[0].getFriction(), bodies[1].getFriction());		
 		
-		//Applying Force for bounce
+		// Make sure the collision acts the same no matter the frame rate.
+		p *= Time.getDelta() * FRAME_RATE;
+		mu *= Time.getDelta() * FRAME_RATE;
+		
+		// Applying Force for bounce
 		bodies[0].push(normal.scale(p));
 		bodies[1].push(normal.scale(-1));
 		
-		//Movement correction
+		// Movement correction
 		_move();
-		
-		//Applying Friction
+
+		// Applying Friction
 		if(mu == 0) return;
 		
 		if(Math.abs(tangent.dot(bodies[0].getVel())*(1/bodies[0].getInvMass())) < Math.abs(mu)) {
-			bodies[0].addVel(tangent.clone().scale(-tangent.dot(bodies[0].getVel())));
+			bodies[0].push(tangent.clone().scale(-tangent.dot(bodies[0].getVel())));
 		} else {
-			bodies[0].push(tangent.clone().scale(-mu));		
+			bodies[0].addVel(tangent.clone().scale(-mu));
 		}
 		
 		if(Math.abs(tangent.dot(bodies[1].getVel())*(1/bodies[1].getInvMass())) < Math.abs(mu)) {
-			bodies[1].addVel(tangent.clone().scale(tangent.dot(bodies[1].getVel())));
+			bodies[1].push(tangent.clone().scale(-tangent.dot(bodies[1].getVel())));
 		} else {
-			bodies[1].push(tangent.clone().scale(mu));		
+			bodies[1].addVel(tangent.clone().scale(mu));
 		}
+		
+		
 	}
 	 
 	/**
 	 * Cleans up the collision from floating point errors, you should not call this.
 	 */
 	protected void _move() {
-		float d = 0.02f;
-		for(Body b : bodies) {
-			if(!b.isAbsolute()){
-				b.getPos().setX(b.getPos().getX() + normal.getX() * depth * d);
-				b.getPos().setY(b.getPos().getY() + normal.getY() * depth * d);
-			}
+		if(!bodies[0].isAbsolute()){
+			bodies[0].getPos().setX(bodies[0].getPos().getX() + normal.getX() * depth * -MOVE_CONSTANT);
+			bodies[0].getPos().setY(bodies[0].getPos().getY() + normal.getY() * depth * -MOVE_CONSTANT);
+		}
+		if(!bodies[1].isAbsolute()){
+			bodies[1].getPos().setX(bodies[1].getPos().getX() + normal.getX() * depth * MOVE_CONSTANT);
+			bodies[1].getPos().setY(bodies[1].getPos().getY() + normal.getY() * depth * MOVE_CONSTANT);
 		}
 	}
 }

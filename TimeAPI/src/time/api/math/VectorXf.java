@@ -66,6 +66,7 @@ public class VectorXf {
 		if(n < 0 || vals.length < n) {
 			Debug.log("value not in range", 3);
 		}
+		vals[n] = f;
 	}
 	
 	/**
