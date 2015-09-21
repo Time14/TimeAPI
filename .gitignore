@@ -4,8 +4,8 @@
 
 RemoteSystemsTempFiles/**/*
 
-*/**/*
-!SKNet/**/*
-!TimeAPI/**/*
-!.gitignore
-!README.md
+#*/**/*
+#!SKNet/**/*
+#!TimeAPI/**/*
+#!.gitignore
+#!README.md
