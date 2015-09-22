@@ -40,17 +40,15 @@ public class PhysicsEngine {
 		
 		Vector2f gravity = new Vector2f(0.0f, -0.5f);
 		gravity.scale(delta);
-		for(Body a : bodies) {
-			a._clearTags();
-			a.addVel(gravity);
-			a.update(delta);
-		}
-		
-		
+	
 		//These are to prevent double collisions
 		int i = 0;
 		int j = 0;
 		for(Body a : bodies) {
+			
+			a._clearTags();
+			a.addVel(gravity);
+			
 			i++;
 			j = 0;
 			for(Body b : bodies) {
@@ -62,6 +60,10 @@ public class PhysicsEngine {
 		
 		for (Collision c : collisions) {
 			c._solve();
+		}
+		
+		for(Body a : bodies) {
+			a.update(delta);
 		}
 		collisions.clear();
 		
