@@ -3,4 +3,6 @@
 <fullyQualifiedTypeName name="time.api.physics.Collision"/>
 <fullyQualifiedTypeName name="time.api.debug.Debug"/>
 <fullyQualifiedTypeName name="time.api.util.Time"/>
+<fullyQualifiedTypeName name="time.api.gfx.texture.Texture"/>
+<fullyQualifiedTypeName name="time.api.library.Library"/>
 </qualifiedTypeNameHistroy>
