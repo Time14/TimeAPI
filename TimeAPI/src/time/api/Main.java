@@ -30,20 +30,23 @@ public class Main {
 			
 			Renderer renderer;
 			
+			Mesh mesh;
 			
+			Texture texture;
 			
 			@Override
 			public void init() {
 				System.out.println("Initiated " + NAME);
 				pe.addBody(new Body(0, 0, .5f, .5f));
 				pe.addBody(b);
-				
-				renderer = new Renderer(new Mesh(new VertexTex[]{
+				mesh = new Mesh(new VertexTex[]{
 						new VertexTex(new Vector3f(0, .5f, 0), new Vector2f(0, 1)),
 						new VertexTex(new Vector3f(.5f, .5f, 0), new Vector2f(1, 1)),
 						new VertexTex(new Vector3f(.5f, -.5f, 0), new Vector2f(1, 0)),
 						new VertexTex(new Vector3f(0, 0, 0), new Vector2f(0, 0))
-				}, 0, 1, 2, 0, 2, 3));
+				}, 0, 1, 2, 0, 2, 3);
+				texture = new Texture("res/texture/default_texture.png");
+				renderer = new Renderer(mesh);
 			}
 
 			@Override
@@ -85,7 +88,9 @@ public class Main {
 			@Override
 			public void draw() {
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-				renderer.draw();
+				OrthographicShaderProgram.INSTANCE.bind();
+				texture.bind();
+				mesh.draw();
 			}
 
 			@Override

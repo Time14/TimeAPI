@@ -21,9 +21,8 @@ public class Renderer {
 	
 	public void draw() {
 		mesh.getShaderProgram().bind();
-		texture.bind(0);
+		texture.bind();
 		mesh.draw();
-		Texture.unbind(0);
 	}
 	
 	public Renderer setMesh(Mesh mesh) {

@@ -5,4 +5,6 @@
 <fullyQualifiedTypeName name="time.api.util.Time"/>
 <fullyQualifiedTypeName name="time.api.gfx.texture.Texture"/>
 <fullyQualifiedTypeName name="time.api.library.Library"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL15"/>
+<fullyQualifiedTypeName name="time.api.gfx.shader.OrthographicShaderProgram"/>
 </qualifiedTypeNameHistroy>

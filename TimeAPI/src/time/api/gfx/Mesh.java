@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import time.api.gfx.shader.OrthographicShaderProgram;
 import time.api.gfx.shader.ShaderProgram;
 import time.api.util.Util;
 
@@ -27,8 +26,8 @@ public class Mesh {
 	
 	public Mesh() {}
 	
-	public Mesh(Vertex[] vertices, int... indicies) {
-		createMesh(vertices);
+	public Mesh(Vertex[] vertices, int... indices) {
+		createMesh(vertices, indices);
 	}
 	
 	public void createMesh(Vertex[] vertices, int... indices) {
@@ -42,18 +41,19 @@ public class Mesh {
 		
 		vbos = program.initAttributes(vertices, GL15.GL_STATIC_DRAW);
 		
-		IntBuffer iboData = Util.createIntBuffer(indices.length);
-		
-		iboData.put(indices);
-		
-		iboData.flip();
-		
-		ibo = GL15.glGenBuffers();
-		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
-		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, iboData, GL15.GL_STATIC_DRAW);
+		if(indices.length > 0) {
+			IntBuffer iboData = Util.createIntBuffer(indices.length);
+			
+			iboData.put(indices);
+			
+			iboData.flip();
+			
+			ibo = GL15.glGenBuffers();
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
+			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, iboData, GL15.GL_STATIC_DRAW);
+		}
 		
 		GL30.glBindVertexArray(0);
-		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 		
 		vertexCount = vertices.length;
 		indexCount = indices.length;
