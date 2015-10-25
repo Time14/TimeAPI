@@ -38,10 +38,10 @@ public class OrthographicShaderProgram extends ShaderProgram {
 		OrthographicShaderProgram.top = top;
 		
 		//Strukturera såhär som ett tips:
-		projection.setValue(0, 0, 2f/(right-left));	projection.setValue(1, 0, 0);				projection.setValue(2, 0, 0);	projection.setValue(3, 0, -((right+left)/(right-left)));
-		projection.setValue(0, 1, 0);				projection.setValue(1, 1, 2f/(top-bottom));	projection.setValue(2, 1, 0);	projection.setValue(3, 1, -((top+bottom)/(top-bottom)));
-		projection.setValue(0, 2, 0);				projection.setValue(1, 2, 0);		 		projection.setValue(2, 2, 1);	projection.setValue(3, 2, 0);
-		projection.setValue(0, 3, 0);				projection.setValue(1, 3, 0);		 		projection.setValue(2, 3, 0);	projection.setValue(3, 3, 1);
+		projection.set(0, 0, 2f/(right-left));	projection.set(1, 0, 0);				projection.set(2, 0, 0);	projection.set(3, 0, -((right+left)/(right-left)));
+		projection.set(0, 1, 0);				projection.set(1, 1, 2f/(top-bottom));	projection.set(2, 1, 0);	projection.set(3, 1, -((top+bottom)/(top-bottom)));
+		projection.set(0, 2, 0);				projection.set(1, 2, 0);		 		projection.set(2, 2, 1);	projection.set(3, 2, 0);
+		projection.set(0, 3, 0);				projection.set(1, 3, 0);		 		projection.set(2, 3, 0);	projection.set(3, 3, 1);
 		
 		return projection;
 	}

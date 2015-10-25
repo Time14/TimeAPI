@@ -24,12 +24,33 @@ public class Mesh {
 	
 	private int mode = GL11.GL_TRIANGLES;
 	
+	/**
+	 * 
+	 * Creates an empty Mesh. Call {@link #createMesh(Vertex[], int...) createMesh()} to initialize it.
+	 * 
+	 */
 	public Mesh() {}
 	
+	
+	/**
+	 * 
+	 * Creates a new Mesh with the provided vertices and indices. If no indices are specified, this mesh will not be indexed.
+	 * 
+	 * @param vertices - the vertices of this mesh
+	 * @param indices - the indices of this mesh
+	 */
 	public Mesh(Vertex[] vertices, int... indices) {
 		createMesh(vertices, indices);
 	}
 	
+	/**
+	 * 
+	 * Generates a new mesh if not yet created. If no indices are specified, this mesh will not be indexed.
+	 * 
+	 * @param vertices - the vertices of this mesh
+	 * @param indices - the indices of this mesh
+	 * @throws IllegalStateException if a mesh has already been generated for this instance
+	 */
 	public void createMesh(Vertex[] vertices, int... indices) {
 		if(created)
 			throw new IllegalStateException("Mesh (VAO: " + vao + ") is already created.");
@@ -61,6 +82,11 @@ public class Mesh {
 		created = true;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * 
+	 */
 	public void draw() {
 		GL30.glBindVertexArray(vao);
 		

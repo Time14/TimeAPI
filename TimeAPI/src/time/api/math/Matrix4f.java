@@ -14,6 +14,13 @@ public class Matrix4f {
 	
 	public float[] matrix = new float[16];
 	
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return this Matrix4f instance
+	 */
 	public Matrix4f clear() {
 		for(int i = 0; i < 16; i++) {
 			matrix[i] = 0;
@@ -78,13 +85,26 @@ public class Matrix4f {
 		return this;
 	}
 	
+	public Matrix4f scale(Vector2f scale) {
+		matrix[0 + 0 * 4] *= scale.getX();
+		matrix[1 + 1 * 4] *= scale.getY();
+		return this;
+	}
+	
+	public Matrix4f scale(Vector3f scale) {
+		matrix[0 + 0 * 4] *= scale.getX();
+		matrix[1 + 1 * 4] *= scale.getY();
+		matrix[2 + 2 * 4] *= scale.getZ();
+		return this;
+	}
+	
 	public Matrix4f init(float[] values) {
 		matrix = values;
 		
 		return this;
 	}
 	
-	public Matrix4f setValue(int column, int row, float value) {
+	public Matrix4f set(int column, int row, float value) {
 		matrix[column*4+row] = value;
 		
 		return this;
