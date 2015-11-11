@@ -13,6 +13,11 @@ public class OrthographicShaderProgram extends ShaderProgram {
 	private static float left, right, bottom, top;
 	private static final Matrix4f projection = new Matrix4f();
 	
+	/**
+	 * 
+	 * Constructs a new OrthographicShaderProgram.
+	 * 
+	 */
 	public OrthographicShaderProgram() {
 		super("res/shader/ortho.vsh", "res/shader/ortho.fsh");
 		

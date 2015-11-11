@@ -31,6 +31,13 @@ public abstract class ShaderProgram {
 	
 	protected HashMap<String, Integer> ul;
 	
+	/**
+	 * 
+	 * Generates a new shader program with one vertex shader and one fragment shader. 
+	 * 
+	 * @param vshp - the path for the vertex shader to load
+	 * @param fshp - the path for the fragment shader to load
+	 */
 	public ShaderProgram(String vshp, String fshp) {
 		
 		int vsh = createShader(vshp, GL_VERTEX_SHADER);
@@ -59,6 +66,14 @@ public abstract class ShaderProgram {
 		registerUniformLocations();
 	}
 	
+	/**
+	 * 
+	 * Creates a new shader from the provided path with the specified type.
+	 * 
+	 * @param path - the path of the file to load the shader from
+	 * @param type - specifies the type of shader to be created. Must be one of GL_COMPUTE_SHADER, GL_VERTEX_SHADER, GL_TESS_CONTROL_SHADER, GL_TESS_EVALUATION_SHADER, GL_GEOMETRY_SHADER, or GL_FRAGMENT_SHADER
+	 * @return the id of the created shader
+	 */
 	private int createShader(String path, int type) {
 		
 		int shader = glCreateShader(type);
@@ -75,6 +90,11 @@ public abstract class ShaderProgram {
 		return shader;
 	}
 	
+	/**
+	 * 
+	 * Binds this shader program for graphical use.
+	 * 
+	 */
 	public void bind() {
 		if(id == currentProgram)
 			return;
@@ -82,10 +102,25 @@ public abstract class ShaderProgram {
 		currentProgram = id;
 	}
 	
+	/**
+	 * 
+	 * Returns the id of this shader program.
+	 * 
+	 * @return the id of this shader program
+	 */
 	public int getID() {
 		return id;
 	}
 	
+	
+	/**
+	 * 
+	 * Generates vertex buffer objects correspondingly to the specified vertices' format. Bind a vertex array buffer before calling this method.
+	 * 
+	 * @param vertices - the vertices to generate vertex buffer objects from
+	 * @param usage - specifies the expected usage pattern of the data store. The symbolic constant must be GL_STREAM_DRAW, GL_STREAM_READ, GL_STREAM_COPY, GL_STATIC_DRAW, GL_STATIC_READ, GL_STATIC_COPY, GL_DYNAMIC_DRAW, GL_DYNAMIC_READ, or GL_DYNAMIC_COPY
+	 * @return the IDs of the generated vertex buffer objects
+	 */
 	public IntBuffer initAttributes(Vertex[] vertices, int usage) {
 		IntBuffer vbos = Util.createIntBuffer(vertices[0].getLength());
 		
@@ -117,44 +152,115 @@ public abstract class ShaderProgram {
 		return vbos;
 	}
 	
+	/**
+	 * 
+	 * Registers all uniform locations for this shader program.
+	 * 
+	 */
 	protected abstract void registerUniformLocations();
+	
+	/**
+	 * 
+	 * Returns the output format of this shader program.
+	 * 
+	 * @return the output format of this shader program, usually GL_RGBA
+	 */
 	public abstract int getOutputFormat();
 	
+	/**
+	 * 
+	 * Registers a uniform location with the specified name.
+	 * 
+	 * @param uniform - the name of the uniform to register
+	 */
 	protected void registerUniformLocation(String uniform) {
 		ul.put(uniform, getUniformLocation(uniform));
 	}
 	
+	/**
+	 * 
+	 * Registers uniform array locations with the specified array name.
+	 * 
+	 * @param uniform - the name of the uniform array to register
+	 * @param length - the length of the uniform array to register
+	 */
 	protected void registerUniformArrayLocations(String uniform, int length) {
 		for(int i = 0; i < length; i++)
 			registerUniformLocation(uniform + "[" + i + "]");
 	}
 	
+	/**
+	 * 
+	 * Registers the uniform locations of the specified struct with the specified components.
+	 * 
+	 * @param uniform - the name of the struct to register
+	 * @param comps - the struct component names to register
+	 */
 	protected void registerUniformStructLocation(String uniform, String[] comps) {
 		for(String comp : comps)
 			registerUniformLocation(uniform + "." + comp);
 	}
 	
+	/**
+	 * 
+	 * Registers the uniform struct array locations of the specified struct with the specified components.
+	 * 
+	 * @param uniform - the name of the struct array to register
+	 * @param comps - the struct component names to register
+	 * @param length - the length of the uniform struct array to register
+	 */
 	protected void registerUniformStructArrayLocations(String uniform, String[] comps, int length) {
 		for(int i = 0; i < length; i++)
 			registerUniformStructLocation(uniform + "[" + i + "]", comps);
 	}
 	
+	/**
+	 * 
+	 * Returns the location of the specified uniform.
+	 * 
+	 * @param uniform - the location of the specified uniform.
+	 * @return
+	 */
 	private int getUniformLocation(String uniform) {
 		return glGetUniformLocation(id, uniform);
 	}
 	
+	/**
+	 * 
+	 * Sends the specified matrix to the shader program.
+	 * 
+	 * @param target - the name of the uniform (must be registered)
+	 * @param matrix - the matrix to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendMatrix(String target, Matrix4f matrix) {
 		bind();
 		glUniformMatrix4fv(ul.get(target), false, Util.toFloatBuffer(matrix));
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends the specified matrices to a uniform array in the shader program.
+	 * 
+	 * @param target - the name of the uniform array (must be registered)
+	 * @param matrices - the matrices to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendMatrixArray(String target, Matrix4f[] matrices) {
 		for(int i = 0; i < matrices.length; i++)
 			sendMatrix(target + "[" + i + "]", matrices[i]);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param target
+	 * @param i
+	 * @return
+	 */
 	public ShaderProgram sendInt(String target, int i) {
 		bind();
 		glUniform1i(ul.get(target), i);

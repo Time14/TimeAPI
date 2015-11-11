@@ -84,7 +84,7 @@ public class Mesh {
 	
 	/**
 	 * 
-	 * 
+	 * Draws the specified vertices with the corresponding indices if there are any.
 	 * 
 	 */
 	public void draw() {
@@ -99,15 +99,34 @@ public class Mesh {
 		GL30.glBindVertexArray(0);
 	}
 	
+	/**
+	 * 
+	 * Sets what kind of primitives for this mesh to render.
+	 * 
+	 * @param mode - specifies what kind of primitives to render. Symbolic constants GL_POINTS, GL_LINE_STRIP, GL_LINE_LOOP, GL_LINES, GL_LINE_STRIP_ADJACENCY, GL_LINES_ADJACENCY, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_TRIANGLES, GL_TRIANGLE_STRIP_ADJACENCY, GL_TRIANGLES_ADJACENCY and GL_PATCHES are accepted
+	 * @return this mesh instance
+	 */
 	public Mesh setMode(int mode) {
 		this.mode = mode;
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Returns whether or not this mesh is indexed ({@code true} if an Index Buffer Object has successfully been generated).
+	 * 
+	 * @return true if this mesh is indexed
+	 */
 	public boolean isIndexed() {
 		return ibo > 0;
 	}
 	
+	/**
+	 * 
+	 * Returns the shader program associated with this mesh.
+	 * 
+	 * @return the shader program of this mesh
+	 */
 	public ShaderProgram getShaderProgram() {
 		return program;
 	}
