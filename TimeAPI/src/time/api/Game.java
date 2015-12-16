@@ -5,7 +5,7 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
-import input.InputManager;
+import time.api.input.InputManager;
 import time.api.gamestate.GameStateManager;
 import time.api.util.Time;
 

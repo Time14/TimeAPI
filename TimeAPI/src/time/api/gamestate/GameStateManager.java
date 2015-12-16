@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
-import input.InputManager;
+import time.api.input.InputManager;
 import time.api.Game;
 import time.api.library.Library;
 
