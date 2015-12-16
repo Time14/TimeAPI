@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="time.api.physics.Collision"/>
+<<<<<<< HEAD
 <fullyQualifiedTypeName name="time.api.util.Time"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="org.lwjgl.glfw.GLFW"/>
@@ -9,4 +10,8 @@
 <fullyQualifiedTypeName name="time.api.debug.Debug"/>
 <fullyQualifiedTypeName name="input.KeyState"/>
 <fullyQualifiedTypeName name="input.InputManager"/>
+=======
+<fullyQualifiedTypeName name="time.api.debug.Debug"/>
+<fullyQualifiedTypeName name="time.api.util.Time"/>
+>>>>>>> parent of 9ffe8d6... OK, now I promise it's working
 </qualifiedTypeNameHistroy>

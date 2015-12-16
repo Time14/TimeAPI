@@ -29,7 +29,8 @@ public class Main {
 				pe.addBody(b);
 				
 			}
-
+			
+			/*
 			@Override
 			public void onKeyboard(long window, int key, int scancode, int action, int mods) {
 				
@@ -53,7 +54,8 @@ public class Main {
 				if(key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
 					game.stop();
 				}
-			}
+				
+			}*/
 			
 			@Override
 			public void onMouse(long window, int button, int action, int mods) {
