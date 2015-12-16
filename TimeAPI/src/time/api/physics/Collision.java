@@ -8,7 +8,7 @@ import time.api.util.Time;
 public class Collision {
 	
 	// The constant that decides how much the bodies should move after collision.
-	private static float MOVE_CONSTANT = 3.5f;
+	private static float MOVE_CONSTANT = 0.5f;
 
 	private Body[] bodies;
 	private Vector2f normal;
@@ -51,12 +51,12 @@ public class Collision {
 		// Mu Calculations
 		float mu = Math.min(bodies[0].getFriction(), bodies[1].getFriction());		
 		
+		// Movement correction
+		_move();
+		
 		// Applying Force for bounce
 		bodies[0].push(normal.scale(p));
 		bodies[1].push(normal.scale(-1));
-		
-		// Movement correction
-		_move();
 
 		// Applying Friction
 		if (mu == 0 || tangent.dot(v) == 0) return;
@@ -82,12 +82,12 @@ public class Collision {
 			move *= 2;
 		
 		if(!bodies[0].isAbsolute()){
-			bodies[0].getPos().setX(bodies[0].getPos().getX() + normal.getX() * depth * -move);
-			bodies[0].getPos().setY(bodies[0].getPos().getY() + normal.getY() * depth * -move);
+			bodies[0].getPos().setX(bodies[0].getPos().getX() + normal.getX() * depth * move);
+			bodies[0].getPos().setY(bodies[0].getPos().getY() + normal.getY() * depth * move);
 		}
 		if(!bodies[1].isAbsolute()){
-			bodies[1].getPos().setX(bodies[1].getPos().getX() + normal.getX() * depth * move);
-			bodies[1].getPos().setY(bodies[1].getPos().getY() + normal.getY() * depth * move);
+			bodies[1].getPos().setX(bodies[1].getPos().getX() + normal.getX() * depth * -move);
+			bodies[1].getPos().setY(bodies[1].getPos().getY() + normal.getY() * depth * -move);
 		}
 	}
 }
