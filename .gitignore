@@ -1,6 +1,7 @@
 .metadata/**/*
 .recommenders/**/*
 RemoteSystemsTempFiles/**/*
+src/time/api/Main.java
 #*/**/*
 #!SKNet/**/*
 #!TimeAPI/**/*

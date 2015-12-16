@@ -7,7 +7,7 @@ import time.api.math.Vector2f;
 import time.api.math.VectorXf;
 
 /**
- * Something that can collide, an entiry that interacts without via physical behavior.  
+ * Something that can collide, an entity that effects other entities via simulated physical interaction.  
  * @author Eddie-boi
  *
  */
@@ -43,7 +43,7 @@ public class Body {
 		absolute = false;
 		
 		invMass = 1;
-		epsilon = 1;
+		epsilon = 0.0f;
 		mu = 1;
 		
 		dim = new Vector2f(w, h);
@@ -273,6 +273,9 @@ public class Body {
 	 * @return the current velocity of this body
 	 */
 	public Vector2f getVel() {
+		if(absolute) 
+			freezeVelocity();
+		
 		return vel;
 	}
 	
@@ -355,6 +358,11 @@ public class Body {
 	 */
 	public void push(VectorXf vectorXf) {
 		vel.add(vectorXf.scale(invMass));
+		if(absolute) {
+			this.vel.setX(0);
+			this.vel.setY(0);
+			return;
+		}
 	}
 	
 	/**
@@ -375,8 +383,8 @@ public class Body {
 	 */
 	public void update(float delta) {
 		if(absolute) {
-			this.vel.setX(0);
-			this.vel.setY(0);
+			freezeVelocity();
+			return;
 		}
 		pos.add(vel.clone().scale(delta));
 	}	
