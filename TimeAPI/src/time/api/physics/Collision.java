@@ -60,15 +60,13 @@ public class Collision {
 
 		// Applying Friction
 		if (mu == 0 || tangent.dot(v) == 0) return;
-
-		for(int i = 0; i < 2; i++) {
-			float friction = -Math.signum(tangent.dot(bodies[i].getVel())) * mu * p; 
+		
+		float friction = -Math.signum(tangent.dot(v)) * mu * p * 0.5f;
+		
+		for(int i = 0; i < 2; i++) { 
 			// Make sure it doesn't change the direction of the body
-			if (Math.abs(tangent.dot(bodies[i].vel)) < Math.abs(friction)) {
-				bodies[i].push(tangent.clone().scale(-tangent.dot(bodies[i].vel)*(1/bodies[i].invMass)));
-			} else {
-				bodies[i].push(tangent.clone().scale(friction));
-			}
+			bodies[i].push(tangent.clone().scale(friction));
+			friction *= -1;
 		}
 	}
 	 
