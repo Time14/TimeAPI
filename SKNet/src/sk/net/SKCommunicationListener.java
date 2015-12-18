@@ -11,6 +11,12 @@ public class SKCommunicationListener implements Runnable {
 	
 	private SKConnection connection;
 	
+	/**
+	 * 
+	 * Constructs a new communication listener in order to read incoming traffic from the specified connection.
+	 * 
+	 * @param connection - the connection to listen to
+	 */
 	public SKCommunicationListener(SKConnection connection) {
 		this.connection = connection;
 		this.TYPE = connection.getType();
@@ -25,18 +31,22 @@ public class SKCommunicationListener implements Runnable {
 	@Override
 	public void run() {
 		
-		while(!connection.isClosed()) {
+		while(!connection.isSocketClosed()) {
 			
 			try {
 				SKPacket packet = connection.receivePacket();
 				
+				//Connection test?
+				if(packet instanceof SKPacketConnectionTest)
+					continue;
+				
 				//Disconnect packet?
 				if(packet instanceof SKDisconnectPacket) {
 					if(TYPE == SKNet.SK_CLIENT) {
-						client.close();
+						client.close(false, ((SKDisconnectPacket)packet).MSG);
 						break;
 					} else if(TYPE == SKNet.SK_SERVER) {
-						server.close(connection.getID());
+						server.close(connection.getID(), false, ((SKDisconnectPacket)packet).MSG);
 						break;
 					}
 				}
@@ -54,11 +64,23 @@ public class SKCommunicationListener implements Runnable {
 				}
 				
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				System.err.println("Unrecognized packet received!");
 			} catch (IOException e) {
-				e.printStackTrace();
+				if(connection.isIOClosed() && !connection.isSocketClosed()) {
+					if(TYPE == SKNet.SK_CLIENT) {
+						client.close(false, SKNet.SK_ERR_INTERRUPTED);
+					} else if(TYPE == SKNet.SK_SERVER) {
+						server.close(connection.getID(), false, SKNet.SK_ERR_INTERRUPTED);
+					}
+				}
 			}
 			
+		}
+		
+		System.out.println("Communication thread " + connection.getID() + " closed");
+		
+		if(TYPE == SKNet.SK_SERVER) {
+			server.removeConnection(connection.getID());
 		}
 		
 	}

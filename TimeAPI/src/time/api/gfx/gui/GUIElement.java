@@ -1,18 +1,16 @@
-package sk.client.gfx.gui;
+package time.api.gfx.gui;
 
-import sk.client.renderer.QuadRenderer;
-import sk.client.world.entity.Entity;
-import sk.client.world.entity.EntityQuad;
+import time.api.entity.Entity;
 
-public abstract class GUIElement extends EntityQuad {
+public abstract class GUIElement extends Entity {
 	
 	protected boolean isMouseOver = false;
 	
 	protected GUI gui;
 	
-	protected void init() {
-		
-	}
+//	protected void init() {
+//		
+//	}
 	
 	public final void click(float x, float y) {
 		onClick(x, y);
@@ -41,6 +39,18 @@ public abstract class GUIElement extends EntityQuad {
 	public boolean isMouseOver() {
 		return isMouseOver;
 	}
+	
+	public final void update(float dt) {
+		onUpdate(dt);
+	}
+	
+	public abstract void onUpdate(float dt);
+	
+	public final void draw() {
+		onDraw();
+	}
+	
+	public abstract void onDraw();
 	
 	public void setGUI(GUI gui) {
 		this.gui = gui;

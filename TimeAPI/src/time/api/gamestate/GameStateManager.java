@@ -98,4 +98,8 @@ public final class GameStateManager {
 			}
 		};
 	}
+	
+	public static final Game getGame() {
+		return game;
+	}
 }

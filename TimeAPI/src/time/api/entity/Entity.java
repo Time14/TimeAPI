@@ -1,13 +1,17 @@
 package time.api.entity;
 
 import time.api.gfx.Renderer;
+import time.api.math.Transform;
+import time.api.math.Vector2f;
 import time.api.physics.Body;
 
 public class Entity {
 	
-	private Renderer renderer;
+	protected Renderer renderer;
 	
-	private Body body;
+	protected Body body;
+	
+	public Transform transform;
 	
 	/**
 	 * 
@@ -78,6 +82,8 @@ public class Entity {
 	 */
 	public Entity setRenderer(Renderer renderer) {
 		this.renderer = renderer;
+		transform = renderer.getTransform();
+		
 		return this;
 	}
 	
@@ -113,4 +119,26 @@ public class Entity {
 		return body;
 	}
 	
+	/**
+	 * 
+	 * Checks whether or not a point is contained within this entity's body bounds.
+	 * 
+	 * @param x - the x coordinate of the point
+	 * @param y - the y coordinate of the point
+	 * @return true if the point is contained
+	 */
+	public boolean contains(float x, float y) {
+		return body.contains(x, y);
+	}
+	
+	/**
+	 * 
+	 * Checks whether or not a point is contained within this entity's body bounds.
+	 * 
+	 * @param p - the point
+	 * @return true if the point is contained
+	 */
+	public boolean contains(Vector2f p) {
+		return body.contains(p);
+	}
 }

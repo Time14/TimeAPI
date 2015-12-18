@@ -379,5 +379,29 @@ public class Body {
 			this.vel.setY(0);
 		}
 		pos.add(vel.clone().scale(delta));
-	}	
+	}
+	
+	/**
+	 * 
+	 * Checks whether or not a point is contained within this body's bounds.
+	 * 
+	 * @param x - the x coordinate of the point
+	 * @param y - the y coordinate of the point
+	 * @return true if the point is contained
+	 */
+	public boolean contains(float x, float y) {
+		return contains(new Vector2f(x, y));
+	}
+	
+	/**
+	 * 
+	 * Checks whether or not a point is contained within this body's bounds.
+	 * 
+	 * @param p - the point
+	 * @return true if the point is contained
+	 */
+	public boolean contains(Vector2f p) {
+		return p.getX() > pos.getX() - dim.getX() / 2 && p.getX() < pos.getX() + dim.getX() / 2
+				&& p.getY() > pos.getY() - dim.getY() / 2 && p.getY() < pos.getY() - dim.getY();
+	}
 }

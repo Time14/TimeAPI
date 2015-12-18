@@ -10,6 +10,13 @@ import javax.imageio.ImageIO;
 
 public class Loader {
 	
+	/**
+	 * 
+	 * Loads text from the specified file path.
+	 * 
+	 * @param path - the path of the file to load
+	 * @return the loaded text
+	 */
 	public static final String loadSource(String path) {
 		Scanner scanner;
 		try {
@@ -31,6 +38,14 @@ public class Loader {
 		}
 	}
 	
+	/**
+	 * 
+	 * Loads a buffered image from the specified path.
+	 * 
+	 * @param path - the path of the image file to load
+	 * @return the loaded buffered image
+	 * @throws IOException if the image could not be loaded
+	 */
 	public static final BufferedImage loadImage(String path) throws IOException {
 		return ImageIO.read(new File(path));
 	}

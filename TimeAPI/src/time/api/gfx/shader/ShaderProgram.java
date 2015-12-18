@@ -255,11 +255,11 @@ public abstract class ShaderProgram {
 	
 	/**
 	 * 
+	 * Sends an integer to the specified uniform target.
 	 * 
-	 * 
-	 * @param target
-	 * @param i
-	 * @return
+	 * @param target - the name of the uniform
+	 * @param i - the integer to send
+	 * @return this shader program instance
 	 */
 	public ShaderProgram sendInt(String target, int i) {
 		bind();
@@ -267,60 +267,141 @@ public abstract class ShaderProgram {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends an integer array to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform array
+	 * @param data - the integers to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendIntArray(String target, int[] data) {
 		for(int i = 0; i < data.length; i++)
 			sendInt(target + "[" + i + "]", data[i]);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a float to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform
+	 * @param f - the float to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendFloat(String target, float f) {
 		bind();
 		glUniform1f(ul.get(target), f);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a float array to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform array
+	 * @param data - the floats to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendFloatArray(String target, float[] data) {
 		for(int i = 0; i < data.length; i++)
 			sendFloat(target + "[" + i + "]", data[i]);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a Vector2f to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform
+	 * @param vec2 - the vector to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendVec2(String target, Vector2f vec2) {
 		bind();
 		glUniform2f(ul.get(target), vec2.getX(), vec2.getY());
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a Vector2f array to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform array
+	 * @param data - the vectors to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendVec2Array(String target, Vector2f[] data) {
 		for(int i = 0; i < data.length; i++)
 			sendVec2(target + "[" + i + "]", data[i]);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a Vector3f to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform
+	 * @param vec3 - the vector to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendVec3(String target, Vector3f vec3) {
 		bind();
 		glUniform3f(ul.get(target), vec3.getX(), vec3.getY(), vec3.getZ());
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a Vector3f array to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform array
+	 * @param data - the vectors to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendVec3Array(String target, Vector3f[] data) {
 		for(int i = 0; i < data.length; i++)
 			sendVec3(target + "[" + i + "]", data[i]);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a Vector4f to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform
+	 * @param vec4 - the vector to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendVec4(String target, Vector4f vec4) {
 		bind();
 		glUniform4f(ul.get(target), vec4.getX(), vec4.getY(), vec4.getZ(), vec4.getW());
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a Vector4f array to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform array
+	 * @param data - the vectors to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendVec4Array(String target, Vector4f[] data) {
 		for(int i = 0; i < data.length; i++)
 			sendVec4(target + "[" + i + "]", data[i]);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a struct to the specified uniform target.
+	 * The StructDefiner containS all information and values required for this struct.
+	 * 
+	 * @param target - the name of the uniform
+	 * @param struct - the struct to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendStruct(String target, StructDefiner struct) {
 		bind();
 		
@@ -355,29 +436,64 @@ public abstract class ShaderProgram {
 		return this;
 	}
 	
+	/**
+	 * Sends a struct array to the specified uniform target.
+	 * The StructDefiners contain all information and values required for this struct array.
+	 * 
+	 * @param target - the name of the uniform array
+	 * @param structs - the structs to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendStructArray(String target, StructDefiner[] structs) {
 		for(int i = 0; i < structs.length; i++)
 			sendStruct(target + "[" + i + "]", structs[i]);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a boolean to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform
+	 * @param bool - the boolean to send
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendBoolean(String target, boolean bool) {
 		bind();
 		glUniform1i(ul.get(target), bool ? GL11.GL_TRUE : GL11.GL_FALSE);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sends a boolean array to the specified uniform target.
+	 * 
+	 * @param target - the name of the uniform array
+	 * @param data - the booleans to sends
+	 * @return this shader program instance
+	 */
 	public ShaderProgram sendBooleanArray(String target, boolean[] data) {
 		for(int i = 0; i < data.length; i++)
 			sendBoolean(target + "[" + i + "]", data[i]);
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Destroys this shader program releasing any occupied system resources.
+	 * 
+	 */
 	public void destroy() {
 		glDeleteProgram(id);
 		System.out.println("Destroyed program with ID: " + id);
 	}
 	
+	/**
+	 * 
+	 * Returns the id of the currently bound shader program.
+	 * 
+	 * @return the id of the currently bound shader program.
+	 */
 	public static final int currentlyBoundID() {
 		return currentProgram;
 	}

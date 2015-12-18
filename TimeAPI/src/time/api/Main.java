@@ -8,7 +8,8 @@ import time.api.gamestate.GameStateManager;
 import time.api.gfx.Mesh;
 import time.api.gfx.Renderer;
 import time.api.gfx.VertexTex;
-import time.api.gfx.shader.OrthographicShaderProgram;
+import time.api.gfx.gui.Button;
+import time.api.gfx.gui.GUI;
 import time.api.gfx.texture.Animation;
 import time.api.gfx.texture.DynamicTexture;
 import time.api.gfx.texture.SpriteSheet;
@@ -39,6 +40,8 @@ public class Main {
 			
 			Animation animation;
 			
+			GUI gui = new GUI();
+			
 			@Override
 			public void init() {
 				System.out.println("Initiated " + NAME);
@@ -55,6 +58,8 @@ public class Main {
 				
 				renderer = new Renderer(mesh, dt);
 				animation = new Animation(dt, 0, 1, 2, 3, 4, 5, 6, 7, 8).setSpeed(10);
+				
+				gui.addElements(new Button(0, 0, .2f, .2f, Texture.DEFAULT_TEXTURE));
 			}
 
 			@Override
@@ -101,6 +106,7 @@ public class Main {
 			public void draw() {
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 				renderer.draw();
+				gui.draw();
 			}
 
 			@Override

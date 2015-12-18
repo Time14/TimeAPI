@@ -36,13 +36,22 @@ public class OrthographicShaderProgram extends ShaderProgram {
 		return GL_RGBA;
 	}
 	
+	/**
+	 * 
+	 * Assigns a new orthographic projection matrix with the specified specifications.
+	 * 
+	 * @param left - the left most x coordinate of the screen
+	 * @param right - the right most x coordinate of the screen
+	 * @param bottom - the bottom most y coordinate of the screen
+	 * @param top - the top most y coordinate of the screen
+	 * @return the new projection matrix
+	 */
 	public static final Matrix4f initProjection(float left, float right, float bottom, float top) {
 		OrthographicShaderProgram.left = left;
 		OrthographicShaderProgram.right = right;
 		OrthographicShaderProgram.bottom = bottom;
 		OrthographicShaderProgram.top = top;
 		
-		//Strukturera såhär som ett tips:
 		projection.set(0, 0, 2f/(right-left));	projection.set(1, 0, 0);				projection.set(2, 0, 0);	projection.set(3, 0, -((right+left)/(right-left)));
 		projection.set(0, 1, 0);				projection.set(1, 1, 2f/(top-bottom));	projection.set(2, 1, 0);	projection.set(3, 1, -((top+bottom)/(top-bottom)));
 		projection.set(0, 2, 0);				projection.set(1, 2, 0);		 		projection.set(2, 2, 1);	projection.set(3, 2, 0);
@@ -51,13 +60,37 @@ public class OrthographicShaderProgram extends ShaderProgram {
 		return projection;
 	}
 	
+	
+	/**
+	 * 
+	 * Returns the current projection matrix.
+	 * 
+	 * @return the current projection matrix
+	 */
 	public static final Matrix4f getProjection() {
 		return projection;
 	}
 	
+	/**
+	 * 
+	 * Returns the current dimensions of this orthographic projection as a float array.
+	 * <p>
+	 * Index 0: left bound
+	 * Index 1: right bound
+	 * Index 2: bottom bound
+	 * Index 3: top bound
+	 * 
+	 * @return
+	 */
+	public final float[] getDimensions() {
+		return new float[]{left, right, bottom, top};
+	}
+	
 	static {
+		//Default projection initialization
 		initProjection(-1, 1, -1, 1);
 	}
 	
+	//The instance of this object to use
 	public static final OrthographicShaderProgram INSTANCE = new OrthographicShaderProgram();
 }

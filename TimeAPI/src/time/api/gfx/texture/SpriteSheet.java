@@ -20,10 +20,12 @@ public class SpriteSheet {
 	
 	/**
 	 * 
-	 * @param spritesY The total amount of spritesY
-	 * @param spritesX The total amount of spritesX for each animation
-	 * @param frameWidth The width of each animation frame
-	 * @param frameHeight The height of each animation frame
+	 * Constructs a new sprite sheet with the specified dimensions.
+	 * 
+	 * @param spritesY - the total amount of sprites on the x-axis
+	 * @param spritesX - the total amount of sprites on the y-axis
+	 * @param frameWidth - the width of each sprite
+	 * @param frameHeight - the height of each sprite
 	 */
 	public SpriteSheet(int spritesX, int spritesY, int frameWidth, int frameHeight) {
 		this.spritesX = spritesX;
@@ -33,6 +35,13 @@ public class SpriteSheet {
 		textures = new Texture[spritesY][spritesX];
 	}
 	
+	/**
+	 * 
+	 * Generates textures for each sprite.
+	 * 
+	 * @param path - the path of the sprite sheet
+	 * @return this sprite sheet instance
+	 */
 	public SpriteSheet loadTexture(String path) {
 		
 		try {
@@ -71,24 +80,64 @@ public class SpriteSheet {
 		return this;
 	}
 	
-	public void bind(int tileX, int tileY, int target) {
+	/**
+	 * 
+	 * Binds the specified sprite for render usage.
+	 * 
+	 * @param tileX - the x coordinate of the sprite to render
+	 * @param tileY - the y coordinate of the sprite to render
+	 * @param target - the desired texture target index
+	 * @return this sprite sheet instance
+	 */
+	public SpriteSheet bind(int tileX, int tileY, int target) {
 		textures[tileY][tileX].bind(target);
+		
+		return this;
 	}
 	
+	/**
+	 * 
+	 * Sets the sprite on the specified position.
+	 * 
+	 * @param texture - the texture to set
+	 * @param x - the x coordinate of the sprite to set
+	 * @param y - the y coordinate of the sprite to set
+	 * @return this sprite sheet instance
+	 */
 	public SpriteSheet setTexture(Texture texture, int x, int y) {
 		textures[y][x] = texture;
 		
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Returns the sprite on the specified coordinates.
+	 * 
+	 * @param tileX - the x coordinate of the sprite
+	 * @param tileY - the y coordinate of the sprite
+	 * @return the sprite on the specified coordinates
+	 */
 	public Texture getTexture(int tileX, int tileY) {
 		return textures[tileY][tileX];
 	}
 	
+	/**
+	 * 
+	 * Returns the amount of sprites on the x-axis of this sprite sheet.
+	 * 
+	 * @return the amount of sprites on the x-axis of this sprite sheet
+	 */
 	public int getSpritesX() {
 		return spritesX;
 	}
 	
+	/**
+	 * 
+	 * Returns the amount of sprites on the y-axis of this sprite sheet.
+	 * 
+	 * @return the amount of sprites on the y-axis of this sprite sheet
+	 */
 	public int getSpritesY() {
 		return spritesY;
 	}

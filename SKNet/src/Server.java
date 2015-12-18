@@ -22,9 +22,12 @@ public class Server {
 		
 		running = true;
 		while(running) {
-			String str = scanner.nextLine();
+			String[] cmd = scanner.nextLine().split(" ");
 			
-			switch(str) {
+			switch(cmd[0]) {
+			case "send":
+				server.sendToAll(new SKPacketMSG(cmd[1]));
+				break;
 			case "go":
 				try {
 					server.getConnection(0).sendPacket(new SKPacketMSG("go!"));
@@ -33,10 +36,10 @@ public class Server {
 				}
 				break;
 			case "dc":
-				server.disconnect(0);
+				server.disconnect(Integer.parseInt(cmd[1]), cmd[2]);
 				break;
 			case "closed":
-				System.out.println(server.getConnection(0).isClosed());
+				System.out.println(server.getConnection(0).isSocketClosed());
 				break;
 			}
 		}

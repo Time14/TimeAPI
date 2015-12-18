@@ -6,9 +6,9 @@ public abstract class SKPacket implements Serializable {
 	
 	/**
 	 * 
-	 * Returns the name of this packet. Used as a less arbitrary identification of the packet.
+	 * Returns the name of this packet. Used as a more concrete identification.
 	 * 
-	 * @return the name of this packet.
+	 * @return the name of this packet
 	 */
 	public abstract String getName();
 	
