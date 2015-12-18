@@ -5,6 +5,7 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
+import sk.net.SKClient;
 import time.api.gamestate.GameStateManager;
 import time.api.util.Time;
 
@@ -126,6 +127,9 @@ public class Game {
 		//Sets the default clear color
 		GL11.glClearColor(0, 0, 0, 1);
 		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		GameStateManager.init(this, window);
 		GameStateManager.enterState("Main");
 		
@@ -146,6 +150,26 @@ public class Game {
 	 */
 	public long getWindow() {
 		return window;
+	}
+	
+	/**
+	 * 
+	 * Returns the window width.
+	 * 
+	 * @return the window width
+	 */
+	public int getWindowWidth() {
+		return width;
+	}
+	
+	/**
+	 * 
+	 * Returns the window height.
+	 * 
+	 * @return the window height
+	 */
+	public int getWindowHeight() {
+		return height;
 	}
 	
 	/**

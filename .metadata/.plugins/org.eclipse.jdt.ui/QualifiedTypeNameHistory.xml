@@ -2,6 +2,46 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="time.api.physics.Collision"/>
 <fullyQualifiedTypeName name="time.api.util.Time"/>
+<<<<<<< HEAD
 <fullyQualifiedTypeName name="time.api.physics.PhysicsEngine"/>
 <fullyQualifiedTypeName name="time.api.debug.Debug"/>
+=======
+<fullyQualifiedTypeName name="time.api.library.Library"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL15"/>
+<fullyQualifiedTypeName name="time.api.gfx.shader.OrthographicShaderProgram"/>
+<fullyQualifiedTypeName name="time.api.gfx.texture.SpriteSheet"/>
+<fullyQualifiedTypeName name="time.api.gfx.texture.DynamicTexture"/>
+<fullyQualifiedTypeName name="javax.xml.crypto.dsig.Transform"/>
+<fullyQualifiedTypeName name="time.api.gfx.shader.ShaderProgram"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="time.api.gfx.Renderer"/>
+<fullyQualifiedTypeName name="time.api.physics.Body"/>
+<<<<<<< HEAD
+<fullyQualifiedTypeName name="time.api.math.Transform"/>
+<fullyQualifiedTypeName name="time.api.gfx.texture.Animation"/>
+<fullyQualifiedTypeName name="SKPacketMSG"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="sk.net.SKPacketConnectionTest"/>
+<fullyQualifiedTypeName name="java.net.SocketException"/>
+<fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+<fullyQualifiedTypeName name="sk.net.SKConnectionListener"/>
+<fullyQualifiedTypeName name="sk.net.SKClient"/>
+<fullyQualifiedTypeName name="time.api.entity.Entity"/>
+<fullyQualifiedTypeName name="time.api.gfx.texture.Texture"/>
+<fullyQualifiedTypeName name="time.api.gfx.Mesh"/>
+<fullyQualifiedTypeName name="time.api.gfx.VertexTex"/>
+<fullyQualifiedTypeName name="time.api.math.Vector3f"/>
+<fullyQualifiedTypeName name="time.api.math.Vector2f"/>
+<fullyQualifiedTypeName name="time.api.gfx.QuadRenderer"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="time.api.gfx.gui.GUI"/>
+<fullyQualifiedTypeName name="time.api.gfx.gui.Button"/>
+<fullyQualifiedTypeName name="time.api.debug.Debug"/>
+<fullyQualifiedTypeName name="org.lwjgl.system.MemoryUtil"/>
+<fullyQualifiedTypeName name="time.api.util.Util"/>
+<fullyQualifiedTypeName name="java.nio.DoubleBuffer"/>
+<fullyQualifiedTypeName name="time.api.Game"/>
+=======
+>>>>>>> origin/gfx
+>>>>>>> origin/gfx
 </qualifiedTypeNameHistroy>

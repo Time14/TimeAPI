@@ -22,14 +22,17 @@ public class Client {
 		
 		running = true;
 		while(running) {
-			String str = scanner.nextLine();
+			String[] cmd = scanner.nextLine().split(" ");
 			
-			switch(str) {
+			switch(cmd[0]) {
+			case "send":
+				client.send(new SKPacketMSG(cmd[1]));
+				break;
 			case "dc":
-				client.disconnect();
+				client.disconnect(cmd[1]);
 				break;
 			case "closed":
-				System.out.println(client.getConnection().isClosed());
+				System.out.println(client.getConnection().isSocketClosed());
 				break;
 			}
 		}

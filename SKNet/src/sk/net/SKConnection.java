@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class SKConnection {
 	
@@ -24,10 +25,11 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * The constructor for this connection expecting a type (SK_SERVER or SK_CLIENT) and a socket.
+	 * Constructs a new connection over the specified socket.
+	 * The socket side of this connection must be specified with a type (SK_SERVER or SK_CLIENT).
 	 * 
-	 * @param type the type of this connection.
-	 * @param socket the socket of this connection.
+	 * @param type - the type of this connection. One of SK_SERVER or SK_CLIENT
+	 * @param socket - the socket of this connection
 	 */
 	public SKConnection(int type, Socket socket) {
 		this.TYPE = type;
@@ -37,14 +39,15 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Sends the session initialization packets between a client and server depending on the type specified in the constructor.
+	 * Sends the session initialization packets between client and server.
+	 * The procedure depends on what type this connection.
+	 * <p>
+	 * This method should only be called internally from the SKNet API.
 	 * 
-	 * This method is only called internally of the SKNet API.
-	 * 
-	 * @param packet the packet to be sent to either the client or server. Must be of type {@link SKClientPacket} or {@link SKServerPacket}.
-	 * @return this {@link SKServer} instance.
+	 * @param packet - the packet to send to the other end of this connection. Either {@link SKClientPacket} or {@link SKServerPacket}
+	 * @return this connection instance
 	 * @throws IllegalArgumentException if the argument was not of type {@link SKClientPacket} or {@link SKServerPacket}. Also thrown if the argument does not correspond to this connection type.
-	 * @throws IOException if an I/O error occurs while writing stream header.
+	 * @throws IOException if an I/O error occurs while writing stream header
 	 * @throws IllegalStateException if the end-point responded an invalid session initialization packet or if a client failed to validate a packet.
 	 */
 	protected SKConnection init(SKPacket packet) {
@@ -79,7 +82,7 @@ public class SKConnection {
 				
 				//Is the packet valid?
 				if(!((SKClientPacket)clientPacket).isValid())
-					throw new IllegalStateException("The client did not failed to validate the connection");
+					throw new IllegalStateException("The client failed to validate the connection");
 				
 				//The procedure was successful
 				
@@ -128,19 +131,23 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Closes this connecting, including sockets and I/O streams.
+	 * Closes the socket and I/O streams of this connection.
 	 * 
 	 */
 	protected void close() {
 		try {
-			out.close();
-			in.close();
 			socket.close();
+			System.out.println("Connection " + id + " was closed");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("Failed to close connection " + id);
 		}
 	}
 	
+	/**
+	 * 
+	 * Starts the communication listener thread for this connection.
+	 * 
+	 */
 	protected void startListening() {
 		communicationListener = new SKCommunicationListener(this);
 		communicationListenerThread = new Thread(communicationListener);
@@ -150,11 +157,11 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Sends an {@link SKPacket} to the end-point of this connection's socket.
+	 * Sends a packet to the end-point of this connection's socket.
 	 * 
-	 * @param packet the packet to be sent.
-	 * @return this {@link SKConnection} instance.
-	 * @throws IOException if the OutputStream failed to operate.
+	 * @param packet - the packet to be sent
+	 * @return this connection instance
+	 * @throws IOException if the output stream failed to operate.
 	 */
 	public SKConnection sendPacket(SKPacket packet) throws IOException {
 		out.writeObject(packet);
@@ -165,12 +172,12 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Receives an {@link SKPacket} from the input stream.
+	 * Waits for a packet to be received.
 	 * 
-	 * @return the packet read from the input stream.
-	 * @throws IllegalStateException if the object received was not an {@link SKPacket}.
+	 * @return the received packet
+	 * @throws IllegalStateException if the object received was not of instance {@link SKPacket}
 	 * @throws IOException if the InputStream failed to operate.
-	 * @throws ClassNotFoundException if the received packet does not have a known corresponding class.
+	 * @throws ClassNotFoundException if the received packet could not be identified as an existing class
 	 */
 	protected SKPacket receivePacket() throws IOException, ClassNotFoundException {
 		
@@ -187,13 +194,13 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Sets the {@link SKServer} instance associated with with this object. This will only work if the connection is of type SK_SERVER.
+	 * Sets the server associated with with this connection. This will only work if the connection is of type SK_SERVER.
 	 * 
 	 * Otherwise, an IllegalStateException will be thrown.
 	 * 
-	 * @param server the {@link SKServer} instance to pass.
-	 * @return this {@link SKConnection} instance.
-	 * @throws IllegalStateException if this connection is not of type SK_SERVER.
+	 * @param server - the server instance
+	 * @return this connection instance
+	 * @throws IllegalStateException if this connection is not of type SK_SERVER
 	 */
 	protected SKConnection setServer(SKServer server) {
 		if(TYPE == SKNet.SK_CLIENT)
@@ -204,12 +211,12 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Returns the {@link SKServer} instance associated with with this object. This will only work if the connection is of type SK_SERVER.
+	 * Returns the server associated with with this connection. This will only work if the connection is of type SK_SERVER.
 	 * 
 	 * Otherwise, an IllegalStateException will be thrown.
 	 * 
-	 * @return the {@link SKServer} instance of this connection.
-	 * @throws IllegalStateException if this connection is not of type SK_SERVER.
+	 * @return the server instance of this connection
+	 * @throws IllegalStateException if this connection is not of type SK_SERVER
 	 */
 	protected SKServer getServer() {
 		if(TYPE == SKNet.SK_CLIENT)
@@ -219,13 +226,13 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Sets the {@link SKClient} instance associated with with this object. This will only work if the connection is of type SK_CLIENT.
+	 * Sets the client associated with with this connection. This will only work if the connection is of type SK_CLIENT.
 	 * 
 	 * Otherwise, an IllegalStateException will be thrown.
 	 * 
-	 * @param client the {@link SKClient} instance to pass.
-	 * @return this {@link SKConnection} instance.
-	 * @throws IllegalStateException if this connection is not of type SK_CLIENT.
+	 * @param client - the client instance
+	 * @return this connection instance
+	 * @throws IllegalStateException if this connection is not of type SK_CLIENT
 	 */
 	protected SKConnection setClient(SKClient client) {
 		if(TYPE == SKNet.SK_SERVER)
@@ -236,12 +243,12 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Returns the {@link SKClient} instance associated with with this object. This will only work if the connection is of type SK_CLIENT.
+	 * Returns the client associated with with this connection. This will only work if the connection is of type SK_CLIENT.
 	 * 
 	 * Otherwise, an IllegalStateException will be thrown.
 	 * 
-	 * @return the {@link SKClient} instance of this connection.
-	 * @throws IllegalStateException if this connection is not of type SK_CLIENT.
+	 * @return the client instance of this connection
+	 * @throws IllegalStateException if this connection is not of type SK_CLIENT
 	 */
 	protected SKClient getClient() {
 		if(TYPE == SKNet.SK_SERVER)
@@ -252,9 +259,9 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Returns the type of this connection. It could be either SK_CLIENT or SK_SERVER.
+	 * Returns the type of this connection. One of SK_CLIENT or SK_SERVER.
 	 * 
-	 * @return the type of this connection.
+	 * @return the type of this connection
 	 */
 	public int getType() {
 		return TYPE;
@@ -263,9 +270,9 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Returns the host address of this connection represented as a {@link String}.
+	 * Returns the host address of this connection represented as a string.
 	 * 
-	 * @return the host address of this connection.
+	 * @return the host address of this connection
 	 */
 	public String getHostAddress() {
 		return socket.getInetAddress().getHostAddress();
@@ -274,11 +281,11 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Returns the id of this {@link SKConnection} instance.
+	 * Returns the id of this connection.
 	 * 
-	 * If the id has not yet been assigned, or if the session initialization proccess failed, the id will is set to -1.
+	 * If the id has not yet been assigned, or if the session initialization process failed, it will return -1.
 	 * 
-	 * @return the id of this {@link SKConnection} instance.
+	 * @return the id of this connection instance
 	 */
 	public int getID() {
 		return id;
@@ -287,19 +294,34 @@ public class SKConnection {
 	
 	/**
 	 * 
-	 * Returns whether or not this connection has been closed.
+	 * Returns whether or not this connections socket has been closed.
 	 * 
-	 * @return if the connection is closed or not.
+	 * @return whether or not this connections socket has been closed
 	 */
-	public boolean isClosed() {
+	public boolean isSocketClosed() {
 		return socket.isClosed();
+	}
+	
+	/**
+	 * 
+	 * Returns whether or not the connection streams have been closed.
+	 * 
+	 * @return whether or not the connection streams have been closed
+	 */
+	public boolean isIOClosed() {
+		try {
+			sendPacket(new SKPacketConnectionTest());
+			return false;
+		} catch (Exception e) {
+			return true;
+		}
 	}
 	
 	/**
 	 * 
 	 * Returns the active port of this connection.
 	 * 
-	 * @return the port of this connection.
+	 * @return the active port of this connection
 	 */
 	public int getPort() {
 		return socket.getPort();
