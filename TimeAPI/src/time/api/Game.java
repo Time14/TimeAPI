@@ -126,6 +126,9 @@ public class Game {
 		//Sets the default clear color
 		GL11.glClearColor(0, 0, 0, 1);
 		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		GameStateManager.init(this, window);
 		GameStateManager.enterState("Main");
 		
