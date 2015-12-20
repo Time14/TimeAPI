@@ -65,4 +65,23 @@ public class Debug {
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		System.out.println("[" + ste[i].getFileName() + " @ " + ste[i].getLineNumber() + "] " + message);
 	}
+	
+	/**
+	 * 
+	 * Prints the messages and where it was called.
+	 * 
+	 * @param messages - the messages you wish to print
+	 */
+	public static void log(Object... messages) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(Object o : messages) {
+			sb.append(o).append("\t");
+		}
+		
+		sb.deleteCharAt(sb.length() - 1);
+		
+		Debug.log(sb.toString());
+	}
 }

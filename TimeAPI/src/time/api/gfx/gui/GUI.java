@@ -3,6 +3,7 @@ package time.api.gfx.gui;
 import java.util.ArrayList;
 
 import time.api.Game;
+import time.api.math.Vector2f;
 
 public class GUI {
 	
@@ -23,15 +24,18 @@ public class GUI {
 		return this;
 	}
 	
-	public GUI click(float x, float y) {
-		
+	public GUI click(Vector2f coords) {
 		for(GUIElement e : guiElements) {
-			if(e.contains(x, y)) {
-				e.click(x, y);
+			if(e.contains(coords)) {
+				e.click(coords.getX(), coords.getY());
 			}
 		}
 		
 		return this;
+	}
+	
+	public GUI click(float x, float y) {
+		return click(new Vector2f(x, y));
 	}
 	
 	public GUI draw() {
@@ -42,10 +46,19 @@ public class GUI {
 		return this;
 	}
 	
-	public GUI update(float tick) {
+	public GUI update(float tick, Vector2f mousePos) {
 		
-		for(GUIElement e : guiElements)
+		for(GUIElement e : guiElements) {
+			if(e.contains(mousePos) && !e.mouseOver) {
+				e.mouseIn();
+				e.mouseOver = true;
+			} else if(!e.contains(mousePos) && e.mouseOver) {
+				e.mouseOut();
+				e.mouseOver = false;
+			}
+				
 			e.update(tick);
+		}
 		
 		return this;
 	}

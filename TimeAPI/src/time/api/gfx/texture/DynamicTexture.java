@@ -181,4 +181,14 @@ public class DynamicTexture extends Texture {
 	public int getSpriteY() {
 		return currentSpriteY;
 	}
+	
+	/**
+	 * 
+	 * Clones this dynamic texture. Textures will not regenerate.
+	 * 
+	 * @return the cloned dynamic texture
+	 */
+	public DynamicTexture clone() {
+		return new DynamicTexture(spritesheet);
+	}
 }
