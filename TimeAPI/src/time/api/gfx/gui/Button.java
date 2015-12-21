@@ -1,7 +1,9 @@
 package time.api.gfx.gui;
 
 import time.api.gfx.QuadRenderer;
+import time.api.gfx.texture.DynamicTexture;
 import time.api.gfx.texture.Texture;
+import time.api.physics.Body;
 
 public class Button extends GUIElement {
 	
@@ -9,24 +11,34 @@ public class Button extends GUIElement {
 	private float labelSize = 48;
 	
 	public Button(float x, float y, float width, float height, Texture texture) {
-		renderer = new QuadRenderer(x, y, width, height, Texture.DEFAULT_TEXTURE);
+		setRenderer(new QuadRenderer(x, y, width, height, texture));
+		body = new Body(transform, width, height);
 	}
 	
+	@Override
 	public void onClick(float x, float y) {}
 	
-	public void onMouseOver(float tick) {}
+	@Override
+	public void onMouseIn() {
+		if(getRenderer().getTexture() instanceof DynamicTexture) {
+			((DynamicTexture)getRenderer().getTexture()).swap(1);
+		}
+	}
 	
-	public void onMouseIn() {}
+	@Override
+	public void onMouseOut() {
+		if(getRenderer().getTexture() instanceof DynamicTexture) {
+			((DynamicTexture)getRenderer().getTexture()).swap(0);
+		}
+	}
 	
-	public void onMouseOut() {}
-	
+	@Override
 	public void onDraw() {
 		renderer.draw();
 	}
 	
-	public void onUpdate(float dt) {
-		
-	}
+	@Override
+	public void onUpdate(float dt) {}
 	
 	public Button setLabel(String label) {
 		return setLabel(label, labelSize);

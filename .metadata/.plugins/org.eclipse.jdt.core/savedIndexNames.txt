@@ -1,55 +1,22 @@
-<<<<<<< HEAD
-INDEX VERSION 1.127+D:\Projects\Java\TimeWars\TimeAPI\.metadata\.plugins\org.eclipse.jdt.core
-1711765710.index
-1738363733.index
-4070956152.index
-1737343993.index
-2639584581.index
-3264184847.index
-766596693.index
-2674475739.index
-2921250600.index
-3371159263.index
-1524953806.index
-=======
-<<<<<<< HEAD
-INDEX VERSION 1.127+D:\git\TimeAPI\.metadata\.plugins\org.eclipse.jdt.core
-3414683811.index
-452330869.index
-3349413686.index
-51467596.index
-3000975533.index
-185975254.index
-2690778029.index
-2959957318.index
-1233791618.index
-2292250293.index
-1429456332.index
-3436087557.index
-2345470644.index
-2899965704.index
-3618673065.index
-1923297441.index
-3352275961.index
-1870255979.index
-4020602821.index
-=======
 INDEX VERSION 1.127+A:\Java\TimeWars\TimeAPI\.metadata\.plugins\org.eclipse.jdt.core
 2674037006.index
->>>>>>> origin/gfx
 3436087557.index
-2664259167.index
-1063367808.index
-1000147613.index
-3916428639.index
+3716007315.index
+3954291735.index
+1337478678.index
+1787405673.index
+994834796.index
+1045485630.index
+4187470955.index
+533208796.index
+3264184847.index
+2535676096.index
 3352275961.index
-1801596798.index
-2591297871.index
+115418958.index
+355369697.index
+323251068.index
+605290374.index
+3656756579.index
+3604769962.index
 913530252.index
-<<<<<<< HEAD
-1094395942.index
-3972726963.index
-=======
 1017853417.index
->>>>>>> origin/gfx
->>>>>>> origin/gfx

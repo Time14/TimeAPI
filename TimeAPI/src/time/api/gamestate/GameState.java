@@ -21,17 +21,17 @@ public abstract class GameState {
 	 */
 	public abstract void init();
 	
-	/**
-	 * 
-	 * Called for each keyboard event passed since the last GameStateManager update.
-	 * 
-	 * @param window - the window that received the event
-	 * @param key - the keyboard key that was pressed or released
-	 * @param scancode - the system-specific scancode of the key
-	 * @param action - the key action. One of: GLFW.GLFW_PRESS, GLFW.GLFW_RELEASE, GLFW.GLFW_REPEAT
-	 * @param mods - bitfield describing which modifiers keys were held down
-	 */
-	public abstract void onKeyboard(long window, int key, int scancode, int action, int mods);
+//	/**
+//	 * 
+//	 * Called for each keyboard event passed since the last GameStateManager update.
+//	 * 
+//	 * @param window - the window that received the event
+//	 * @param key - the keyboard key that was pressed or released
+//	 * @param scancode - the system-specific scancode of the key
+//	 * @param action - the key action. One of: GLFW.GLFW_PRESS, GLFW.GLFW_RELEASE, GLFW.GLFW_REPEAT
+//	 * @param mods - bitfield describing which modifiers keys were held down
+//	 */
+//	public abstract void onKeyboard(long window, int key, int scancode, int action, int mods);
 	
 	/**
 	 * 

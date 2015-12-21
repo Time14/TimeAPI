@@ -3,6 +3,7 @@ package time.api.gfx.texture;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import time.api.library.Library;
 import time.api.util.Loader;
 
 public class SpriteSheet {
@@ -141,4 +142,31 @@ public class SpriteSheet {
 	public int getSpritesY() {
 		return spritesY;
 	}
+	
+	//SpriteSheet library handling
+	
+	private static final Library<SpriteSheet> spriteSheetLibrary = new Library<>("SpriteSheetLibrary");
+	
+	/**
+	 * 
+	 * Registers a sprite sheet to the specified key.
+	 * 
+	 * @param key - the key to register to
+	 * @param spriteSheet - the sprite sheet to register
+	 */
+	public static final void register(String key, SpriteSheet spriteSheet) {
+		spriteSheetLibrary.put(key, spriteSheet);
+	}
+	
+	/**
+	 * 
+	 * Returns the sprite sheet with the specified key.
+	 * 
+	 * @param key - the key of the sprite sheet
+	 * @return the sprite sheet with the specified key
+	 */
+	public static final SpriteSheet get(String key) {
+		return spriteSheetLibrary.get(key);
+	}
+	
 }

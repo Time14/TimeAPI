@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GLContext;
 
 import sk.net.SKClient;
 import time.api.gamestate.GameStateManager;
+import time.api.input.InputManager;
 import time.api.util.Time;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -108,7 +109,8 @@ public class Game {
 		
 		//Displays window
 		glfwShowWindow(window);
-				
+		
+		InputManager.loadInputs();		
 	}
 	
 	/**
@@ -140,6 +142,8 @@ public class Game {
 			Time.update();
 			GameStateManager.update(Time.getDelta());
 		}
+		
+		InputManager.saveInputs();
 	}
 	
 	/**

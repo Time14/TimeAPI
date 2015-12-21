@@ -2,7 +2,7 @@ package time.api.math;
 
 public class Transform {
 	
-	public Vector2f position;
+	public Vector2f pos;
 	public float rotation;
 	public Vector2f scale;
 	
@@ -23,7 +23,7 @@ public class Transform {
 	 * @param y - the y coordinate of this transform
 	 */
 	public Transform(float x, float y) {
-		this(new Vector2f(x, y));	
+		this(new Vector2f(x, y));
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class Transform {
 	 * @param scale - the scale of this matrix
 	 */
 	public Transform(Vector2f position, float rotation, Vector2f scale) {
-		this.position = position;
+		this.pos = position;
 		this.scale = scale;
 	}
 	
@@ -70,7 +70,7 @@ public class Transform {
 		Matrix4f matrix = new Matrix4f();
 		matrix = Matrix4f.IDENTITY();
 		
-		matrix.translate(position);
+		matrix.translate(pos);
 		matrix.rotate(rotation);
 		matrix.scale(scale);
 		
@@ -293,7 +293,7 @@ public class Transform {
 	 * @return this transform instance
 	 */
 	public Transform setX(float x) {
-		position.setX(x);
+		pos.setX(x);
 		return this;
 	}
 	
@@ -305,7 +305,7 @@ public class Transform {
 	 * @return this transform instance
 	 */
 	public Transform setY(float y) {
-		position.setY(y);
+		pos.setY(y);
 		return this;
 	}
 	
@@ -342,7 +342,7 @@ public class Transform {
 	 * @return this transform instance
 	 */
 	public Transform translateX(float x) {
-		position.setX(position.getX() + x);
+		pos.setX(pos.getX() + x);
 		return this;
 	}
 	
@@ -354,7 +354,7 @@ public class Transform {
 	 * @return this transform instance
 	 */
 	public Transform translateY(float y) {
-		position.setY(position.getY() + y);
+		pos.setY(pos.getY() + y);
 		return this;
 	}
 	
@@ -378,7 +378,7 @@ public class Transform {
 	 * @return this transform instance
 	 */
 	public Transform translate(Vector2f offset) {
-		position.add(offset);
+		pos.add(offset);
 		return this;
 	}
 }

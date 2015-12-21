@@ -12,8 +12,8 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="D:\Projects\Java\TimeWars\TimeAPI"/>
 			<item value="A:\Java\TimeWars\TimeAPI"/>
+			<item value="D:\Projects\Java\TimeWars\TimeAPI"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
