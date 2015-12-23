@@ -158,3 +158,11 @@
 2015-12-19 23:56:29,945 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started @918436ms
 2015-12-20 03:00:00,133 [Stop Help Server] INFO  o.e.jetty.server.ServerConnector - Stopped ServerConnector@62f558ef{HTTP/1.1}{127.0.0.1:0}
 2015-12-20 03:00:00,147 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - Stopped o.e.j.s.ServletContextHandler@3307ae43{/help,null,UNAVAILABLE}
+2015-12-21 14:02:53,778 [Start Help Server] INFO  org.eclipse.jetty.util.log - Logging initialized @18791433ms
+2015-12-21 14:02:54,021 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-9.2.9.v20150224
+2015-12-21 14:02:54,065 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@65eaa226{/help,null,AVAILABLE}
+2015-12-21 14:02:54,106 [Start Help Server] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@2b13839c{HTTP/1.1}{127.0.0.1:49781}
+2015-12-21 14:02:54,106 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started @18791926ms
+2015-12-21 17:26:35,785 [main] WARN  o.e.r.i.c.rcp.TypeBindingAnalyzer - Can't handle class org.eclipse.jdt.internal.compiler.ast.BinaryExpression as parent of completion location.
+2015-12-21 18:19:38,435 [Stop Help Server] INFO  o.e.jetty.server.ServerConnector - Stopped ServerConnector@2b13839c{HTTP/1.1}{127.0.0.1:0}
+2015-12-21 18:19:38,448 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - Stopped o.e.j.s.ServletContextHandler@65eaa226{/help,null,UNAVAILABLE}

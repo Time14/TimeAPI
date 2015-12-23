@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import time.api.debug.Debug;
 import time.api.gamestate.GameState;
 import time.api.gamestate.GameStateManager;
+import time.api.gfx.FontRenderer;
 import time.api.gfx.Mesh;
 import time.api.gfx.Renderer;
 import time.api.gfx.VertexTex;
@@ -66,7 +67,7 @@ public class Main {
 				Texture.register("box", new DynamicTexture(SpriteSheet.get("box")));
 				
 				gui.addElements(
-						new Button(-0.5f, 0, .2f, .2f, Texture.getDT("box", true)),
+						new Button(-0.5f, 0, .2f, .2f, Texture.getDT("box", true)).setMouseOutEvent(() -> Debug.log("out")),
 						new CheckBox(0, 0, .2f, .2f, Texture.getDT("box", true))
 						.setMouseInEvent(() -> Debug.log("in")).setMouseOutEvent(() -> Debug.log("out"))
 				);
@@ -92,6 +93,7 @@ public class Main {
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 				renderer.draw();
 				gui.draw();
+				FontRenderer.draw(0, 0, "Hej");
 			}
 
 			@Override

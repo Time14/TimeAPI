@@ -4,8 +4,6 @@
 <fullyQualifiedTypeName name="time.api.util.Util"/>
 <fullyQualifiedTypeName name="java.nio.DoubleBuffer"/>
 <fullyQualifiedTypeName name="org.lwjgl.glfw.GLFW"/>
-<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
-<fullyQualifiedTypeName name="time.api.math.Vector2f"/>
 <fullyQualifiedTypeName name="time.api.physics.Body"/>
 <fullyQualifiedTypeName name="time.api.library.Library"/>
 <fullyQualifiedTypeName name="time.api.gfx.texture.SpriteSheet"/>
@@ -13,5 +11,19 @@
 <fullyQualifiedTypeName name="time.api.gfx.gui.CheckBox"/>
 <fullyQualifiedTypeName name="time.api.debug.Debug"/>
 <fullyQualifiedTypeName name="time.api.gfx.texture.DynamicTexture"/>
+<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="time.api.gfx.font.Font"/>
+<fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL15"/>
+<fullyQualifiedTypeName name="time.api.gfx.Mesh"/>
+<fullyQualifiedTypeName name="time.api.gfx.font.FontChar"/>
+<fullyQualifiedTypeName name="time.api.gfx.VertexTex"/>
+<fullyQualifiedTypeName name="time.api.math.Vector3f"/>
+<fullyQualifiedTypeName name="time.api.math.Vector2f"/>
+<fullyQualifiedTypeName name="time.api.gfx.FontRenderer"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="time.api.gfx.texture.Texture"/>
+<fullyQualifiedTypeName name="time.api.gfx.QuadRenderer"/>
 </qualifiedTypeNameHistroy>
