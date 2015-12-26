@@ -5,7 +5,6 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
 import time.api.Game;
-import time.api.input.InputManager;
 import time.api.library.Library;
 
 public final class GameStateManager {
@@ -78,7 +77,6 @@ public final class GameStateManager {
 	 * @param dt - the delta time
 	 */
 	public static void update(float dt) {
-		InputManager.update();
 		GLFW.glfwPollEvents();
 		currentState.update(dt);
 		currentState.draw();
@@ -89,8 +87,7 @@ public final class GameStateManager {
 		keyCallback = new GLFWKeyCallback() {
 			@Override
 			public void invoke(long window, int key, int scancode, int action, int mods) {
-				InputManager.updateInput(key, scancode, mods, action);
-				//currentState.onKeyboard(window, key, scancode, action, mods);
+				currentState.onKeyboard(window, key, scancode, action, mods);
 			}
 		};
 		

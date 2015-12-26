@@ -31,7 +31,7 @@ public abstract class GameState {
 	 * @param action - the key action. One of: GLFW.GLFW_PRESS, GLFW.GLFW_RELEASE, GLFW.GLFW_REPEAT
 	 * @param mods - bitfield describing which modifiers keys were held down
 	 */
-//	public abstract void onKeyboard(long window, int key, int scancode, int action, int mods);
+	public abstract void onKeyboard(long window, int key, int scancode, int action, int mods);
 	
 	/**
 	 * 

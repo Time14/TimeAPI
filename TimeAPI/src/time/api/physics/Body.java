@@ -3,7 +3,6 @@ package time.api.physics;
 import java.util.HashSet;
 
 import time.api.debug.Debug;
-import time.api.math.Transform;
 import time.api.math.Vector2f;
 import time.api.math.VectorXf;
 
@@ -26,34 +25,8 @@ public class Body {
 	float mu;
 	
 	Vector2f dim;
-	Transform transform;
+	Vector2f pos;
 	Vector2f vel;
-	
-	/**
-	 * 
-	 * Constructs a new body with the given dimensions and position.
-	 * 
-	 * @param transform - the transform of the body
-	 * @param w - the width of the new body
-	 * @param h - the height of the new body
-	 */
-	public Body(Transform transform, float w, float h) {
-		
-		trigger = false;
-		absolute = false;
-		
-		invMass = 1;
-		epsilon = 0.0f;
-		mu = 1;
-		
-		dim = new Vector2f(w, h);
-		this.transform = transform;
-		vel = new Vector2f(0, 0);
-		
-		collisionTags = new HashSet<Tag>();
-		myTags = new HashSet<Tag>();
-		myTags.add(Tag.BODY);
-	}
 	
 	/**
 	 * 
@@ -74,7 +47,7 @@ public class Body {
 		mu = 1;
 		
 		dim = new Vector2f(w, h);
-		this.transform = new Transform(x, y);
+		pos = new Vector2f(x, y);
 		vel = new Vector2f(0, 0);
 		
 		collisionTags = new HashSet<Tag>();
@@ -278,7 +251,7 @@ public class Body {
 	 * @return the position of this body
 	 */
 	public Vector2f getPos() {
-		return transform.position;
+		return pos;
 	}
 	
 	/**
@@ -289,7 +262,7 @@ public class Body {
 	 * @return this Body instance
 	 */
 	public Body setPos(Vector2f pos) {
-		transform.position = pos;
+		this.pos = pos;
 		return this;
 	}
 	
@@ -340,10 +313,10 @@ public class Body {
 	protected void _checkCollision(Body body, PhysicsEngine pe) {
 		
 		//Collision Check
-		float overlapX = 0.5f * Math.abs(this.dim.getX() + body.dim.getX()) - Math.abs(this.transform.position.getX() - body.transform.position.getX());
+		float overlapX = 0.5f * Math.abs(this.dim.getX() + body.dim.getX()) - Math.abs(this.pos.getX() - body.pos.getX());
 		if(overlapX < 0) return;		
 
-		float overlapY = 0.5f * Math.abs(this.dim.getY() + body.dim.getY()) - Math.abs(this.transform.position.getY() - body.transform.position.getY());
+		float overlapY = 0.5f * Math.abs(this.dim.getY() + body.dim.getY()) - Math.abs(this.pos.getY() - body.pos.getY());
 		if(overlapY < 0) return;
 		
 		//Add in all my tags
@@ -359,7 +332,7 @@ public class Body {
 		//Make a collision event if necessary 
 		if(trigger || body.isTrigger()) return;
 		
-		VectorXf distance = this.transform.position.clone().sub(body.getPos());
+		VectorXf distance = this.pos.clone().sub(body.getPos());
 		float depth = 0;
 		
 		if(Math.abs(distance.getN(0)) > Math.abs(distance.getN(1))) {
@@ -413,6 +386,6 @@ public class Body {
 			freezeVelocity();
 			return;
 		}
-		transform.position.add(vel.clone().scale(delta));
+		pos.add(vel.clone().scale(delta));
 	}	
 }

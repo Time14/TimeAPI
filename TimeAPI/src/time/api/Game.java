@@ -1,17 +1,11 @@
 package time.api;
 
-import org.lwjgl.LWJGLUtil;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
-import time.api.audio.Audio;
-import time.api.audio.AudioHandler;
-import time.api.audio.AudioLibrary;
-import time.api.audio.AudioManager;
 import time.api.gamestate.GameStateManager;
-import time.api.input.InputManager;
 import time.api.util.Time;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -41,8 +35,6 @@ public class Game {
 	
 	private GLFWErrorCallback errorCallback;
 	
-	private Thread t;
-	
 	/**
 	 * 
 	 * Starts the game with the specified window properties.
@@ -62,9 +54,7 @@ public class Game {
 		
 		glfwDestroyWindow(window);
 		glfwTerminate();
-		
 		errorCallback.release();
-		InputManager.saveInputs();
 	}
 	
 	/**
@@ -117,12 +107,7 @@ public class Game {
 		
 		//Displays window
 		glfwShowWindow(window);
-		
-		//Load the inputs for the inputManager
-		InputManager.loadInputs();
-		
-		//Init the new audio thread
-		AudioManager.start();
+				
 	}
 	
 	/**
@@ -147,13 +132,13 @@ public class Game {
 		GameStateManager.init(this, window);
 		GameStateManager.enterState("Main");
 		
+		
 		//The main loop
 		running = true;
 		while(glfwWindowShouldClose(window) == GL11.GL_FALSE && running) {
 			Time.update();
 			GameStateManager.update(Time.getDelta());
 		}
-		AudioManager.destroy();
 	}
 	
 	/**

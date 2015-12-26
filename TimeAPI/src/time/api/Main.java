@@ -3,9 +3,6 @@ package time.api;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-import time.api.audio.Audio;
-import time.api.audio.AudioLibrary;
-import time.api.audio.AudioManager;
 import time.api.gamestate.GameState;
 import time.api.gamestate.GameStateManager;
 import time.api.gfx.Mesh;
@@ -16,8 +13,6 @@ import time.api.gfx.texture.Animation;
 import time.api.gfx.texture.DynamicTexture;
 import time.api.gfx.texture.SpriteSheet;
 import time.api.gfx.texture.Texture;
-import time.api.input.InputManager;
-import time.api.input.KeyState;
 import time.api.math.Vector2f;
 import time.api.math.Vector3f;
 import time.api.physics.Body;
@@ -60,16 +55,9 @@ public class Main {
 				
 				renderer = new Renderer(mesh, dt);
 				animation = new Animation(dt, 0, 1, 2, 3, 4, 5, 6, 7, 8).setSpeed(10);
-				
-//				AudioLibrary.tryLoadingFiles();
-				AudioLibrary.registerAudio("benny", new Audio("res/sounds/Benny.wav"));
-				AudioManager.playLoop(0, 1, 1, "benny");
-				
-				InputManager.saveInputs();
 			}
 
-//			@Override
-			/*
+			@Override
 			public void onKeyboard(long window, int key, int scancode, int action, int mods) {
 				
 				boolean w = key == GLFW.GLFW_KEY_W;
@@ -95,7 +83,7 @@ public class Main {
 					if(o)
 						animation.setSpeed(animation.getSpeed() + 0.5f);
 				}
-			}*/
+			}
 			
 			@Override
 			public void onMouse(long window, int button, int action, int mods) {
@@ -104,20 +92,6 @@ public class Main {
 			
 			@Override
 			public void update(float dt) {
-				if (InputManager.getKey("fade") == KeyState.Pressed) {
-					AudioManager.fadeLoopPitch(0.5f, 2f, 0);
-				} else if (InputManager.getKey("fade") == KeyState.Released) {
-					AudioManager.fadeLoopPitch(1f, 2f, 0);
-				} 
-				
-				if (InputManager.getKey("quit") == KeyState.Released) {
-					game.stop();
-				}
-				
-				
-				
-				
-				
 				GLFW.glfwSetWindowTitle(game.getWindow(), Integer.toString(Time.getFPS()));
 				pe.update(dt);
 				animation.update(dt);
