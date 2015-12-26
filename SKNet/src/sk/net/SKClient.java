@@ -19,17 +19,17 @@ public class SKClient {
 	
 	/**
 	 * 
-	 * Connects to the a server with the specified address and port.
+	 * Connects to a server with the specified address and port.
 	 * 
-	 * The CommunicationListener thread is also started.
+	 * The communication listener thread is also started.
 	 * 
-	 * @param address the host address to connect to.
-	 * @param port the active server port of the host.
-	 * @return this {@link SKClient} instance.
-	 * @throws UnknownHostException if the IP address of the host could not be determined.
-	 * @throws IOException if an I/O error occurs when creating the socket.
-	 * @throws IllegalArgumentException if the port parameter is outside the specified range of valid port values, which is between 0 and 65535, inclusive.
-	 * @throws IllegalStateException if there are no packet listeners associated with this client.
+	 * @param address - the host address to connect to
+	 * @param port - the active server port of the host
+	 * @return this client instance
+	 * @throws UnknownHostException if the IP address of the host could not be determined
+	 * @throws IOException if an I/O error occurs when creating the socket
+	 * @throws IllegalArgumentException if the port parameter is outside the specified range of valid port values, which is between 0 and 65535, inclusive
+	 * @throws IllegalStateException if there are no packet listeners associated with this client
 	 */
 	public SKClient connect(String address, int port) throws UnknownHostException, IOException {
 		
@@ -53,43 +53,65 @@ public class SKClient {
 	
 	/**
 	 * 
-	 * @return
+	 * Disconnects this client from the server host.
+	 * <p>
+	 * Sends a message to the server host indicating the disconnection.
+	 * Then, calls {@link #close(boolean, String)}.
+	 * 
+	 * @param msg - the message to send to the server host
+	 * @return this client instance
 	 */
-	public SKClient disconnect() {
+	public SKClient disconnect(String msg) {
 		
 		try {
-			connection.sendPacket(new SKDisconnectPacket());
+			connection.sendPacket(new SKDisconnectPacket(msg));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		close(true, msg);
+		
 		return this;
 	}
 	
 	/**
 	 * 
-	 * Disconnects this client from the server.
+	 * Sends a packet to the server host. Returns true if the packet was successfully delivered.
 	 * 
-	 * @return this {@link SKClient} instance.
+	 * @param packet - the packet to send
+	 * @return true if the packet was delivered successfully
 	 */
-	protected SKClient close() {
+	public boolean send(SKPacket packet) {
+		try {
+			
+			connection.sendPacket(packet);
+			
+			return true;
+			
+		} catch (IOException e) {
+			return false;
+		}
+	}
+	
+	/**
+	 * 
+	 * Closes the connection to the server host.
+	 * <p>
+	 * Calls {@link SKPacketListener#disconnected(SKConnection, boolean, String)}
+	 * for each active packet listener of this client.
+	 * Then, closes the connection by calling {@link SKConnection#close()}.
+	 * 
+	 * @param local - true if the the disconnection was fired locally
+	 * @param msg - the message associated with this disconnection
+	 * @return this client instance
+	 */
+	protected SKClient close(boolean local, String msg) {
 		
 		for(SKPacketListener packetListener : packetListeners) {
-			packetListener.disconnected(connection);
+			packetListener.disconnected(connection, local, msg);
 		}
 		
-		try {
-			connection.sendPacket(new SKDisconnectPacket());
-			
-			SKPacket packet = connection.receivePacket();
-			
-			if(!(packet instanceof SKDisconnectPacket))
-				throw new IllegalStateException("Invalid packet received, expected SKDisconnectPacket");
-			
-			connection.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		connection.close();
 		
 		return this;
 	}
@@ -97,10 +119,10 @@ public class SKClient {
 	
 	/**
 	 * 
-	 * Adds an {@link SKPacketListener} to this client.
+	 * Adds a packet listener to this client.
 	 * 
-	 * @param packetListener the {@link SKPacketListener} to be added.
-	 * @return this {@link SKClient} instance.
+	 * @param packetListener - the packet listener to add
+	 * @return this client instance
 	 */
 	public SKClient addPacketListener(SKPacketListener packetListener) {
 		packetListeners.add(packetListener);
@@ -109,15 +131,20 @@ public class SKClient {
 	
 	/**
 	 * 
-	 * Returns a list of all packet listeners associated with this server.
+	 * Returns an array list containing all packet listeners associated with this client.
 	 * 
-	 * @return a list of all packet listeners.
+	 * @return an array list containing all packet listeners
 	 */
 	public ArrayList<SKPacketListener> getPacketListeners() {
 		return packetListeners;
 	}
 	
-	
+	/**
+	 * 
+	 * Returns the connection of this client or null if no connection has been established. 
+	 * 
+	 * @return the connection of this client
+	 */
 	public SKConnection getConnection() {
 		return connection;
 	}

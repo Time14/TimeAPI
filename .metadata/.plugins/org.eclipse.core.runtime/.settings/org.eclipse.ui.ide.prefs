@@ -4,9 +4,13 @@ IMPORT_FILES_AND_FOLDERS_TYPE=7,1
 PROBLEMS_FILTERS_MIGRATE=true
 eclipse.preferences.version=1
 <<<<<<< HEAD
+platformState=1441290881069
+=======
+<<<<<<< HEAD
 platformState=1450096593543
 =======
 platformState=1441824228430
+>>>>>>> origin/gfx
 >>>>>>> origin/gfx
 quickStart=false
 tipsAndTricks=true

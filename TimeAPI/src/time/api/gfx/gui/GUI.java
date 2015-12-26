@@ -1,12 +1,14 @@
-package sk.client.gfx.gui;
+package time.api.gfx.gui;
 
 import java.util.ArrayList;
 
-import sk.client.debug.Debug;
+import time.api.Game;
 
 public class GUI {
 	
 	private ArrayList<GUIElement> guiElements;
+	
+	private Game game;
 	
 	public GUI() {
 		guiElements = new ArrayList<>();
@@ -32,14 +34,6 @@ public class GUI {
 		return this;
 	}
 	
-	public GUI checkKeyboard(int key, boolean pressed) {
-		
-		for(GUIElement e : guiElements)
-			e.onKeyboard(key, pressed);
-		
-		return this;
-	}
-	
 	public GUI draw() {
 		
 		for(GUIElement e : guiElements)
@@ -56,16 +50,18 @@ public class GUI {
 		return this;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T extends GUIElement> ArrayList<T> get(T type) {
 		return (ArrayList<T>) get(type.getClass());
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T extends GUIElement> ArrayList<T> get(Class<T> type) {
 		
 		ArrayList<T> result = new ArrayList<>();
 		
 		for(GUIElement e : guiElements) {
-			Debug.log(e.getClass().getSuperclass().getName(), type);
+//			Debug.log(e.getClass().getSuperclass().getName(), type);
 			if(e.getClass().getSuperclass() == type)
 				result.add(((T)e));
 		}

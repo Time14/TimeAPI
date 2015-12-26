@@ -4,6 +4,12 @@ public class SKServerPacket extends SKPacket {
 	
 	public final int ID;
 	
+	/**
+	 * 
+	 * Constructs a new server packet for session initialization.
+	 * 
+	 * @param id - the id dedicated to the receiving client
+	 */
 	public SKServerPacket(int id) {
 		this.ID = id;
 	}
