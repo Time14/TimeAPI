@@ -36,6 +36,9 @@ public class Collision {
 	 * Solves this collision, you should not call this.
 	 */
 	protected void _solve() {
+		 
+		//Absolute bodies? No need to waste computational time.
+		if(bodies[0].isAbsolute() == bodies[1].isAbsolute() == true) return;
 		
 		VectorXf v = bodies[0].getVel().clone().sub(bodies[1].getVel());
 		
@@ -43,21 +46,29 @@ public class Collision {
 		
 		float dir = normal.dot(v);
 		
-		if(dir > 0) return;
-		
-		// Bounce Calculations
-		float p = -(dir * (1 + Math.min(bodies[0].getEpsilon(), bodies[1].getEpsilon())) ) / (bodies[0].getInvMass() + bodies[1].getInvMass());
-		
-		// Mu Calculations
-		float mu = Math.min(bodies[0].getFriction(), bodies[1].getFriction());		
+		if(dir > 0) return;	
 		
 		// Movement correction
 		_move();
 		
+		float p = 0;
 		// Applying Force for bounce
-		bodies[0].push(normal.scale(p));
-		bodies[1].push(normal.scale(-1));
-
+		if (bodies[0].isAbsolute()) {
+			bodies[1].setVel(bodies[0].getVel());
+			p = v.dot(normal) * (1/bodies[1].getInvMass());
+		} else if (bodies[1].isAbsolute()) {
+			bodies[0].setVel(bodies[1].getVel());
+			p = v.dot(normal) * (1/bodies[0].getInvMass());
+		} else {
+			
+			p = -(dir * (1 + Math.min(bodies[0].getEpsilon(), bodies[1].getEpsilon())) ) / (bodies[0].getInvMass() + bodies[1].getInvMass());
+			bodies[0].push(normal.scale(p));
+			bodies[1].push(normal.scale(-1));
+		}
+		
+		// Mu Calculations
+		float mu = Math.min(bodies[0].getFriction(), bodies[1].getFriction());		
+		
 		// Applying Friction
 		if (mu == 0 || tangent.dot(v) == 0) return;
 		
