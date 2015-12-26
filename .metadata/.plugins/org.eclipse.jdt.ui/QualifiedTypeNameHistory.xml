@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="time.api.physics.Collision"/>
-<fullyQualifiedTypeName name="time.api.util.Time"/>
-<<<<<<< HEAD
-<fullyQualifiedTypeName name="time.api.physics.PhysicsEngine"/>
-<fullyQualifiedTypeName name="time.api.debug.Debug"/>
-=======
-<fullyQualifiedTypeName name="time.api.library.Library"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL15"/>
-<fullyQualifiedTypeName name="time.api.gfx.shader.OrthographicShaderProgram"/>
-<fullyQualifiedTypeName name="time.api.gfx.texture.SpriteSheet"/>
-<fullyQualifiedTypeName name="time.api.gfx.texture.DynamicTexture"/>
-<fullyQualifiedTypeName name="time.api.gfx.texture.Animation"/>
-<fullyQualifiedTypeName name="time.api.gfx.texture.Texture"/>
-<fullyQualifiedTypeName name="javax.xml.crypto.dsig.Transform"/>
-<fullyQualifiedTypeName name="time.api.gfx.shader.ShaderProgram"/>
 <fullyQualifiedTypeName name="time.api.math.Transform"/>
-<fullyQualifiedTypeName name="time.api.math.Vector2f"/>
-<fullyQualifiedTypeName name="time.api.math.Vector3f"/>
-<fullyQualifiedTypeName name="java.util.Scanner"/>
-<fullyQualifiedTypeName name="time.api.gfx.Renderer"/>
-<fullyQualifiedTypeName name="time.api.physics.Body"/>
->>>>>>> origin/gfx
+<fullyQualifiedTypeName name="org.lwjgl.LWJGLUtil"/>
+<fullyQualifiedTypeName name="time.api.util.Util"/>
+<fullyQualifiedTypeName name="time.api.audio.AudioHandler"/>
+<fullyQualifiedTypeName name="time.api.audio.AudioManager"/>
+<fullyQualifiedTypeName name="time.api.audio.Audio"/>
+<fullyQualifiedTypeName name="org.lwjgl.openal.ALDevice"/>
+<fullyQualifiedTypeName name="time.api.input.KeyState"/>
+<fullyQualifiedTypeName name="time.api.input.InputManager"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="time.api.debug.Debug"/>
+<fullyQualifiedTypeName name="time.api.audio.AudioLibrary"/>
 </qualifiedTypeNameHistroy>
