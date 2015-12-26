@@ -166,6 +166,26 @@ public class Transform {
 	
 	/**
 	 * 
+	 * Returns the x component of this transform's scale.
+	 * 
+	 * @return the x component of this transform's scale
+	 */
+	public float getScaleX() {
+		return scale.getX();
+	}
+	
+	/**
+	 * 
+	 * Returns the y component of this transform's scale.
+	 * 
+	 * @return the y component of this transform's scale
+	 */
+	public float getScaleY() {
+		return scale.getY();
+	}
+	
+	/**
+	 * 
 	 * Adds scale to this transform uniformly.
 	 * 
 	 * @param scale - the scale to add
@@ -332,6 +352,26 @@ public class Transform {
 		setX(position.getX());
 		setY(position.getY());
 		return this;
+	}
+	
+	/**
+	 * 
+	 * Returns the x coordinate of this transform.
+	 * 
+	 * @return the x coordinate of this transform
+	 */
+	public float getX() {
+		return pos.getX();
+	}
+	
+	/**
+	 * 
+	 * Returns the y coordinate of this transform.
+	 * 
+	 * @return the y coordinate of this transform
+	 */
+	public float getY() {
+		return pos.getY();
 	}
 	
 	/**

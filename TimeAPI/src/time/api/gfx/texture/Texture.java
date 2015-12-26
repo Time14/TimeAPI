@@ -230,5 +230,50 @@ public class Texture {
 		System.out.println("Destroyed texture with ID: " + id);
 	}
 	
+	//Texture library handling
+	
+	private static final Library<Texture> textureLibrary = new Library<>("TextureLibrary");
+	
+	/**
+	 * 
+	 * Registers a texture to the specified key.
+	 * 
+	 * @param key - the key to register to
+	 * @param texture - the texture to register
+	 */
+	public static final void register(String key, Texture texture) {
+		textureLibrary.put(key, texture);
+	}
+	
+	/**
+	 * 
+	 * Returns the texture with the specified key.
+	 * 
+	 * @param key - the key of the texture
+	 * @return the texture with the specified key
+	 */
+	public static final Texture get(String key) {
+		return textureLibrary.get(key);
+	}
+	
+	/**
+	 * 
+	 * Returns the dynamic texture with the specified key, or null if the texture is not dynamic.
+	 * 
+	 * @param key - the key of the dynamic texture
+	 * @param close - whether or not to clone the dynamic texture
+	 * @return the dynamic texture with the specified key
+	 */
+	public static final DynamicTexture getDT(String key, boolean clone) {
+		if(get(key) instanceof DynamicTexture)
+			return clone ? ((DynamicTexture) get(key)).clone() : (DynamicTexture) get(key);
+		
+		return null;
+	}
+	
 	public static final Texture DEFAULT_TEXTURE = new Texture("res/texture/default_texture.png");
+	
+	static {
+		register("DEFAULT", DEFAULT_TEXTURE);
+	}
 }

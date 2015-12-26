@@ -1,45 +1,64 @@
 package time.api.gfx.gui;
 
 import time.api.gfx.QuadRenderer;
+import time.api.gfx.font.FontRenderer;
+import time.api.gfx.font.FontType;
+import time.api.gfx.texture.DynamicTexture;
 import time.api.gfx.texture.Texture;
+import time.api.physics.Body;
 
 public class Button extends GUIElement {
 	
-	private String label;
-	private float labelSize = 48;
+	private FontRenderer fontRenderer;
 	
 	public Button(float x, float y, float width, float height, Texture texture) {
-		renderer = new QuadRenderer(x, y, width, height, Texture.DEFAULT_TEXTURE);
+		setRenderer(new QuadRenderer(x, y, width, height, texture));
+		body = new Body(transform, width, height);
 	}
 	
+	@Override
 	public void onClick(float x, float y) {}
 	
-	public void onMouseOver(float tick) {}
+	@Override
+	public void onMouseIn() {
+		if(getRenderer().getTexture() instanceof DynamicTexture) {
+			((DynamicTexture)getRenderer().getTexture()).swap(1);
+		}
+	}
 	
-	public void onMouseIn() {}
+	@Override
+	public void onMouseOut() {
+		if(getRenderer().getTexture() instanceof DynamicTexture) {
+			((DynamicTexture)getRenderer().getTexture()).swap(0);
+		}
+	}
 	
-	public void onMouseOut() {}
-	
+	@Override
 	public void onDraw() {
 		renderer.draw();
+		if(fontRenderer != null)
+			fontRenderer.draw();
 	}
 	
-	public void onUpdate(float dt) {
+	@Override
+	public void onUpdate(float dt) {}
+	
+	public Button setFont(String text, FontType font, float size) {
+		return setFont(new FontRenderer(renderer.getX(), renderer.getY(), text, font, size));
+	}
+	
+	public Button setFont(FontRenderer fontRenderer) {
+		this.fontRenderer = fontRenderer;
 		
-	}
-	
-	public Button setLabel(String label) {
-		return setLabel(label, labelSize);
-	}
-	
-	public Button setLabelSize(float labelSize) {
-		this.labelSize = labelSize;
+		fontRenderer.setPosition(
+				renderer.getX() - fontRenderer.getWidth() / 2,
+				renderer.getY() + fontRenderer.getHeight() / 2
+		);
+		
 		return this;
 	}
 	
-	public Button setLabel(String label, float labelSize) {
-		this.label = label;
-		this.labelSize = labelSize;
-		return this;
+	public FontRenderer getFontRenderer() {
+		return fontRenderer;
 	}
 }

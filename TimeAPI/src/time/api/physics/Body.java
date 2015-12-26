@@ -436,7 +436,7 @@ public class Body {
 	 * @return true if the point is contained
 	 */
 	public boolean contains(Vector2f point) {
-		return point.getX() > transform.pos.getX() - dim.getX() / 2 && point.getX() < transform.pos.getX() + dim.getX() /2
+		return point.getX() > transform.pos.getX() - dim.getX() / 2 && point.getX() < transform.pos.getX() + dim.getX() / 2
 				&& point.getY() > transform.pos.getY() - dim.getY() / 2 && point.getY() < transform.pos.getY() + dim.getY() / 2;
 	}
 }

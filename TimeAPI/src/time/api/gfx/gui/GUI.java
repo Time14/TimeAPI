@@ -3,6 +3,8 @@ package time.api.gfx.gui;
 import java.util.ArrayList;
 
 import time.api.Game;
+import time.api.debug.Debug;
+import time.api.math.Vector2f;
 
 public class GUI {
 	
@@ -10,10 +12,22 @@ public class GUI {
 	
 	private Game game;
 	
+	/**
+	 * 
+	 * Creates a new empty graphical user interface.
+	 * 
+	 */
 	public GUI() {
 		guiElements = new ArrayList<>();
 	}
 	
+	/**
+	 * 
+	 * Adds GUI elements to this gui.
+	 * 
+	 * @param elements - the gui elements to add
+	 * @return this GUI instance
+	 */
 	public GUI addElements(GUIElement... elements) {
 		for(GUIElement element : elements) {
 			guiElements.add(element);
@@ -23,17 +37,41 @@ public class GUI {
 		return this;
 	}
 	
-	public GUI click(float x, float y) {
-		
+	/**
+	 * 
+	 * Performs a click event at the specified coordinates.
+	 * 
+	 * @param coords - the coordinates to click at
+	 * @return this GUI instance
+	 */
+	public GUI click(Vector2f coords) {
 		for(GUIElement e : guiElements) {
-			if(e.contains(x, y)) {
-				e.click(x, y);
+			if(e.contains(coords)) {
+				e.click(coords.getX(), coords.getY());
 			}
 		}
 		
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Performs a click event at the specified coordinates.
+	 * 
+	 * @param x - the x coordinate to click at
+	 * @param y - the y coorinate to click at
+	 * @return this GUI instance
+	 */
+	public GUI click(float x, float y) {
+		return click(new Vector2f(x, y));
+	}
+	
+	/**
+	 * 
+	 * Draws all GUI elements.
+	 * 
+	 * @return this GUI instance
+	 */
 	public GUI draw() {
 		
 		for(GUIElement e : guiElements)
@@ -42,10 +80,26 @@ public class GUI {
 		return this;
 	}
 	
-	public GUI update(float tick) {
-		
-		for(GUIElement e : guiElements)
+	/**
+	 * 
+	 * Updates all GUI elements in this GUI.
+	 * 
+	 * @param tick - the time passed since the previous frame
+	 * @param mousePos - the current coordinates of the mouse cursor
+	 * @return this GUI instance
+	 */
+	public GUI update(float tick, Vector2f mousePos) {
+		for(GUIElement e : guiElements) {
+			if(e.contains(mousePos) && !e.mouseOver) {
+				e.mouseIn();
+				e.mouseOver = true;
+			} else if(!e.contains(mousePos) && e.mouseOver) {
+				e.mouseOut();
+				e.mouseOver = false;
+			}
+				
 			e.update(tick);
+		}
 		
 		return this;
 	}
@@ -55,13 +109,19 @@ public class GUI {
 		return (ArrayList<T>) get(type.getClass());
 	}
 	
+	/**
+	 * 
+	 * Returns all currently contained GUI elements of a type as a list.
+	 * 
+	 * @param type - the class of the GUI elements to fetch
+	 * @return the retrieves list
+	 */
 	@SuppressWarnings("unchecked")
 	public <T extends GUIElement> ArrayList<T> get(Class<T> type) {
 		
 		ArrayList<T> result = new ArrayList<>();
 		
 		for(GUIElement e : guiElements) {
-//			Debug.log(e.getClass().getSuperclass().getName(), type);
 			if(e.getClass().getSuperclass() == type)
 				result.add(((T)e));
 		}
