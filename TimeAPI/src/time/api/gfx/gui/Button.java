@@ -1,14 +1,15 @@
 package time.api.gfx.gui;
 
 import time.api.gfx.QuadRenderer;
+import time.api.gfx.font.FontRenderer;
+import time.api.gfx.font.FontType;
 import time.api.gfx.texture.DynamicTexture;
 import time.api.gfx.texture.Texture;
 import time.api.physics.Body;
 
 public class Button extends GUIElement {
 	
-	private String label;
-	private float labelSize = 48;
+	private FontRenderer fontRenderer;
 	
 	public Button(float x, float y, float width, float height, Texture texture) {
 		setRenderer(new QuadRenderer(x, y, width, height, texture));
@@ -35,23 +36,29 @@ public class Button extends GUIElement {
 	@Override
 	public void onDraw() {
 		renderer.draw();
+		if(fontRenderer != null)
+			fontRenderer.draw();
 	}
 	
 	@Override
 	public void onUpdate(float dt) {}
 	
-	public Button setLabel(String label) {
-		return setLabel(label, labelSize);
+	public Button setFont(String text, FontType font, float size) {
+		return setFont(new FontRenderer(renderer.getX(), renderer.getY(), text, font, size));
 	}
 	
-	public Button setLabelSize(float labelSize) {
-		this.labelSize = labelSize;
+	public Button setFont(FontRenderer fontRenderer) {
+		this.fontRenderer = fontRenderer;
+		
+		fontRenderer.setPosition(
+				renderer.getX() - fontRenderer.getWidth() / 2,
+				renderer.getY() + fontRenderer.getHeight() / 2
+		);
+		
 		return this;
 	}
 	
-	public Button setLabel(String label, float labelSize) {
-		this.label = label;
-		this.labelSize = labelSize;
-		return this;
+	public FontRenderer getFontRenderer() {
+		return fontRenderer;
 	}
 }

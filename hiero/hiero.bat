@@ -6,6 +6,6 @@ color 0a
 
 cls
 
-java -jar hiero.jar
+java -jar hiero3.1.jar
 
 pause

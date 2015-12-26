@@ -93,6 +93,15 @@ public class OrthographicShaderProgram extends ShaderProgram {
 		return new float[]{left, right, bottom, top};
 	}
 	
+	/**
+	 * 
+	 * Returns the current clipspace coordinates of the mouse cursor relative to the current orthographic projection.
+	 * 
+	 * @param window - the window to get the mouse coordinates from
+	 * @param windowWidth - the width of the window in pixels
+	 * @param windowHeight - the height of the window in pixels
+	 * @return the converted coordinates
+	 */
 	public final Vector2f getMouseClipspaceCoordinates(long window, int windowWidth, int windowHeight) {
 		
 		DoubleBuffer bufferX = Util.createDoubleBuffer(1);
@@ -102,17 +111,16 @@ public class OrthographicShaderProgram extends ShaderProgram {
 		
 		double x = bufferX.get();
 		double y = bufferY.get();
-		
 		x /= windowWidth;
 		y /= windowHeight;
 		
 		x *= right - left;
-		y *= top - bottom;
+		y *= bottom - top;
 		
 		x += left;
-		y += bottom;
+		y += top - bottom;
 		
-		return new Vector2f((float)x, (float)-y);
+		return new Vector2f((float)x, (float)y);
 	}
 	
 	static {

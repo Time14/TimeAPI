@@ -31,22 +31,24 @@ public final class InputManager {
 	static private HashMap<String, String> scanMap = new HashMap<String, String>();
 	static private HashMap<String, KeyState> states = new HashMap<String, KeyState>();
 	
+	private static boolean useSaveFile = false;
+	
 	/**
 	 * Updates the inputs, changes all Pressed and Released states to Down and Up.
 	 * This method should be called at the end of the main loop
 	 * 
 	 */
-	public static void update() {
+	public static final void update() {
 		Object[] keys = states.keySet().toArray();
 		for(Object key : keys) {
-			if (states.get(key.toString()) == KeyState.Pressed)
-				states.put(key.toString(), KeyState.Down);
-			if (states.get(key.toString()) == KeyState.Released)
-				states.put(key.toString(),  KeyState.Up);
+			if (states.get(key.toString()) == KeyState.PRESSED)
+				states.put(key.toString(), KeyState.DOWN);
+			if (states.get(key.toString()) == KeyState.RELEASED)
+				states.put(key.toString(),  KeyState.UP);
 		}
 	}
 	
-	public static void rebind(String name) {
+	public static final void rebind(String name) {
 		if (states.containsKey(name)) {
 			rebind = name;
 		} else {
@@ -58,15 +60,22 @@ public final class InputManager {
 	 * Loads all the key bindings from the keybindings.keys file 
 	 * and generates virtual keys for them. 
 	 */
-	public static void loadInputs() {
-		try {
-			File file = new File(SAVE_DIRECTORY);
-			if (!file.exists()) {
+	public static final void loadInputs() {
+		
+		if(!useSaveFile)
+			return;
+		
+		File file = new File(SAVE_DIRECTORY);
+		if (!file.exists()) {
+			try {
 				file.createNewFile();
-				return;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			return;
+		}
+		
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			
 			while (reader.ready()) {
 				String line = reader.readLine();
@@ -74,10 +83,10 @@ public final class InputManager {
 				//Make sure the input is correct.
 				if (line.matches(KEY_LINE_REGEX)) {
 					String[] split = line.split("-");
-					addKey(split[0], split[1]);
+					registerKey(split[0], split[1]);
 				} else if (line.matches(SCAN_LINE_REGEX)){
 					String[] split = line.split("-");
-					addScan(split[0], split[1]);
+					registerScan(split[0], split[1]);
 				}
 				
 			}
@@ -90,7 +99,11 @@ public final class InputManager {
 	/**
 	 * Writes all the current virtual keys to a file for storage
 	 */
-	public static void saveInputs() {
+	public static final void saveInputs() {
+		
+		if(!useSaveFile)
+			return;
+		
 		BufferedWriter output = null;
 		try {
 			File file = new  File(SAVE_DIRECTORY);
@@ -150,7 +163,7 @@ public final class InputManager {
 	 * @param mods - the modifiers that are held too. E.g. shift or alt
 	 * @param action - the id of the action that happened, a constant passed in by GLFW
 	 */
-	public static void updateInput(int key, int scan, int mods, int action) {
+	public static final void updateInput(int key, int scan, int mods, int action) {
 
 		if (action == GLFW.GLFW_REPEAT) return;
 		
@@ -159,7 +172,7 @@ public final class InputManager {
 		
 		//Check if anything needs rebinding
 		if (action == GLFW.GLFW_RELEASE && rebind != "") {
-			addScan(refScan, rebind);
+			registerScan(refScan, rebind);
 			Debug.log("Key: " + key + "\t" + (char)(key));
 			Debug.log("Scan: " + scan + "\t" + (char)(scan));
 			rebind = "";
@@ -169,9 +182,9 @@ public final class InputManager {
 		if (keyMap.containsKey(refKey)) {
 			if (states.containsKey(keyMap.get(refKey))) {
 				if (action == GLFW.GLFW_PRESS)
-					states.put(keyMap.get(refKey), KeyState.Pressed);
+					states.put(keyMap.get(refKey), KeyState.PRESSED);
 				else if (action == GLFW.GLFW_RELEASE)
-					states.put(keyMap.get(refKey), KeyState.Released);
+					states.put(keyMap.get(refKey), KeyState.RELEASED);
 			} else {
 				keyMap.remove(refScan);
 			}
@@ -180,9 +193,9 @@ public final class InputManager {
 		if (scanMap.containsKey(refScan)) {
 			if (states.containsKey(scanMap.get(refScan))) {
 				if (action == GLFW.GLFW_PRESS)
-					states.put(scanMap.get(refScan), KeyState.Pressed);
+					states.put(scanMap.get(refScan), KeyState.PRESSED);
 				else if (action == GLFW.GLFW_RELEASE)
-					states.put(scanMap.get(refScan), KeyState.Released);
+					states.put(scanMap.get(refScan), KeyState.RELEASED);
 			} else {
 				scanMap.remove(refScan);
 			}
@@ -194,7 +207,7 @@ public final class InputManager {
 	 * 
 	 * @param name - the name of the virtual key.
 	 */
-	public static void removeKey(String name) {
+	public static final void removeKey(String name) {
 		
 		states.remove(name);
 	}
@@ -205,8 +218,63 @@ public final class InputManager {
 	 * @param name - the name of the virtual key.
 	 * @return - the current KeyState of the key.
 	 */
-	public static KeyState getKey(String name) {
+	public static final KeyState getKeyState(String name) {
 		return states.get(name);
+	}
+	
+	/**
+	 * 
+	 * Compares a key with a key state.
+	 * 
+	 * @param key - the name of the key
+	 * @param keyState - the key state
+	 */
+	public static final boolean checkState(String key, KeyState keyState) {
+		return getKeyState(key) == keyState;
+	}
+	
+	/**
+	 * 
+	 * Returns whether or not the specified key was pressed this frame.
+	 * 
+	 * @param key - the name of the key
+	 * @return true if the key was pressed
+	 */
+	public static final boolean wasPressed(String key) {
+		return checkState(key, KeyState.PRESSED);
+	}
+	
+	/**
+	 * 
+	 * Returns whether or not the specified key was released this frame.
+	 * 
+	 * @param key - the name of the key
+	 * @return true if the key was released
+	 */
+	public static final boolean wasReleased(String key) {
+		return checkState(key, KeyState.RELEASED);
+	}
+	
+	/**
+	 * 
+	 * Checks if the specified key is being held down.
+	 * 
+	 * @param key - the name of the key
+	 * @return true if the key is currently being held down
+	 */
+	public static final boolean isDown(String key) {
+		return checkState(key, KeyState.DOWN);
+	}
+	
+	/**
+	 * 
+	 * Checks if the specified key is not being held down.
+	 * 
+	 * @param key - the name of the key
+	 * @return true if the key is currently not being held down
+	 */
+	public static final boolean isUp(String key) {
+		return checkState(key, KeyState.UP);
 	}
 
 	/**
@@ -215,8 +283,8 @@ public final class InputManager {
 	 * @param mods - the mods for the virtual key, e.g shift or alt.
 	 * @param name - the name of the virtual key.
 	 */
-	public static void addScan(int scan, int mods, String name) {
-		addScan(scan + "$" + mods, name);
+	public static final void registerScan(int scan, int mods, String name) {
+		registerScan(scan + "$" + mods, name);
 	}
 	
 	/**
@@ -224,10 +292,10 @@ public final class InputManager {
 	 * @param key - the completed string for a virtual key using scan codes.
 	 * @param name - the name of the virtual key.
 	 */
-	public static void addScan(String key, String name) {
+	public static final void registerScan(String key, String name) {
 		
 		scanMap.put(key, name);
-		states.put(name, KeyState.Up);
+		states.put(name, KeyState.UP);
 		
 	}
 	
@@ -237,8 +305,8 @@ public final class InputManager {
 	  * @param mods - the mods for the virtual key, e.g shift or alt.
 	  * @param name - the name of the virtual key.
 	  */
-	public static void addKey(int key, int mods, String name) {
-		addKey(key + "#" + mods, name);
+	public static final void registerKey(int key, int mods, String name) {
+		registerKey(key + "#" + mods, name);
 	}
 	
 	/**
@@ -246,10 +314,20 @@ public final class InputManager {
 	 * @param key - the completed string for a virtual key using key codes.
 	 * @param name - the name of the virtual key.
 	 */
-	public static void addKey(String key, String name) {
+	public static final void registerKey(String key, String name) {
 		
 		keyMap.put(key, name);
-		states.put(name, KeyState.Up);
+		states.put(name, KeyState.UP);
 		
+	}
+	
+	/**
+	 * 
+	 * Sets whether or not to use a save file.
+	 * 
+	 * @param useSaveFile - true if you wish to use a save file
+	 */
+	public static final void useSaveFile(boolean useSaveFile) {
+		InputManager.useSaveFile = useSaveFile;
 	}
 }
