@@ -8,8 +8,14 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="setValue"/>
-			<item value="window"/>
+			<item value="set"/>
+			<item value="get"/>
+			<item value="update"/>
+			<item value="game"/>
+			<item value="width"/>
+			<item value="contains"/>
+			<item value="transform"/>
+			<item value="ClientPacket"/>
 		</list>
 		<list key="replacehistory">
 			<item value="set"/>

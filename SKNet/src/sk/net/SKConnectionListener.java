@@ -11,9 +11,9 @@ class SKConnectionListener implements Runnable {
 	
 	/**
 	 * 
-	 * Supplies the connection listener with the essential information required before the thread is run.
+	 * Constructs a new connection listener for accepting connections.
 	 * 
-	 * @param server the {@link SKServer} associated with this connection listener.
+	 * @param server - the server associated with this connection listener
 	 */
 	protected SKConnectionListener(SKServer server) {
 		this.server = server;
@@ -22,7 +22,7 @@ class SKConnectionListener implements Runnable {
 	
 	/**
 	 * 
-	 * Starts accepting client connections for this server. Called from the {@link SKServer#start()} method.
+	 * Starts accepting client connections to this server. Called from the {@link SKServer#start()} method.
 	 * 
 	 */
 	@Override

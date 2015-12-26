@@ -1,90 +1,26 @@
-package sk.client.gfx.gui;
+package time.api.gfx.gui;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
-import sk.client.debug.Debug;
-import sk.client.gfx.texture.DynamicTexture;
-import sk.client.gfx.texture.Texture;
-import sk.client.renderer.QuadRenderer;
-import sk.client.renderer.TextRenderer;
-import sk.client.util.Util;
-import sk.stb.STB;
+import time.api.gfx.texture.Texture;
 
 public class InputBox extends Selectable {
 	
 	protected String text = new String();
 	protected float textCap = 0;
 	
-	public InputBox(float x, float y, float width, float height, Texture texture) {
-		renderer = new QuadRenderer(x, y, width, height, false, texture);
-		STB.start("InputBox Mark", 2f);
-	}
+	public InputBox(float x, float y, float width, float height, Texture texture) {}
 	
-	public void onKeyboard(int key, boolean pressed) {
-		if(selected && pressed) {
-			if(pressed) {
-				if(Util.isPrintable(Keyboard.getEventCharacter())) {
-					if(TextRenderer.getWidth(text + Keyboard.getEventCharacter()) <= getWidth())
-						text += Keyboard.getEventCharacter();
-				}
-				
-				switch(key) {
-				case Keyboard.KEY_BACK:
-					if(text.length() > 0)
-						text = text.substring(0, text.length() - 1);
-					break;
-				case Keyboard.KEY_RETURN:
-					if(selected)
-						selected = false;
-					break;
-				}
-			}
-		}
-		
-		super.onKeyboard(key, pressed);
-	}
+	@Override
+	public void onUpdate(float tick) {}
 	
-	public void update(float tick) {
-		super.update(tick);
-		STB.update(tick / 1000f, "InputBox Mark");
-		if(STB.done("InputBox Mark"))
-			STB.reset("InputBox Mark");
-	}
+	@Override
+	public void onClick(float x, float y) {}
 	
-	public void onClick(float x, float y) {
-		selected = !selected;
-		for(InputBox e : gui.get(InputBox.class)) {
-			if(e != this)
-				e.setSelected(false);
-		}
-	}
-	
-	public void draw() {
-		if(renderer.getTexture() instanceof DynamicTexture) {
-			if(selected) {
-				((DynamicTexture)renderer.getTexture()).swap(1);
-				renderer.draw();
-				((DynamicTexture)renderer.getTexture()).swap(0);
-				Debug.log(STB.getDuration("InputBox Mark"));
-				if(STB.getCount("InputBox Mark") >= 1f) {
-					GL11.glPushMatrix();
-					{
-						GL11.glTranslatef(getX() + TextRenderer.getWidth(text), getY(), 0);
-						GL11.glBegin(GL11.GL_LINES);
-						{
-							GL11.glVertex2f(0, getHeight() * 0.15f);
-							GL11.glVertex2f(0, getHeight() - getHeight() * 0.15f);
-						}
-						GL11.glEnd();
-					}
-					GL11.glPopMatrix();
-				}
-			} else {
-				renderer.draw();
-			}
-			TextRenderer.setSize(getHeight());
-			TextRenderer.draw(text, renderer.getX(), renderer.getY());
-		}
-	}
+	@Override
+	public void onDraw() {}
+
+	@Override
+	public void onMouseIn() {}
+
+	@Override
+	public void onMouseOut() {}
 }

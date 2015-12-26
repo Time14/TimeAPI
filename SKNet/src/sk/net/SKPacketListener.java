@@ -5,29 +5,31 @@ public interface SKPacketListener {
 	
 	/**
 	 * 
-	 * Called when an {@link SKPacket} is received from either a client or server.
+	 * Called when an {@link SKPacket} is received.
 	 * 
-	 * @param connection the {@link SKConnection} from which the packet was received.
-	 * @param packet the received packet.
+	 * @param connection - the {@link SKConnection} from which the packet was received
+	 * @param packet - the received packet
 	 */
 	public void received(SKConnection connection, SKPacket packet);
 	
 	
 	/**
 	 * 
-	 * Called when a new connection to either a client or server is established.
+	 * Called when a new connection is established.
 	 * 
-	 * @param connection the new connection established.
+	 * @param connection - the new connection
 	 */
 	public void connected(SKConnection connection);
 	
 	
 	/**
 	 * 
-	 * Called when a client is disconnected from the server.
+	 * Called when a connection is closed.
 	 * 
-	 * @param connection the closed connection.
+	 * @param connection - the closed connection
+	 * @param local - true if the disconnection was fired locally
+	 * @param msg - the disconnection message
 	 */
-	public void disconnected(SKConnection connection);
+	public void disconnected(SKConnection connection, boolean local, String msg);
 	
 }

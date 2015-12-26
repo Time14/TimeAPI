@@ -11,14 +11,6 @@ public class ServerListener implements SKPacketListener {
 	public void received(SKConnection connection, SKPacket packet) {
 		if(packet instanceof SKPacketMSG) {
 			System.out.println("Client " + connection.getID() + ": " + ((SKPacketMSG)packet).MSG);
-			try {
-				Thread.sleep(1000);
-				connection.sendPacket(new SKPacketMSG("pong"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -28,7 +20,7 @@ public class ServerListener implements SKPacketListener {
 	}
 
 	@Override
-	public void disconnected(SKConnection connection) {
+	public void disconnected(SKConnection connection, boolean local, String msg) {
 		System.out.println("Client " + connection.getID() + " disconnected");
 	}
 	

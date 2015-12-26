@@ -1,53 +1,36 @@
-package sk.client.gfx.gui;
+package time.api.gfx.gui;
 
-import sk.client.util.Util;
-
-public class Selectable extends GUIElement {
+public abstract class Selectable extends GUIElement {
 	
 	protected boolean selected = false;
 	
-	public void onClick(float x, float y) {
-		
-	}
+	private GUIEvent selectEvent;
+	private GUIEvent unselectEvent;
 	
-	public void onMouseOver(float tick) {
-		
-	}
-	
-	public void onMouseIn() {
-		
-	}
-	
-	public void onMouseOut() {
-		
-	}
-	
-	public void update(float tick) {
-		if (active && updating) {
-			if (isMouseOver) {
-				onMouseOver(tick);
-				if (!contains(Util.getRelativeMX(), Util.getRelativeMY())) {
-					onMouseOut();
-					isMouseOver = false;
-				}
-			} else {
-				if (contains(Util.getRelativeMX(), Util.getRelativeMY())) {
-					onMouseIn();
-					isMouseOver = true;
-				}
-			}
-			
-			onUpdate(tick);
-		}
-	}
-	
-	public Selectable setSelected(boolean selected) {
+	public Selectable select(boolean selected) {
 		this.selected = selected;
+		
+		if(selected && selectEvent != null)
+			selectEvent.fire();
+		else if(!selected && unselectEvent != null)
+			unselectEvent.fire();
+		
+		return this;
+	}
+	
+	public final Selectable setSelectEvent(GUIEvent e) {
+		selectEvent = e;
+		
+		return this;
+	}
+	
+	public final Selectable setUnselectEvent(GUIEvent e) {
+		unselectEvent = e;
+		
 		return this;
 	}
 	
 	public boolean isSelected() {
 		return selected;
 	}
-	
 }

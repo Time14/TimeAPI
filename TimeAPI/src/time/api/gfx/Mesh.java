@@ -23,6 +23,7 @@ public class Mesh {
 	private IntBuffer vbos;
 	
 	private int mode = GL11.GL_TRIANGLES;
+	private int usage;
 	
 	/**
 	 * 
@@ -40,27 +41,55 @@ public class Mesh {
 	 * @param indices - the indices of this mesh
 	 */
 	public Mesh(Vertex[] vertices, int... indices) {
-		createMesh(vertices, indices);
+		createMesh(GL15.GL_STATIC_DRAW, vertices, indices);
+	}
+	
+	/**
+	 * 
+	 * Creates a new Mesh with the provided vertices and indices. If no indices are specified, this mesh will not be indexed.
+	 * 
+	 * @param usage - the expected usage pattern of the data store. One of: GL_STREAM_DRAW, GL_STREAM_READ, GL_STREAM_COPY, GL_STATIC_DRAW, GL_STATIC_READ, GL_STATIC_COPY, GL_DYNAMIC_DRAW, GL_DYNAMIC_READ, or GL_DYNAMIC_COPY
+	 * @param vertices - the vertices of this mesh
+	 * @param indices - the indices of this mesh
+	 */
+	public Mesh(int usage, Vertex[] vertices, int... indices) {
+		createMesh(usage, vertices, indices);
+	}
+	
+	/**
+	 * 
+	 * Creates a new empty mesh. This mesh will not contain any vertices or indices. This will only generate a VAO.
+	 * 
+	 * @return this mesh instance
+	 */
+	public Mesh createEmpty() {
+		vao = GL30.glGenVertexArrays();
+		created = true;
+		
+		return this;
 	}
 	
 	/**
 	 * 
 	 * Generates a new mesh if not yet created. If no indices are specified, this mesh will not be indexed.
 	 * 
+	 * @param usage - the expected usage pattern of the data store. One of: GL_STREAM_DRAW, GL_STREAM_READ, GL_STREAM_COPY, GL_STATIC_DRAW, GL_STATIC_READ, GL_STATIC_COPY, GL_DYNAMIC_DRAW, GL_DYNAMIC_READ, or GL_DYNAMIC_COPY
 	 * @param vertices - the vertices of this mesh
 	 * @param indices - the indices of this mesh
 	 * @throws IllegalStateException if a mesh has already been generated for this instance
 	 */
-	public void createMesh(Vertex[] vertices, int... indices) {
+	public void createMesh(int usage, Vertex[] vertices, int... indices) {
 		if(created)
 			throw new IllegalStateException("Mesh (VAO: " + vao + ") is already created.");
+		
+		this.usage = usage;
 		
 		program = vertices[0].getShaderProgram();
 		
 		vao = GL30.glGenVertexArrays();
 		GL30.glBindVertexArray(vao);
 		
-		vbos = program.initAttributes(vertices, GL15.GL_STATIC_DRAW);
+		vbos = program.initAttributes(vertices, usage);
 		
 		if(indices.length > 0) {
 			IntBuffer iboData = Util.createIntBuffer(indices.length);
@@ -71,7 +100,7 @@ public class Mesh {
 			
 			ibo = GL15.glGenBuffers();
 			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
-			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, iboData, GL15.GL_STATIC_DRAW);
+			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, iboData, usage);
 		}
 		
 		GL30.glBindVertexArray(0);
@@ -80,6 +109,47 @@ public class Mesh {
 		indexCount = indices.length;
 		
 		created = true;
+	}
+	
+	/**
+	 * 
+	 * Reallocates this mesh. If no indices are specified, this mesh will not be indexed.
+	 * 
+	 * @param usage - the expected usage pattern of the data store. One of: GL_STREAM_DRAW, GL_STREAM_READ, GL_STREAM_COPY, GL_STATIC_DRAW, GL_STATIC_READ, GL_STATIC_COPY, GL_DYNAMIC_DRAW, GL_DYNAMIC_READ, or GL_DYNAMIC_COPY
+	 * @param vertices - the vertices of this mesh
+	 * @param indices - the indices of this mesh
+	 * @throws IllegalStateException if this mesh has not previously been allocated
+	 */
+	public void reallocateData(int usage, Vertex[] vertices, int... indices) {
+		if(!created)
+			throw new IllegalStateException("Cannot reallocate unallocated data");
+		
+		if(vbos != null)
+			GL15.glDeleteBuffers(vbos);
+		
+		GL30.glBindVertexArray(vao);
+		
+		program = vertices[0].getShaderProgram();
+		
+		vbos = program.initAttributes(vertices, usage);
+		
+		ibo = 0;
+		if(indices.length > 0) {
+			IntBuffer iboData = Util.createIntBuffer(indices.length);
+			
+			iboData.put(indices);
+			
+			iboData.flip();
+			
+			ibo = GL15.glGenBuffers();
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
+			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, iboData, usage);
+		}
+		
+		GL30.glBindVertexArray(0);
+		
+		vertexCount = vertices.length;
+		indexCount = indices.length;
 	}
 	
 	/**
@@ -131,4 +201,13 @@ public class Mesh {
 		return program;
 	}
 	
+	/**
+	 * 
+	 * Destroys all buffers associated with this mesh.
+	 * 
+	 */
+	public void destroy() {
+		GL15.glDeleteBuffers(vbos);
+		GL15.glDeleteBuffers(vao);
+	}
 }

@@ -17,9 +17,9 @@ public class Matrix4f {
 	
 	/**
 	 * 
+	 * Sets all the values within this matrix to 0
 	 * 
-	 * 
-	 * @return this Matrix4f instance
+	 * @return this matrix instance
 	 */
 	public Matrix4f clear() {
 		for(int i = 0; i < 16; i++) {
@@ -29,6 +29,12 @@ public class Matrix4f {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Loads the identity matrix.
+	 * 
+	 * @return this matrix instance
+	 */
 	public Matrix4f loadIdentity() {
 		clear();
 		
@@ -40,6 +46,13 @@ public class Matrix4f {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Multiplies this matrix with the specified right one.
+	 * 
+	 * @param right - the right matrix to multiply with
+	 * @return this matrix instance
+	 */
 	public Matrix4f multiply(Matrix4f right) {
 		float[] result = new float[16];
 		
@@ -55,10 +68,24 @@ public class Matrix4f {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Translates this matrix with the specified vector.
+	 * 
+	 * @param vec2 - the vector to translate with
+	 * @return this matrix instance
+	 */
 	public Matrix4f translate(Vector2f vec2) {
 		return translate(new Vector3f(vec2.getX(), vec2.getY(), 0));
 	}
 	
+	/**
+	 * 
+	 * Translates this matrix with the specified vector.
+	 * 
+	 * @param vec3 - the vector to translate with
+	 * @return this matrix instance
+	 */
 	public Matrix4f translate(Vector3f vec3) {
 		matrix[0 + 3 * 4] += vec3.getX();
 		matrix[1 + 3 * 4] += vec3.getY();
@@ -67,10 +94,25 @@ public class Matrix4f {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Returns the value from the specified coordinates.
+	 * 
+	 * @param column - the column to get the value from
+	 * @param row - the row to get the value from
+	 * @return the value from the specified coordinates
+	 */
 	public float get(int column, int row) {
 		return matrix[row + column * 4];
 	}
 	
+	/**
+	 * 
+	 * Rotates this matrix on the z-axis.
+	 * 
+	 * @param angle - the angle specified in degrees
+	 * @return this matrix instance
+	 */
 	public Matrix4f rotate(float angle) {
 		
 		float r = (float)Math.toRadians(angle);
@@ -85,12 +127,26 @@ public class Matrix4f {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Scales this matrix with the specified vector.
+	 * 
+	 * @param scale - the vector to scale with
+	 * @return this matrix instance
+	 */
 	public Matrix4f scale(Vector2f scale) {
 		matrix[0 + 0 * 4] *= scale.getX();
 		matrix[1 + 1 * 4] *= scale.getY();
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Scales this matrix with the specified vector
+	 * 
+	 * @param scale - the vector to scale with
+	 * @return this matrix instance
+	 */
 	public Matrix4f scale(Vector3f scale) {
 		matrix[0 + 0 * 4] *= scale.getX();
 		matrix[1 + 1 * 4] *= scale.getY();
@@ -98,22 +154,50 @@ public class Matrix4f {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sets all values of this matrix to the specified array. The length of the array must be 4*4.
+	 * 
+	 * @param values - the array to use for this matrix
+	 * @return this matrix instance
+	 */
 	public Matrix4f init(float[] values) {
 		matrix = values;
 		
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Sets a value to the specified matrix coordinates.
+	 * 
+	 * @param column - the column to set the value on
+	 * @param row - the row to set the value on
+	 * @param value - the value to be set
+	 * @return this matrix instance
+	 */
 	public Matrix4f set(int column, int row, float value) {
 		matrix[column*4+row] = value;
 		
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Returns a float array with this matrix' values.
+	 * 
+	 * @return a float array with this matrix' values
+	 */
 	public float[] toFloatArray() {
 		return matrix;
 	}
 	
+	/**
+	 * 
+	 * Returns a representative string of this matrix.
+	 * 
+	 * @return a representative string ot this matrix
+	 */
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		
@@ -129,6 +213,12 @@ public class Matrix4f {
 		return str.toString();
 	}
 	
+	/**
+	 * 
+	 * Returns the identity matrix.
+	 * 
+	 * @return the identity matrix
+	 */
 	public static final Matrix4f IDENTITY() {
 		return new Matrix4f().loadIdentity();
 	}

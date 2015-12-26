@@ -5,7 +5,9 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
+import sk.net.SKClient;
 import time.api.gamestate.GameStateManager;
+import time.api.input.InputManager;
 import time.api.util.Time;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -107,7 +109,8 @@ public class Game {
 		
 		//Displays window
 		glfwShowWindow(window);
-				
+		
+		InputManager.loadInputs();		
 	}
 	
 	/**
@@ -139,6 +142,8 @@ public class Game {
 			Time.update();
 			GameStateManager.update(Time.getDelta());
 		}
+		
+		InputManager.saveInputs();
 	}
 	
 	/**
@@ -149,6 +154,26 @@ public class Game {
 	 */
 	public long getWindow() {
 		return window;
+	}
+	
+	/**
+	 * 
+	 * Returns the window width.
+	 * 
+	 * @return the window width
+	 */
+	public int getWindowWidth() {
+		return width;
+	}
+	
+	/**
+	 * 
+	 * Returns the window height.
+	 * 
+	 * @return the window height
+	 */
+	public int getWindowHeight() {
+		return height;
 	}
 	
 	/**
