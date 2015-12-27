@@ -47,6 +47,30 @@ public abstract class GUIElement extends Entity {
 		return this;
 	}
 	
+	//Key press
+	
+	/**
+	 * 
+	 * Performs a key trigger event on this GUI element.
+	 * 
+	 * @param key - the triggered key
+	 * @param mods - the triggered key's mods
+	 * @param action - the action that triggered the key
+	 */
+	protected final void triggerKey(int key, int mods, int action) {
+		onKeyTrigger(key, mods, action);
+	}
+	
+	/**
+	 * 
+	 * Called when a key trigger event is simulated.
+	 * 
+	 * @param key - the triggered key
+	 * @param mods - the triggered key's mods
+	 * @param action - the action that triggered the key
+	 */
+	public abstract void onKeyTrigger(int key, int mods, int action);
+	
 	//On mouse in
 	
 	private GUIEvent mouseInEvent;

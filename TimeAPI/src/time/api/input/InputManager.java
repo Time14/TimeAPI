@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import org.lwjgl.glfw.GLFW;
 import org.omg.Messaging.SyncScopeHelper;
 
 import time.api.debug.Debug;
+import time.api.input.KeyState.MetaState;
 
 public final class InputManager {
 
@@ -26,10 +28,17 @@ public final class InputManager {
 	private static final String KEY_LINE_REGEX = "[\\d]+[#][\\d]{1}[-]{1}[\\w]+";
 	private static final String SCAN_LINE_REGEX = "[\\d]+[#][\\d]{1}[-]{1}[\\w]+";
 	
-	static private String rebind = "";
-	static private HashMap<String, String> keyMap = new HashMap<String, String>();
-	static private HashMap<String, String> scanMap = new HashMap<String, String>();
-	static private HashMap<String, KeyState> states = new HashMap<String, KeyState>();
+	private static String rebind = "";
+	private static HashMap<String, String> keyMap = new HashMap<>();
+	private static HashMap<String, String> scanMap = new HashMap<>();
+	private static HashMap<String, KeyState> states = new HashMap<>();
+	private static HashMap<String, MetaState> metaStates = new HashMap<>();
+	
+	private static PriorityQueue<Integer> charQueue = new PriorityQueue<>();
+	
+	private static String latestKey;
+	private static KeyState latestKeyState;
+	private static MetaState latestMetaState;
 	
 	private static boolean useSaveFile = false;
 	
@@ -45,6 +54,8 @@ public final class InputManager {
 				states.put(key.toString(), KeyState.DOWN);
 			if (states.get(key.toString()) == KeyState.RELEASED)
 				states.put(key.toString(),  KeyState.UP);
+			if(metaStates.get(key.toString()) == MetaState.DELAYED)
+				metaStates.put(key.toString(), MetaState.NONE);
 		}
 	}
 	
@@ -164,11 +175,18 @@ public final class InputManager {
 	 * @param action - the id of the action that happened, a constant passed in by GLFW
 	 */
 	public static final void updateInput(int key, int scan, int mods, int action) {
-
-		if (action == GLFW.GLFW_REPEAT) return;
 		
 		String refKey = key + "#" + mods;
 		String refScan = scan + "$" + mods;
+		
+		String keyName = getKeyName(key, scan, mods);
+		
+		if(action == GLFW.GLFW_REPEAT) {
+			metaStates.put(keyName, MetaState.DELAYED);
+			return;
+		} else if(checkMetaState(keyName, MetaState.DELAYED)) {
+			metaStates.put(keyName, MetaState.NONE);
+		}
 		
 		//Check if anything needs rebinding
 		if (action == GLFW.GLFW_RELEASE && rebind != "") {
@@ -179,27 +197,97 @@ public final class InputManager {
 			return;
 		}
 		
-		if (keyMap.containsKey(refKey)) {
-			if (states.containsKey(keyMap.get(refKey))) {
-				if (action == GLFW.GLFW_PRESS)
-					states.put(keyMap.get(refKey), KeyState.PRESSED);
-				else if (action == GLFW.GLFW_RELEASE)
-					states.put(keyMap.get(refKey), KeyState.RELEASED);
-			} else {
-				keyMap.remove(refScan);
-			}
+		if(states.containsKey(keyName)) {
+			if (action == GLFW.GLFW_PRESS)
+				states.put(keyName, KeyState.PRESSED);
+			else if (action == GLFW.GLFW_RELEASE)
+				states.put(keyName, KeyState.RELEASED);
+		} else {
+			keyMap.remove(refKey);
+			scanMap.remove(refScan);
 		}
+	}
+	
+	/**
+	 * 
+	 * Gets the registered name from the specified key info.
+	 * 
+	 * @param key - the key code to check
+	 * @param scan - the scan code to check
+	 * @param mods - the mods to check
+	 * @return the key name
+	 */
+	private static final String getKeyName(int key, int scan, int mods) {
 		
-		if (scanMap.containsKey(refScan)) {
-			if (states.containsKey(scanMap.get(refScan))) {
-				if (action == GLFW.GLFW_PRESS)
-					states.put(scanMap.get(refScan), KeyState.PRESSED);
-				else if (action == GLFW.GLFW_RELEASE)
-					states.put(scanMap.get(refScan), KeyState.RELEASED);
-			} else {
-				scanMap.remove(refScan);
-			}
+		String refKey = key + "#" + mods;
+		String refScan = scan + "$" + mods;
+		
+		if(scanMap.containsKey(refScan)) {
+			return scanMap.get(refScan);
+		} else if(keyMap.containsKey(refKey)) {
+			return keyMap.get(refKey);
+		} else {
+			return null;
 		}
+	}
+	
+	/**
+	 * 
+	 * Adds a char to the text input queue.
+	 * 
+	 * @param codepoint - the unicode value of the char to add
+	 */
+	public static final void queueChar(int codepoint) {
+		charQueue.add(codepoint);
+	}
+	
+	/**
+	 * 
+	 * Adds a char to the text input queue.
+	 * 
+	 * @param c - the char value to add
+	 */
+	public static final void queueChar(char c) {
+		charQueue.add(Character.getNumericValue(c));
+	}
+	
+	/**
+	 * 
+	 * Polls a char from the text input queue.
+	 * 
+	 * @return the polled char
+	 */
+	public static final char nextChar() {
+		return Character.toChars(charQueue.poll())[0];
+	}
+	
+	/**
+	 * 
+	 * Polls a char from the text input queue as a unicode code point.
+	 * 
+	 * @return the polled unicode code point
+	 */
+	public static final int nextCharUnicode() {
+		return charQueue.poll();
+	}
+	
+	/**
+	 * 
+	 * Returns whether or not the text input queue has content left.
+	 * 
+	 * @return true if the text input queue is not empty
+	 */
+	public static final boolean hasNextChar() {
+		return !charQueue.isEmpty();
+	}
+	
+	/**
+	 * 
+	 * Completely empties the text input queue from all chars.
+	 * 
+	 */
+	public static final void clearCharQueue() {
+		charQueue.clear();
 	}
 	
 	/**
@@ -223,14 +311,37 @@ public final class InputManager {
 	}
 	
 	/**
+	 * Fetches the @see  MetaState of virtual key at this moment in time.
+	 * 
+	 * @param name - the name of the virtual key
+	 * @return the current MetaState of the key
+	 */
+	public static final MetaState getMetaState(String name) {
+		return metaStates.get(name);
+	}
+	
+	/**
 	 * 
 	 * Compares a key with a key state.
 	 * 
 	 * @param key - the name of the key
 	 * @param keyState - the key state
+	 * @return true if the key had the specified key state
 	 */
 	public static final boolean checkState(String key, KeyState keyState) {
 		return getKeyState(key) == keyState;
+	}
+	
+	/**
+	 * 
+	 * Compares a key with a meta state.
+	 * 
+	 * @param key - the name of the key
+	 * @param metaState - the meta state
+	 * @return true if the key had the specified meta state
+	 */
+	public static final boolean checkMetaState(String key, MetaState metaState) {
+		return getMetaState(key) == metaState;
 	}
 	
 	/**
@@ -276,6 +387,19 @@ public final class InputManager {
 	public static final boolean isUp(String key) {
 		return checkState(key, KeyState.UP);
 	}
+	
+	/**
+	 * 
+	 * Checks if the specified key has been down for a while.
+	 * <p>
+	 * Generally what you would expect from text input.
+	 * 
+	 * @param key - the name of the key
+	 * @return true if the key has been held down for a while
+	 */
+	public static final boolean isDownDelay(String key) {
+		return checkState(key, KeyState.DOWN) && checkMetaState(key, MetaState.DELAYED);
+	}
 
 	/**
 	 * Adds a scan input to the virtual key hash map.
@@ -296,6 +420,7 @@ public final class InputManager {
 		
 		scanMap.put(key, name);
 		states.put(name, KeyState.UP);
+		metaStates.put(name, MetaState.NONE);
 		
 	}
 	
@@ -318,6 +443,7 @@ public final class InputManager {
 		
 		keyMap.put(key, name);
 		states.put(name, KeyState.UP);
+		metaStates.put(name, MetaState.NONE);
 		
 	}
 	

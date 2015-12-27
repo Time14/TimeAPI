@@ -194,3 +194,17 @@
 2015-12-26 19:25:47,025 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started @158992ms
 2015-12-26 23:58:15,336 [Stop Help Server] INFO  o.e.jetty.server.ServerConnector - Stopped ServerConnector@6f6d0704{HTTP/1.1}{127.0.0.1:0}
 2015-12-26 23:58:15,344 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - Stopped o.e.j.s.ServletContextHandler@2026a62{/help,null,UNAVAILABLE}
+2015-12-27 02:38:07,481 [Start Help Server] INFO  org.eclipse.jetty.util.log - Logging initialized @347926ms
+2015-12-27 02:38:07,551 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-9.2.9.v20150224
+2015-12-27 02:38:07,585 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@4a50d3b1{/help,null,AVAILABLE}
+2015-12-27 02:38:07,602 [Start Help Server] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@39e37622{HTTP/1.1}{127.0.0.1:51477}
+2015-12-27 02:38:07,602 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started @348048ms
+2015-12-27 03:50:49,220 [Stop Help Server] INFO  o.e.jetty.server.ServerConnector - Stopped ServerConnector@39e37622{HTTP/1.1}{127.0.0.1:0}
+2015-12-27 03:50:49,231 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - Stopped o.e.j.s.ServletContextHandler@4a50d3b1{/help,null,UNAVAILABLE}
+2015-12-27 14:12:00,693 [Start Help Server] INFO  org.eclipse.jetty.util.log - Logging initialized @1060584ms
+2015-12-27 14:12:00,843 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-9.2.9.v20150224
+2015-12-27 14:12:00,875 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@25bdea5a{/help,null,AVAILABLE}
+2015-12-27 14:12:00,891 [Start Help Server] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@79469c47{HTTP/1.1}{127.0.0.1:52326}
+2015-12-27 14:12:00,892 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started @1060785ms
+2015-12-27 19:58:20,956 [Stop Help Server] INFO  o.e.jetty.server.ServerConnector - Stopped ServerConnector@79469c47{HTTP/1.1}{127.0.0.1:0}
+2015-12-27 19:58:20,965 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - Stopped o.e.j.s.ServletContextHandler@25bdea5a{/help,null,UNAVAILABLE}

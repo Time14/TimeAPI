@@ -1,6 +1,7 @@
 package time.api.input;
 /**
  * An enumerator for all the possible key states a virtual key can have.
+ * 
  * <p>
  * UP - The key is up, nothing is happening to the key
  * </p>
@@ -17,8 +18,13 @@ package time.api.input;
  *
  */
 public enum KeyState {
-	UP, 
-	DOWN, 
+	UP,
+	DOWN,
 	RELEASED,
 	PRESSED;
+	
+	public enum MetaState {
+		NONE,
+		DELAYED;
+	}
 }

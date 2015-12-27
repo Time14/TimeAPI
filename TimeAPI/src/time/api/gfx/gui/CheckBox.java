@@ -22,10 +22,18 @@ public class CheckBox extends Selectable {
 	}
 	
 	@Override
+	public void onSelect(boolean selected) {
+		if(renderer.getTexture() instanceof DynamicTexture)
+			((DynamicTexture)getRenderer().getTexture()).swap(selected ? 1 : 0);
+	}
+	
+	@Override
 	protected void onClick(float x, float y) {
 		select(!isSelected());
-		((DynamicTexture)getRenderer().getTexture()).swap(isSelected() ? 1 : 0);
 	}
+	
+	@Override
+	public void onKeyTrigger(int key, int mods, int action) {}
 	
 	@Override
 	public void onMouseIn() {}

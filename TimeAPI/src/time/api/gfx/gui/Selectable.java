@@ -2,7 +2,7 @@ package time.api.gfx.gui;
 
 public abstract class Selectable extends GUIElement {
 	
-	protected boolean selected = false;
+	private boolean selected = false;
 	
 	private GUIEvent selectEvent;
 	private GUIEvent unselectEvent;
@@ -17,10 +17,15 @@ public abstract class Selectable extends GUIElement {
 	public Selectable select(boolean selected) {
 		this.selected = selected;
 		
-		if(selected && selectEvent != null)
-			selectEvent.fire();
-		else if(!selected && unselectEvent != null)
-			unselectEvent.fire();
+		if(selected) {
+			onSelect(true);
+			if(selectEvent != null)
+				selectEvent.fire();
+		} else if(!selected) {
+			onSelect(false);
+			if(unselectEvent != null)
+				unselectEvent.fire();
+		}
 		
 		return this;
 	}
@@ -40,16 +45,11 @@ public abstract class Selectable extends GUIElement {
 	
 	/**
 	 * 
-	 * Sets an action to perform when an unselect event is performed on this selectable GUI element.
+	 * Called when a select event is fired.
 	 * 
-	 * @param e - the action to perform
-	 * @return this slectable GUI element instance
+	 * @param selected - true if this selectable GUI element was selected
 	 */
-	public final Selectable setUnselectEvent(GUIEvent e) {
-		unselectEvent = e;
-		
-		return this;
-	}
+	public abstract void onSelect(boolean selected);
 	
 	/**
 	 * 

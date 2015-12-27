@@ -1,6 +1,8 @@
 package time.api.gamestate;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWCharCallback;
+import org.lwjgl.glfw.GLFWCharModsCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
@@ -14,6 +16,7 @@ public final class GameStateManager {
 	
 	private static GLFWKeyCallback keyCallback;
 	private static GLFWMouseButtonCallback mouseCallback;
+	private static GLFWCharModsCallback charCallback;
 	
 	private static Game game;
 	
@@ -33,6 +36,7 @@ public final class GameStateManager {
 		GameStateManager.window = window;
 		GLFW.glfwSetKeyCallback(window, keyCallback);
 		GLFW.glfwSetMouseButtonCallback(window, mouseCallback);
+		GLFW.glfwSetCharModsCallback(window, charCallback);
 	}
 	
 	/**
@@ -86,10 +90,19 @@ public final class GameStateManager {
 	}
 	
 	static {
+		
+		charCallback = new GLFWCharModsCallback() {
+			@Override
+			public void invoke(long window, int codepoint, int mods) {
+				InputManager.queueChar(codepoint);
+			}
+		};
+		
 		keyCallback = new GLFWKeyCallback() {
 			@Override
 			public void invoke(long window, int key, int scancode, int action, int mods) {
 				InputManager.updateInput(key, scancode, mods, action);
+				currentState.onKeyboard(window, key, scancode, action, mods);
 			}
 		};
 		
