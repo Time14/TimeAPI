@@ -43,4 +43,5 @@
 <fullyQualifiedTypeName name="time.api.input.InputManager"/>
 <fullyQualifiedTypeName name="time.api.gfx.Mesh"/>
 <fullyQualifiedTypeName name="org.lwjgl.glfw.GLFW"/>
+<fullyQualifiedTypeName name="time.api.math.Vector4f"/>
 </qualifiedTypeNameHistroy>

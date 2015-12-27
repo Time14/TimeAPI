@@ -24,6 +24,7 @@ public class FontShaderProgram extends ShaderProgram {
 		registerUniformLocation("t_sampler");
 		registerUniformLocation("width");
 		registerUniformLocation("edge");
+		registerUniformLocation("fontColor");
 	}
 	
 	@Override

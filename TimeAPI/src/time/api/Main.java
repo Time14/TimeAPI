@@ -62,15 +62,15 @@ public class Main {
 				
 				InputBox in = new InputBox(640, 360, 300, 100, Texture.getDT("box", true), FontType.FNT_CHILLER, 1);
 				
+				b.getFontRenderer().setColor(1, 0, 0, 1);
+				
+				fnt.setColor(0, 1, 0, .5f);
+				
 				//GUI
 				gui = new GUI().addElements(
 					b,
 					in
 				);
-				
-				//Physics
-//				pe = new PhysicsEngine().setGravity(0, 98.2f);
-//				pe.addBody(b.getBody());
 			}
 			
 			@Override

@@ -20,6 +20,18 @@ public class InputBox extends Selectable {
 	
 	private FontRenderer fontRenderer;
 	
+	/**
+	 * 
+	 * Constructs a new input box.
+	 * 
+	 * @param x - the x coordinate of this input box
+	 * @param y - the y coordinate of this input box
+	 * @param width - the width of this input box
+	 * @param height - the height of this input box
+	 * @param texture - the texture to use
+	 * @param font - the font type to use
+	 * @param size - the size of the font
+	 */
 	public InputBox(float x, float y, float width, float height, Texture texture, FontType font, float size) {
 		setRenderer(new QuadRenderer(x, y, width, height, texture));
 		body = new Body(x, y, width, height);
@@ -139,5 +151,15 @@ public class InputBox extends Selectable {
 	 */
 	public int getTextCap() {
 		return textCap;
+	}
+	
+	/**
+	 * 
+	 * Returns the font renderer used by this input box.
+	 * 
+	 * @return the font renderer of this input box
+	 */
+	public FontRenderer getFontRenderer() {
+		return fontRenderer;
 	}
 }
