@@ -9,6 +9,7 @@ import time.api.gfx.VertexTex;
 import time.api.gfx.shader.OrthographicShaderProgram;
 import time.api.math.Vector2f;
 import time.api.math.Vector3f;
+import time.api.math.Vector4f;
 
 public class FontRenderer extends Renderer {
 	
@@ -17,6 +18,8 @@ public class FontRenderer extends Renderer {
 	private FontType font;
 	
 	private float size;
+	
+	private Vector4f color;
 	
 	/**
 	 * 
@@ -57,6 +60,7 @@ public class FontRenderer extends Renderer {
 		this.text = text;
 		this.font = font;
 		this.size = size;
+		color = new Vector4f(1, 1, 1, 1);
 		
 		transform.setPosition(x, y);
 		setSize(size);
@@ -160,6 +164,67 @@ public class FontRenderer extends Renderer {
 	
 	/**
 	 * 
+	 * Sets the RGB color of this font renderer.
+	 * 
+	 * @param color - the color to use for this font renderer
+	 * @return this font renderer instance
+	 */
+	public FontRenderer setColor(Vector3f color) {
+		this.color = new Vector4f(color.getX(), color.getY(), color.getZ(), 1);
+		return this;
+	}
+	
+	/**
+	 * 
+	 * Sets the RGB color of this font renderer.
+	 * 
+	 * @param r - the r component of the color
+	 * @param g - the g component of the color
+	 * @param b - the b component of the color
+	 * @return this font renderer instance
+	 */
+	public FontRenderer setColor(float r, float g, float b) {
+		return setColor(new Vector4f(r, g, b, 1));
+	}
+	
+	/**
+	 * 
+	 * Sets the RGBA color of this font renderer.
+	 * 
+	 * @param color - the color to use for this font renderer
+	 * @return this font renderer instance
+	 */
+	public FontRenderer setColor(Vector4f color) {
+		this.color = color;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * Sets the RGBA color of this font renderer.
+	 * 
+	 * @param r - the r component of the color
+	 * @param g - the g component of the color
+	 * @param b - the b component of the color
+	 * @param a - the a component of the color
+	 * @return this font renderer instance
+	 */
+	public FontRenderer setColor(float r, float g, float b, float a) {
+		return setColor(new Vector4f(r, g, b, a));
+	}
+	
+	/**
+	 * 
+	 * Returns the current RGBA color of this font renderer.
+	 * 
+	 * @return the color of this font renderer
+	 */
+	public Vector4f getColor() {
+		return color;
+	}
+	
+	/**
+	 * 
 	 * Sets the uniform width and edge of the text to draw.
 	 * 
 	 * @return
@@ -167,6 +232,7 @@ public class FontRenderer extends Renderer {
 	private FontRenderer prepareShader() {
 		FontShaderProgram.INSTANCE.sendFloat("width", .46f * (1 + size / 100f));
 		FontShaderProgram.INSTANCE.sendFloat("edge", .2f * (1f / (size * 2)));
+		FontShaderProgram.INSTANCE.sendVec4("fontColor", color);
 		
 		return this;
 	}
