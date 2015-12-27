@@ -1,6 +1,7 @@
 package time.api.gfx.font;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
 
 import time.api.gfx.Mesh;
 import time.api.gfx.Renderer;
@@ -64,15 +65,19 @@ public class FontRenderer extends Renderer {
 		
 		texture = font.getTexture().setParameters(GL11.GL_LINEAR, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_TEXTURE_MIN_FILTER);
 		
-		createFont();
+		if(text.length() < 1)
+			mesh = new Mesh().createEmpty();
+		else
+			createFont(false);
 	}
 	
 	/**
 	 * 
 	 * Generates the font mesh from the current information.
 	 * 
+	 * @param created - true if the mesh has already been created
 	 */
-	private void createFont() {
+	private void createFont(boolean created) {
 		VertexTex[] vertices = new VertexTex[text.length() * 4];
 		
 		int[] indices = new int[text.length() * 6];
@@ -80,6 +85,9 @@ public class FontRenderer extends Renderer {
 		float cursor = 0;
 		for(int i = 0; i < text.length(); i++) {
 			FontChar c = font.getChar(text.charAt(i));
+			if(c == null)
+				c = font.getChar('?');
+			
 			
 			float x = cursor + c.X_OFFSET;
 			float y = -c.Y_OFFSET;
@@ -114,7 +122,20 @@ public class FontRenderer extends Renderer {
 			indices[5 + i * 6] = 2 + i * 4;
 		}
 		
-		mesh = new Mesh(vertices, indices);
+		if(created)
+			mesh.reallocateData(GL15.GL_STATIC_DRAW, vertices, indices);
+		else
+			mesh = new Mesh(vertices, indices);
+	}
+	
+	public void reallocateText(String text) {
+		this.text = text;
+		if(text.length() < 1) {
+			mesh.destroy();
+			mesh = new Mesh().createEmpty();
+		} else {
+			createFont(true);
+		}
 	}
 	
 	@Override
@@ -168,22 +189,32 @@ public class FontRenderer extends Renderer {
 	
 	/**
 	 * 
-	 * Returns the full height of the text mesh.
+	 * Returns the maximum height of the text mesh.
 	 * 
-	 * @return the full height of the text mesh
+	 * @return the maximum height of the text mesh
 	 */
 	public float getHeight() {
 		
 		float height = 0;
 		for(int i = 0; i < text.length(); i++) {
 			FontChar c = font.getChar(text.charAt(i));
-			float h = c.T_HEIGHT + c.Y_OFFSET;
+			float h = (c.T_HEIGHT + c.Y_OFFSET) * size;
 			
 			if(h > height)
 				height = h;
 		}
 		
 		return height;
+	}
+	
+	/**
+	 * 
+	 * Returns the average height of each font character.
+	 * 
+	 * @return the average height of each font character
+	 */
+	public float getAverageHeight() {
+		return (texture.getHeight() / 16) * size;
 	}
 	
 	/**

@@ -14,6 +14,7 @@ import time.api.gfx.font.FontRenderer;
 import time.api.gfx.gui.Button;
 import time.api.gfx.gui.CheckBox;
 import time.api.gfx.gui.GUI;
+import time.api.gfx.gui.InputBox;
 import time.api.gfx.shader.OrthographicShaderProgram;
 import time.api.gfx.texture.Animation;
 import time.api.gfx.texture.DynamicTexture;
@@ -59,21 +60,29 @@ public class Main {
 				
 				Button b = new Button(640, 100, 300, 100, Texture.getDT("box", true)).setFont("Click Me!", FontType.FNT_ARIAL, 1);
 				
+				InputBox in = new InputBox(640, 360, 300, 100, Texture.getDT("box", true), FontType.FNT_CHILLER, 1);
+				
 				//GUI
 				gui = new GUI().addElements(
-					b
+					b,
+					in
 				);
 				
 				//Physics
-				pe = new PhysicsEngine().setGravity(0, 98.2f);
-				pe.addBody(b.getBody());
+//				pe = new PhysicsEngine().setGravity(0, 98.2f);
+//				pe.addBody(b.getBody());
 			}
 			
 			@Override
 			public void onMouse(long window, int button, int action, int mods) {
 				if(button == GLFW.GLFW_MOUSE_BUTTON_LEFT && action == GLFW.GLFW_RELEASE) {
-					
+					gui.click(OrthographicShaderProgram.INSTANCE.getMouseClipspaceCoordinates(game.getWindow(), 1280, 720));
 				}
+			}
+			
+			@Override
+			public void onKeyboard(long window, int key, int scancode, int action, int mods) {
+				gui.triggerKey(key, mods, action);
 			}
 			
 			@Override
@@ -86,7 +95,9 @@ public class Main {
 					fnt.setSize(fnt.getSize() * 1.1f);
 				}
 				
-				pe.update(dt);
+//				pe.update(dt);
+				
+//				Debug.log(InputManager.getMetaState("fnt1"));
 				
 				gui.update(dt, OrthographicShaderProgram.INSTANCE.getMouseClipspaceCoordinates(game.getWindow(), 1280, 720));
 			}

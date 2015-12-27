@@ -56,6 +56,22 @@ public class GUI {
 	
 	/**
 	 * 
+	 * Performs a key trigger event.
+	 * 
+	 * @param key - the triggered key
+	 * @param mods - the triggered key's mods
+	 * @param action - the action that triggered the key
+	 * @return this GUI instance
+	 */
+	public GUI triggerKey(int key, int mods, int action) {
+		for(GUIElement e : guiElements)
+			e.triggerKey(key, mods, action);
+		
+		return this;
+	}
+	
+	/**
+	 * 
 	 * Performs a click event at the specified coordinates.
 	 * 
 	 * @param x - the x coordinate to click at

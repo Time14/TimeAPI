@@ -20,6 +20,9 @@ public class Button extends GUIElement {
 	public void onClick(float x, float y) {}
 	
 	@Override
+	public void onKeyTrigger(int key, int mods, int action) {}
+	
+	@Override
 	public void onMouseIn() {
 		if(getRenderer().getTexture() instanceof DynamicTexture) {
 			((DynamicTexture)getRenderer().getTexture()).swap(1);
@@ -52,7 +55,7 @@ public class Button extends GUIElement {
 		
 		fontRenderer.setPosition(
 				renderer.getX() - fontRenderer.getWidth() / 2,
-				renderer.getY() + fontRenderer.getHeight() / 2
+				renderer.getY() + fontRenderer.getAverageHeight()
 		);
 		
 		return this;
