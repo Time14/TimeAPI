@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import time.api.debug.Debug;
+import time.api.editor.Editor;
 import time.api.gamestate.GameState;
 import time.api.gamestate.GameStateManager;
 import time.api.gfx.Mesh;
@@ -29,9 +30,20 @@ import time.api.util.Time;
 
 public class Main {
 	
+	public static boolean IS_EDITOR = false;
+	
+	public static Game game;
+	
 	public static final void main(String[] args) {
 		
-		Game game = new Game();
+		game = new Game();
+		
+		try {
+			if(args[0].matches("[-][e]")) {
+				IS_EDITOR = true;
+				Editor.init();
+			}
+		} catch (Exception e) {}
 		
 		GameStateManager.registerState(new GameState("Main") {
 			

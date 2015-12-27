@@ -133,8 +133,10 @@ public class Game {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		GameStateManager.init(this, window);
-		GameStateManager.enterState("Main");
-		
+		if(Main.IS_EDITOR)
+			GameStateManager.enterState("Editor");
+		else
+			GameStateManager.enterState("Main");
 		
 		//The main loop
 		running = true;
