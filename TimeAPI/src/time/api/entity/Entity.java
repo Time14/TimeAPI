@@ -11,7 +11,7 @@ public class Entity {
 	
 	protected Body body;
 	
-	public Transform transform;
+	public Transform transform = new Transform();
 	
 	/**
 	 * 

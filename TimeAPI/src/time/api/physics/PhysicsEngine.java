@@ -15,7 +15,7 @@ import time.api.math.Vector2f;
 
 public class PhysicsEngine {
 	
-	public static final float FRAME_RATE = 120.0f;
+	public static final float FRAME_RATE = 60.0f;
 	public static final float SIMULATION_STEP = 1.0f/FRAME_RATE;
 	
 	private HashSet<Body> bodies;
@@ -59,12 +59,15 @@ public class PhysicsEngine {
 			if (useStep)
 				timer -= SIMULATION_STEP;
 			
+			//Clear tags
+			for(Body b : bodies)
+				b._clearTags();
+			
 			//These are to prevent double collisions
 			int i = 0;
 			int j = 0;
 			for(Body a : bodies) {
 				
-				a._clearTags();
 				a.addVel(gravity);
 				
 				i++;

@@ -18,8 +18,8 @@ public class Body {
 	boolean trigger;
 	boolean absolute;
 	
-	HashSet<Tag> collisionTags;
-	HashSet<Tag> myTags;
+	HashSet<String> collisionTags;
+	HashSet<String> myTags;
 
 	float invMass;
 	float epsilon;
@@ -50,9 +50,9 @@ public class Body {
 		this.transform = transform;
 		vel = new Vector2f(0, 0);
 		
-		collisionTags = new HashSet<Tag>();
-		myTags = new HashSet<Tag>();
-		myTags.add(Tag.BODY);
+		collisionTags = new HashSet<>();
+		myTags = new HashSet<>();
+		myTags.add("body");
 	}
 	
 	/**
@@ -77,9 +77,9 @@ public class Body {
 		this.transform = new Transform(x, y);
 		vel = new Vector2f(0, 0);
 		
-		collisionTags = new HashSet<Tag>();
-		myTags = new HashSet<Tag>();
-		myTags.add(Tag.BODY);
+		collisionTags = new HashSet<>();
+		myTags = new HashSet<>();
+		myTags.add("body");
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class Body {
 	 * @param tag - the tag to check collision with
 	 * @return whether or not there is a collision
 	 */
-	public boolean isCollidingWith(Tag tag) {
+	public boolean isCollidingWith(String tag) {
 		return collisionTags.contains(tag);
 	}
 	
@@ -101,7 +101,7 @@ public class Body {
 	 * 
 	 * @param tag - the tag to add to this body
 	 */
-	private void addCollidingTag(Tag tag) {
+	private void addCollidingTag(String tag) {
 		collisionTags.add(tag);
 	}
 	
@@ -111,7 +111,7 @@ public class Body {
 	 * 
 	 * @return the collision tags of this body
 	 */
-	public HashSet<Tag> getTags() {
+	public HashSet<String> getTags() {
 		return myTags;
 	}
 	
@@ -122,7 +122,7 @@ public class Body {
 	 * @param tag - the tag to check
 	 * @return whether or not this body contains the specified tag.
 	 */
-	public boolean hasTag(Tag tag) {
+	public boolean hasTag(String tag) {
 		return myTags.contains(tag);
 	}
 	
@@ -132,7 +132,7 @@ public class Body {
 	 * 
 	 * @param tag - the tag to add to this body.
 	 */
-	public void addTag(Tag tag) {
+	public void addTag(String tag) {
 		myTags.add(tag);
 	}
 	
@@ -347,12 +347,12 @@ public class Body {
 		if(overlapY < 0) return;
 		
 		//Add in all my tags
-		for(Tag t : myTags) {
+		for(String t : myTags) {
 			body.addCollidingTag(t);
 		}
 		
 		//Add in all the other bodies tags
-		for(Tag t : body.getTags()) {
+		for(String t : body.getTags()) {
 			addCollidingTag(t);
 		}
 		

@@ -43,24 +43,24 @@
 		<item value="false" key="nodeprecated"/>
 		<item value="false" key="nonavbar"/>
 		<item value="" key="docletpath"/>
-		<item value="C:\Program Files\Java\jdk1.8.0_60\bin\javadoc.exe;D:\Projects\Java\TimeWars\TimeAPI\SKNet\exported\SKNet - Javadoc;D:\Projects\Java\TimeWars\TimeAPI\SKNet\exported\SKNet - Javadoc.zip" key="javadoc_command_history"/>
+		<item value="C:\Program Files\Java\jdk1.8.0_40\bin\javadoc.exe;C:\Program Files\Java\jdk1.8.0_60\bin\javadoc.exe;D:\Projects\Java\TimeWars\TimeAPI\SKNet\exported\SKNet - Javadoc;D:\Projects\Java\TimeWars\TimeAPI\SKNet\exported\SKNet - Javadoc.zip" key="javadoc_command_history"/>
 		<item value="1.8" key="source"/>
 		<item value="true" key="version"/>
 		<item value="" key="docletname"/>
 		<item value="true" key="splitindex"/>
 		<item value="true" key="fromStandard"/>
 		<item value="false" key="notree"/>
-		<item value="D:\Projects\Java\TimeWars\TimeAPI\SKNet\doc" key="destdir"/>
+		<item value="A:\Java\The Edvard Challenge\The Edvard Challenge\lib\doc" key="destdir"/>
 		<item value="false" key="openinbrowser"/>
 		<section name="projects">
 			<section name="SKNet">
 				<item value="D:\Projects\Java\TimeWars\TimeAPI\SKNet\javadoc.xml" key="antpath"/>
-				<item value="D:\Projects\Java\TimeWars\TimeAPI\SKNet\doc" key="destdir"/>
+				<item value="A:\Java\The Edvard Challenge\The Edvard Challenge\lib\doc" key="destdir"/>
 				<item value="" key="href"/>
 			</section>
 			<section name="TimeAPI">
 				<item value="D:\Projects\Java\TimeWars\TimeAPI\TimeAPI\javadoc.xml" key="antpath"/>
-				<item value="D:\Projects\Java\TimeWars\TimeAPI\TimeAPI\doc" key="destdir"/>
+				<item value="A:\Java\The Edvard Challenge\The Edvard Challenge\lib\doc" key="destdir"/>
 				<item value="" key="href"/>
 			</section>
 			<section name="RemoteSystemsTempFiles">
@@ -102,6 +102,9 @@
 		<item value="false" key="JarManifestWizardPage.SAVE_MANIFEST"/>
 		<item value="false" key="JarPackageWizardPage.EXPORT_OUTPUT_FOLDER"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="A:\Java\The Edvard Challenge\The Edvard Challenge\lib\jar\TimeAPI.jar"/>
+			<item value="A:\Java\The Edvard Challenge\TimeAPI.jar"/>
+			<item value="A:\Java\The Edvard Challenge\SKNet.jar"/>
 			<item value="SKNet/exported/SKNet.jar"/>
 			<item value="D:\Projects\Java\ANN\Automatic Neural Network\lib\jar\SKNet.jar"/>
 		</list>
