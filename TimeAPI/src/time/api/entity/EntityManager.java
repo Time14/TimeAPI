@@ -7,8 +7,6 @@ import time.api.gamestate.GameState;
 
 public class EntityManager {
 	
-	private GameState gs;
-	
 	private HashMap<String, Entity> entities;
 	private ArrayList<String> entityTrash;
 	private HashMap<String, Group> groups;
@@ -20,12 +18,11 @@ public class EntityManager {
 	 * 
 	 * @param gs - the game state associated with this entity manager
 	 */
-	public EntityManager(GameState gs) {
+	public EntityManager() {
 		entities = new HashMap<>();
 		entityTrash = new ArrayList<>();
 		groups = new HashMap<>();
 		groupTrash = new ArrayList<>();
-		this.gs = gs;
 	}
 	
 	/**

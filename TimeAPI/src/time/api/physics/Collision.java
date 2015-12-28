@@ -8,7 +8,7 @@ import time.api.util.Time;
 public class Collision {
 	
 	// The constant that decides how much the bodies should move after collision.
-	private static float MOVE_CONSTANT = 0.5f;
+	private static float MOVE_CONSTANT = 0.1f;
 
 	private Body[] bodies;
 	private Vector2f normal;

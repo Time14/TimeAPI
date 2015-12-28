@@ -89,6 +89,10 @@ public final class GameStateManager {
 		GLFW.glfwSwapBuffers(window);
 	}
 	
+	public static final GameState getGameState(String key) {
+		return gameStateLibrary.get(key);
+	}
+	
 	static {
 		
 		charCallback = new GLFWCharModsCallback() {
