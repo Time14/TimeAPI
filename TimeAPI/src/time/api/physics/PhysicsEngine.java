@@ -61,8 +61,10 @@ public class PhysicsEngine {
 			
 			//Clear tags
 			for(Body b : bodies) {
-				if(b == null)
+				if(b == null) {
+					removeBody(b);
 					continue;
+				}
 				b._clearTags();
 			}
 			
@@ -123,6 +125,20 @@ public class PhysicsEngine {
 		gravity.setY(y);
 		return this;
 	}
+	
+	/**
+	 * Removes the body from the physics simulation.
+	 * @param body The body we want to remove.
+	 * @return This physics engine.
+	 */
+	public PhysicsEngine removeBody(Body body) {
+		if (bodies.contains(body)) {
+			bodies.remove(body);
+		}
+		return this;
+	}
+	
+	
 	
 	/**
 	 * 
