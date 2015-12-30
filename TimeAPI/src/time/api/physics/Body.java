@@ -44,7 +44,7 @@ public class Body {
 		
 		invMass = 1;
 		epsilon = 0.0f;
-		mu = 1;
+		mu = 0;
 		
 		dim = new Vector2f(w, h);
 		this.transform = transform;

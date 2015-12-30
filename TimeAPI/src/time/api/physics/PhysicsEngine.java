@@ -60,20 +60,26 @@ public class PhysicsEngine {
 				timer -= simulationStep;
 			
 			//Clear tags
-			for(Body b : bodies)
+			for(Body b : bodies) {
+				if(b == null)
+					continue;
 				b._clearTags();
+			}
 			
 			//These are to prevent double collisions
-			int i = 0;
-			int j = 0;
+			int i = -1;
+			int j = -1;
 			for(Body a : bodies) {
-				
+				i++;
+				if(a == null)
+					continue;
 				a.addVel(gravity.clone().scale(delta));
 				
-				i++;
-				j = 0;
+				j = -1;
 				for(Body b : bodies) {
 					j++;
+					if(b == null)
+						continue;
 					if(j <= i) continue;
 					
 					if(a.absolute && b.absolute && !(a.isTrigger() || b.isTrigger())) continue;
@@ -91,6 +97,8 @@ public class PhysicsEngine {
 			}
 			
 			for(Body a : bodies) {
+				if(a == null)
+					continue;
 				a.update(delta);
 			}
 			collisions.clear();

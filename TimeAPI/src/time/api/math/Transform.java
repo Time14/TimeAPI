@@ -70,9 +70,7 @@ public class Transform {
 		Matrix4f matrix = new Matrix4f();
 		matrix = Matrix4f.IDENTITY();
 		
-		matrix.translate(pos);
-		matrix.rotate(rotation);
-		matrix.scale(scale);
+		matrix.translate(pos).rotate(rotation).scale(scale);
 		
 		return matrix;
 	}
