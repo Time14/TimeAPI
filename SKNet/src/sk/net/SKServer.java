@@ -70,6 +70,19 @@ public class SKServer {
 	
 	/**
 	 * 
+	 * Stops this server and all its connections.
+	 * 
+	 * @return this server instance
+	 */
+	public SKServer stop(String msg) {
+		for(SKConnection c : connections.values())
+			disconnect(c.getID(), msg);
+		running = false;
+		return this;
+	}
+	
+	/**
+	 * 
 	 * Adds a client connection to this server and performs the initialization procedure.
 	 * 
 	 * @param socket - the socket connection of the client

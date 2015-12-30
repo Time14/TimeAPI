@@ -41,6 +41,9 @@ public class Animation  {
 		if(deltaStack > 1f / speed) {
 			deltaStack = 0;
 			dynTex.swap(indices[mark]);
+			if(mark < indices.length - 1)
+				if(indices[mark + 1] == -1)
+					return;
 			mark++;
 			mark %= indices.length;
 		}
@@ -120,5 +123,55 @@ public class Animation  {
 	 */
 	public int[] getIndices() {
 		return indices;
+	}
+	
+	/**
+	 * 
+	 * Returns the animation marks current position within this animation.
+	 * 
+	 * @return the current mark offset
+	 */
+	public int getMark() {
+		return mark;
+	}
+	
+	/**
+	 * 
+	 * Sets the current mark offset within this animation.
+	 * 
+	 * @param mark - the mark to jump to
+	 * @return this animation instance
+	 */
+	public Animation setMark(int mark) {
+		this.mark = mark;
+		dynTex.swap(indices[mark]);
+		
+		return resetDeltaStack();
+	}
+	
+	/**
+	 * 
+	 * Resets the current delta stack of this animation.
+	 * 
+	 * @return this animation instance
+	 */
+	public Animation resetDeltaStack() {
+		deltaStack = 0;
+		
+		return this;
+	}
+	
+	/**
+	 * 
+	 * Resets this animation to its original state.
+	 * 
+	 * @return this animation instance
+	 */
+	public Animation reset() {
+		deltaStack = 0;
+		mark = 0;
+		dynTex.swap(indices[mark]);
+		
+		return this;
 	}
 }

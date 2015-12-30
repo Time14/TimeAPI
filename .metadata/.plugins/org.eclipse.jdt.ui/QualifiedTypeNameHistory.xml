@@ -4,7 +4,6 @@
 <fullyQualifiedTypeName name="java.nio.DoubleBuffer"/>
 <fullyQualifiedTypeName name="time.api.library.Library"/>
 <fullyQualifiedTypeName name="time.api.gfx.gui.CheckBox"/>
-<fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
 <fullyQualifiedTypeName name="time.api.gfx.Vertex"/>
 <fullyQualifiedTypeName name="time.api.math.Vector3f"/>
 <fullyQualifiedTypeName name="time.api.math.Vector2f"/>
@@ -50,10 +49,12 @@
 <fullyQualifiedTypeName name="time.api.gfx.QuadRenderer"/>
 <fullyQualifiedTypeName name="time.api.gfx.texture.Texture"/>
 <fullyQualifiedTypeName name="time.api.physics.Body"/>
-<fullyQualifiedTypeName name="time.api.physics.PhysicsEngine"/>
 <fullyQualifiedTypeName name="time.api.util.Loader"/>
 <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="time.api.debug.Debug"/>
 <fullyQualifiedTypeName name="java.lang.StringIndexOutOfBoundsException"/>
+<fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
+<fullyQualifiedTypeName name="time.api.debug.Debug"/>
+<fullyQualifiedTypeName name="time.api.physics.PhysicsEngine"/>
+<fullyQualifiedTypeName name="sk.net.SKConnection"/>
 </qualifiedTypeNameHistroy>
