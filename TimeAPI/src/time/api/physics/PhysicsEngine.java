@@ -18,6 +18,7 @@ public class PhysicsEngine {
 	private static float frameRate = 60.0f;
 	private static float simulationStep = 1.0f/frameRate;
 	
+	private HashSet<Body> trash;
 	private HashSet<Body> bodies;
 	private HashSet<Collision> collisions;
 	
@@ -34,6 +35,7 @@ public class PhysicsEngine {
 	 */
 	public PhysicsEngine() {
 		bodies = new HashSet<Body>();
+		trash = new  HashSet<Body>();
 		collisions = new HashSet<Collision>();
 		gravity = new Vector2f(0.0f, 0.0f);
 	}
@@ -67,6 +69,12 @@ public class PhysicsEngine {
 				}
 				b._clearTags();
 			}
+			
+			for(Body b : trash) {
+				bodies.remove(b);
+			}
+			
+			trash.clear();
 			
 			//These are to prevent double collisions
 			int i = -1;
@@ -133,7 +141,7 @@ public class PhysicsEngine {
 	 */
 	public PhysicsEngine removeBody(Body body) {
 		if (bodies.contains(body)) {
-			bodies.remove(body);
+			trash.remove(body);
 		}
 		return this;
 	}

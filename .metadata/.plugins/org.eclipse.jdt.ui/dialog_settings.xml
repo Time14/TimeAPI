@@ -102,6 +102,7 @@
 		<item value="false" key="JarManifestWizardPage.SAVE_MANIFEST"/>
 		<item value="false" key="JarPackageWizardPage.EXPORT_OUTPUT_FOLDER"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="D:\git\TheEdvardChallenge\Proj\TheEdvardChallenge\lib\jar\TimeAPI.jar"/>
 			<item value="A:\Java\The Edvard Challenge\TheEdvardChallenge\lib\jar\TimeAPI.jar"/>
 			<item value="A:\Java\The Edvard Challenge\TheEdvardChallenge\lib\jar\SKNet.jar"/>
 			<item value="A:\Java\The Edvard Challenge\The Edvard Challenge\lib\jar\TimeAPI.jar"/>

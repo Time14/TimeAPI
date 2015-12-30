@@ -55,6 +55,6 @@
 <fullyQualifiedTypeName name="java.lang.StringIndexOutOfBoundsException"/>
 <fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
 <fullyQualifiedTypeName name="time.api.debug.Debug"/>
-<fullyQualifiedTypeName name="time.api.physics.PhysicsEngine"/>
 <fullyQualifiedTypeName name="sk.net.SKConnection"/>
+<fullyQualifiedTypeName name="time.api.physics.PhysicsEngine"/>
 </qualifiedTypeNameHistroy>
