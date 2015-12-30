@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import time.api.debug.Debug;
 import time.api.gfx.shader.ShaderProgram;
 import time.api.util.Util;
 
@@ -150,6 +151,30 @@ public class Mesh {
 		
 		vertexCount = vertices.length;
 		indexCount = indices.length;
+	}
+	
+	public void changeData(Vertex[] vertices, long offset) {
+		if(usage != GL15.GL_DYNAMIC_DRAW)
+			throw new IllegalStateException("Mesh usage must be of type GL_DYNAMIC_DRAW");
+		
+		GL30.glBindVertexArray(vao);
+		
+		for(int i = 0; i < vbos.capacity(); i++) {
+			
+			float[] data = new float[vertices[0].getComponent(i).getDimension() * vertices.length];
+			
+			for(int j = 0; j < vertices.length; j++) {
+				for(int k = 0; k < vertices[0].getComponent(i).getDimension(); k++)
+					data[vertices[0].getComponent(i).getDimension() * j + k] = vertices[j].getComponent(i).getN(k);
+			}
+			
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(i));
+			GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER,
+					offset * vertices[0].getComponent(i).getDimension() * Float.BYTES, Util.toFloatBuffer(data));
+		}
+		
+		GL30.glBindVertexArray(0);
+		
 	}
 	
 	/**

@@ -72,7 +72,7 @@ public class Renderer {
 	
 	/**
 	 * 
-	 * Draws with the specified mesh, texture and transform.
+	 *  Draws with the specified mesh, texture and transform.
 	 * 
 	 */
 	public void draw() {

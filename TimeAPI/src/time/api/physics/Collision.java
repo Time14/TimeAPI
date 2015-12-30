@@ -8,7 +8,7 @@ import time.api.util.Time;
 public class Collision {
 	
 	// The constant that decides how much the bodies should move after collision.
-	private static float MOVE_CONSTANT = 0.1f;
+	private static float moveConstant = 0.1f;
 
 	private Body[] bodies;
 	private Vector2f normal;
@@ -74,7 +74,7 @@ public class Collision {
 	 * Cleans up the collision from floating point errors, you should not call this.
 	 */
 	protected void _move() {
-		float move = MOVE_CONSTANT;
+		float move = moveConstant;
 		
 		if(bodies[0].isAbsolute() != bodies[1].isAbsolute())
 			move *= 2;
@@ -87,5 +87,15 @@ public class Collision {
 			bodies[1].getPos().setX(bodies[1].getPos().getX() + normal.getX() * depth * -move);
 			bodies[1].getPos().setY(bodies[1].getPos().getY() + normal.getY() * depth * -move);
 		}
+	}
+	
+	/**
+	 * 
+	 * Sets the move constant for all collisions.
+	 * 
+	 * @param moveConstant - the new move constant
+	 */
+	public static final void setMoveConstant(float moveConstant) {
+		Collision.moveConstant = moveConstant;
 	}
 }
