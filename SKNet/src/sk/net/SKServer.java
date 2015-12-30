@@ -32,6 +32,11 @@ public class SKServer {
 	private int timeout = 10000;
 	private int maxConnections = 1000;
 	
+	/**
+	 * 
+	 * Constructs a new server.
+	 * 
+	 */
 	public SKServer() {
 		packetListeners = new ArrayList<>();
 		connections = new HashMap<>();
@@ -41,9 +46,9 @@ public class SKServer {
 	 * 
 	 * Starts all the underlying server threads.
 	 * 
-	 * @return this {@link SKServer} instance.
-	 * @throws IOException if the server socket could not be opened.
-	 * @throws IllegalStateException if there are no packet listeners associated with this server.
+	 * @return this server instance
+	 * @throws IOException if the server socket could not be opened
+	 * @throws IllegalStateException if there are no packet listeners associated with this server
 	 */
 	public SKServer start() throws IOException {
 		
@@ -65,10 +70,23 @@ public class SKServer {
 	
 	/**
 	 * 
-	 * Adds a client connection to this server and performs the session initialization procedure.
+	 * Stops this server and all its connections.
 	 * 
-	 * @param socket the socket connection to the client.
-	 * @return this {@link SKServer} instance.
+	 * @return this server instance
+	 */
+	public SKServer stop(String msg) {
+		for(SKConnection c : connections.values())
+			disconnect(c.getID(), msg);
+		running = false;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * Adds a client connection to this server and performs the initialization procedure.
+	 * 
+	 * @param socket - the socket connection of the client
+	 * @return this server instance
 	 */
 	public synchronized SKServer addConnection(Socket socket) {
 		
@@ -96,40 +114,106 @@ public class SKServer {
 		return this;
 	}
 	
-	public void disconnect(int clientID) {
+	/**
+	 * 
+	 * Removes the connection with the specified id from this server's client list.
+	 * 
+	 * @param id - the id 
+	 * @return false if there is no connection associated with the provided id
+	 */
+	protected boolean removeConnection(int id) {
+		return connections.remove(id) != null;
+	}
+	
+	/**
+	 * 
+	 * Sends a packet to the specified client.
+	 * 
+	 * @param id - the id of the receiving client
+	 * @param packet - the packet to send
+	 * @return
+	 */
+	public boolean send(int id, SKPacket packet) {
 		try {
-			connections.get(clientID).sendPacket(new SKDisconnectPacket());
+			connections.get(id).sendPacket(packet);
+			
+			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			return false;
 		}
 	}
 	
-	protected SKServer close(int clientID) {
+	/**
+	 * 
+	 * Sends a packet to all clients on this server.
+	 * 
+	 * @param packet - the packet to send
+	 * @return this server instance
+	 */
+	public int[] sendToAll(SKPacket packet) {
+		ArrayList<Integer> errors = new ArrayList<>();
 		
-		SKConnection connection = connections.get(clientID);
-		
-		try {
-			
-			for(SKPacketListener packetListener : packetListeners) {
-				packetListener.disconnected(connection);
+		for(SKConnection connection : connections.values()) {
+			try {
+				connection.sendPacket(packet);
+			} catch (IOException e) {
+				errors.add(connection.getID());
 			}
-			
-			connection.sendPacket(new SKDisconnectPacket());
-			
-			connection.close();
+		}
+		
+		int[] errorStack = new int[errors.size()];
+		
+		for(int i = 0; i < errorStack.length; i++)
+			errorStack[i] = errors.get(i);
+		
+		return errorStack;
+	}
+	
+	/**
+	 * 
+	 * Disconnects the client with the specified id.
+	 * 
+	 * @param clientID - the id of the client to disconnect
+	 * @param msg - the disconnection message to send
+	 */
+	public void disconnect(int clientID, String msg) {
+		try {
+			connections.get(clientID).sendPacket(new SKDisconnectPacket(msg));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		close(clientID, true, msg);
+	}
+	
+	/**
+	 * 
+	 * Closes the socket of the specified client.
+	 * 
+	 * @param clientID - the id of the client whose connection to close
+	 * @param local - true if the disconnection was fired locally
+	 * @param msg - the disconnection message
+	 * @return this server instance
+	 */
+	protected SKServer close(int clientID, boolean local, String msg) {
+		
+		SKConnection connection = connections.get(clientID);
+		
+		for(SKPacketListener packetListener : packetListeners) {
+			packetListener.disconnected(connection, local, msg);
+		}
+		
+		connection.close();
 		
 		return this;
 	}
 	
 	/**
 	 * 
-	 * Adds an {@link SKPacketListener} to this server.
+	 * Adds a packet listener to this server.
 	 * 
-	 * @param packetListener the {@link SKPacketListener} to be added.
-	 * @return this {@link SKServer} instance.
+	 * @param packetListener - the packet listener to add
+	 * @return this server instance
 	 */
 	public SKServer addPacketListener(SKPacketListener packetListener) {
 		packetListeners.add(packetListener);
@@ -138,12 +222,12 @@ public class SKServer {
 	
 	/**
 	 * 
-	 * Binds the server socket to the specified hostname and port.
+	 * Binds the server socket to the specified host name and port.
 	 * 
-	 * @param hostname the hostname of the server.
-	 * @param port the port of the server.
-	 * @return this {@link SKServer} instance.
-	 * @throws IOException if the specified hostname and port could not be bound.
+	 * @param hostname - the host name of the server
+	 * @param port - the port of the server
+	 * @return this server instance
+	 * @throws IOException if the specified host name or port could not be bound
 	 */
 	public SKServer bind(String hostname, int port) throws IOException {
 		return bind(new InetSocketAddress(hostname, port));
@@ -153,9 +237,9 @@ public class SKServer {
 	 * 
 	 * Binds the server socket to the specified {@link InetSocketAddress}.
 	 * 
-	 * @param address the {@link InetSocketAddress} of the server.
-	 * @return this {@link SKServer} instance.
-	 * @throws IOException if the specified {@link InetSocketAddress} could not be bound.
+	 * @param address - the {@link InetSocketAddress} to use
+	 * @return this server instance
+	 * @throws IOException if the specified {@link InetSocketAddress} could not be bound
 	 */
 	public SKServer bind(InetSocketAddress address) throws IOException {
 		serverSocket.bind(address);
@@ -165,10 +249,11 @@ public class SKServer {
 	
 	/**
 	 * 
-	 * Returns the connection with the corresponding id. If there is no connection with the specified id this method will return null.
+	 * Returns the connection associated with the specified id.
+	 * If there is no connection with this id the method will return null.
 	 * 
-	 * @param id the id of the connection.
-	 * @return the connection with the specified id.
+	 * @param id - the id of the connection
+	 * @return the connection associated with the specified it.
 	 */
 	public SKConnection getConnection(int id) {
 		return connections.get(id);
@@ -178,7 +263,7 @@ public class SKServer {
 	 * 
 	 * Returns the {@link ServerSocket} of this server.
 	 * 
-	 * @return the {@link ServerSocket}.
+	 * @return the {@link ServerSocket} of this server
 	 */
 	public ServerSocket getServerSocket() {
 		return serverSocket;
@@ -188,7 +273,7 @@ public class SKServer {
 	 * 
 	 * Returns the host name of this server.
 	 * 
-	 * @return the host name.
+	 * @return the host name of this server
 	 */
 	public String getHostName() {
 		return serverSocket.getInetAddress().getHostName();
@@ -199,7 +284,7 @@ public class SKServer {
 	 * 
 	 * Returns the host address of this server.
 	 * 
-	 * @return the host address.
+	 * @return the host address of this server
 	 */
 	public String getHostAddress() {
 		return serverSocket.getInetAddress().getHostAddress();
@@ -208,9 +293,9 @@ public class SKServer {
 	
 	/**
 	 * 
-	 * Returns the server's {@link InetAddress}.
+	 * Returns the {@link InetAddress} of this server.
 	 * 
-	 * @return the {@link InetAddress}.
+	 * @return the {@link InetAddress} of this server
 	 */
 	public InetAddress getInetAddress() {
 		return serverSocket.getInetAddress();
@@ -221,8 +306,8 @@ public class SKServer {
 	 * 
 	 * Sets the number of maximum client connections allowed.
 	 * 
-	 * @param maxConnections the number of client connections to accept. Set the value to 0 for unlimited connections.
-	 * @return this {@link SKServer} instance.
+	 * @param maxConnections - the number of client connections to accept. Set to 0 for an unlimited amount of connections
+	 * @return this server instance
 	 */
 	public SKServer setMaxConnections(int maxConnections) {
 		this.maxConnections = maxConnections;
@@ -232,9 +317,9 @@ public class SKServer {
 	
 	/**
 	 * 
-	 * Returns the number of maximum client connections allowed.
+	 * Returns the maximum number of client connections allowed.
 	 * 
-	 * @return the number of client connections to accept.
+	 * @return the maximum number of client connections to accept
 	 */
 	public int getMaxConnections() {
 		return maxConnections;
@@ -245,7 +330,7 @@ public class SKServer {
 	 * 
 	 * Returns the local port of this server.
 	 * 
-	 * @return the local port of this server.
+	 * @return the local port of this server
 	 */
 	public int getLocalPort() {
 		return serverSocket.getLocalPort();
@@ -267,8 +352,8 @@ public class SKServer {
 	 * 
 	 * Sets the SO-timeout for this server's {@link ServerSocket}.
 	 * 
-	 * @param ms the timeout specified in milliseconds.
-	 * @return this {@link SKServer} instance.
+	 * @param ms - the timeout specified in milliseconds
+	 * @return this server instance
 	 */
 	public SKServer setTimeout(int ms) {
 		timeout = ms;
@@ -278,9 +363,9 @@ public class SKServer {
 	
 	/**
 	 * 
-	 * Returns a list of all packet listeners associated with this server.
+	 * Returns a list containing all packet listeners associated with this server.
 	 * 
-	 * @return a list of all packet listeners.
+	 * @return a list of all packet listeners
 	 */
 	public ArrayList<SKPacketListener> getPacketListeners() {
 		return packetListeners;
@@ -291,7 +376,7 @@ public class SKServer {
 	 * 
 	 * Returns whether or not this server is running.
 	 * 
-	 * @return true if the server is running.
+	 * @return true if the server is running
 	 */
 	public boolean isRunning() {
 		return running;

@@ -45,6 +45,17 @@ public class VectorXf {
 		return vals[n];
 	}
 	
+	
+	/**
+	 * 
+	 * Returns each component of this vector represented as a float array.
+	 * 
+	 * @return the components of this vector
+	 */
+	public float[] getData() {
+		return vals;
+	}
+	
 	/**
 	 * 
 	 * Tells you how many dimensions the vector has.

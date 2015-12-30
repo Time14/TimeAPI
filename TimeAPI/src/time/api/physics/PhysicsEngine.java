@@ -15,8 +15,8 @@ import time.api.math.Vector2f;
 
 public class PhysicsEngine {
 	
-	public static final float FRAME_RATE = 120.0f;
-	public static final float SIMULATION_STEP = 1.0f/FRAME_RATE;
+	private static float frameRate = 60.0f;
+	private static float simulationStep = 1.0f/frameRate;
 	
 	private HashSet<Body> bodies;
 	private HashSet<Collision> collisions;
@@ -50,28 +50,44 @@ public class PhysicsEngine {
 		//Increase the timer to make sure we run at a smooth frame rate.
 		if (useStep) {
 			timer += delta;
-			delta = SIMULATION_STEP;
+			delta = simulationStep;
 		}
-
+		
 		//Check if we're ready to step or running each frame, and if so, enter the loop. 
-		while (SIMULATION_STEP < timer || !useStep) {
+		while (simulationStep < timer || !useStep) {
 			//Decrease the timer so we step through the simulation for all the accumulated time
 			if (useStep)
-				timer -= SIMULATION_STEP;
+				timer -= simulationStep;
+			
+			//Clear tags
+			for(Body b : bodies) {
+				if(b == null)
+					continue;
+				b._clearTags();
+			}
 			
 			//These are to prevent double collisions
-			int i = 0;
-			int j = 0;
+			int i = -1;
+			int j = -1;
 			for(Body a : bodies) {
-				
-				a._clearTags();
-				a.addVel(gravity);
-				
 				i++;
-				j = 0;
+				if(a == null)
+					continue;
+				a.addVel(gravity.clone().scale(delta));
+				
+				j = -1;
 				for(Body b : bodies) {
 					j++;
+					if(b == null)
+						continue;
 					if(j <= i) continue;
+					
+					if(a.absolute && b.absolute && !(a.isTrigger() || b.isTrigger())) continue;
+					
+					if(Math.abs(a.getPos().getX() - b.getPos().getX()) > (a.getDim().getX() + b.getDim().getX() / 2)
+							&& Math.abs(a.getPos().getY() - b.getPos().getY()) > (a.getDim().getY() + b.getDim().getY() / 2))
+						continue;
+					
 					a._checkCollision(b, this);
 				}
 			}
@@ -81,6 +97,8 @@ public class PhysicsEngine {
 			}
 			
 			for(Body a : bodies) {
+				if(a == null)
+					continue;
 				a.update(delta);
 			}
 			collisions.clear();
@@ -103,7 +121,6 @@ public class PhysicsEngine {
 	public PhysicsEngine setGravity(float x, float y) {
 		gravity.setX(x);
 		gravity.setY(y);
-		gravity.scale(SIMULATION_STEP);
 		return this;
 	}
 	
@@ -140,5 +157,26 @@ public class PhysicsEngine {
 	public PhysicsEngine addCollision(Collision col) {
 		collisions.add(col);
 		return this;
+	}
+	
+	/**
+	 * 
+	 * Sets the frame rate for this physics engine.
+	 * 
+	 * @param frameRate - the new frame rate
+	 */
+	public static final void setFrameRate(float frameRate) {
+		PhysicsEngine.frameRate = frameRate;
+		PhysicsEngine.simulationStep = 1f / frameRate;
+	}
+	
+	/**
+	 * 
+	 * Sets whether to use step or pure delta time.
+	 * 
+	 * @param useStep - true if you wish to use step
+	 */
+	public final void useStep(boolean useStep) {
+		this.useStep = useStep;
 	}
 }

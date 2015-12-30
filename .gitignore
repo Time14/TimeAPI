@@ -1,5 +1,9 @@
 .metadata/**/*
+.metadata/*
+.metadata
 .recommenders/**/*
+.recommenders/*
+.recommenders
 RemoteSystemsTempFiles/**/*
 src/time/api/Main.java
 #*/**/*

@@ -4,6 +4,15 @@ public class Vector2f extends VectorXf {
 	
 	/**
 	 * 
+	 * Constructs a new Vector2f with components(0,0).
+	 * 
+	 */
+	public Vector2f() {
+		this(0, 0);
+	}
+	
+	/**
+	 * 
 	 * Constructs a new Vector2f.
 	 * 
 	 * @param x - the initial x component of this vector

@@ -11,25 +11,17 @@ public class ClientListener implements SKPacketListener {
 	public void received(SKConnection connection, SKPacket packet) {
 		if(packet instanceof SKPacketMSG) {
 			System.out.println("Server: " + ((SKPacketMSG)packet).MSG);
-			try {
-				Thread.sleep(1000);
-				connection.sendPacket(new SKPacketMSG("ping"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
 	@Override
 	public void connected(SKConnection connection) {
-		System.out.println("Connected to " + connection.getHostAddress() + ":" + connection.getPort() + " (id: " + connection.getID() + ")");
+		
 	}
 
 	@Override
-	public void disconnected(SKConnection connection) {
-		System.out.println("Disconnected from server");
+	public void disconnected(SKConnection connection, boolean local, String msg) {
+		System.out.println("Disconnected from server: " + msg);
 	}
 	
 }

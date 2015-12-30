@@ -1,10 +1,13 @@
 package time.api.gamestate;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWCharCallback;
+import org.lwjgl.glfw.GLFWCharModsCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
 import time.api.Game;
+import time.api.input.InputManager;
 import time.api.library.Library;
 
 public final class GameStateManager {
@@ -13,6 +16,7 @@ public final class GameStateManager {
 	
 	private static GLFWKeyCallback keyCallback;
 	private static GLFWMouseButtonCallback mouseCallback;
+	private static GLFWCharModsCallback charCallback;
 	
 	private static Game game;
 	
@@ -32,6 +36,7 @@ public final class GameStateManager {
 		GameStateManager.window = window;
 		GLFW.glfwSetKeyCallback(window, keyCallback);
 		GLFW.glfwSetMouseButtonCallback(window, mouseCallback);
+		GLFW.glfwSetCharModsCallback(window, charCallback);
 	}
 	
 	/**
@@ -77,16 +82,30 @@ public final class GameStateManager {
 	 * @param dt - the delta time
 	 */
 	public static void update(float dt) {
+		InputManager.update();
 		GLFW.glfwPollEvents();
 		currentState.update(dt);
 		currentState.draw();
 		GLFW.glfwSwapBuffers(window);
 	}
 	
+	public static final GameState getGameState(String key) {
+		return gameStateLibrary.get(key);
+	}
+	
 	static {
+		
+		charCallback = new GLFWCharModsCallback() {
+			@Override
+			public void invoke(long window, int codepoint, int mods) {
+				InputManager.queueChar(codepoint);
+			}
+		};
+		
 		keyCallback = new GLFWKeyCallback() {
 			@Override
 			public void invoke(long window, int key, int scancode, int action, int mods) {
+				InputManager.updateInput(key, scancode, mods, action);
 				currentState.onKeyboard(window, key, scancode, action, mods);
 			}
 		};
@@ -97,5 +116,9 @@ public final class GameStateManager {
 				currentState.onMouse(window, button, action, mods);
 			}
 		};
+	}
+	
+	public static final Game getGame() {
+		return game;
 	}
 }

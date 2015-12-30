@@ -8,7 +8,7 @@ import time.api.util.Time;
 public class Collision {
 	
 	// The constant that decides how much the bodies should move after collision.
-	private static float MOVE_CONSTANT = 3.5f;
+	private static float moveConstant = 0.1f;
 
 	private Body[] bodies;
 	private Vector2f normal;
@@ -51,24 +51,22 @@ public class Collision {
 		// Mu Calculations
 		float mu = Math.min(bodies[0].getFriction(), bodies[1].getFriction());		
 		
+		// Movement correction
+		_move();
+		
 		// Applying Force for bounce
 		bodies[0].push(normal.scale(p));
 		bodies[1].push(normal.scale(-1));
-		
-		// Movement correction
-		_move();
 
 		// Applying Friction
 		if (mu == 0 || tangent.dot(v) == 0) return;
-
-		for(int i = 0; i < 2; i++) {
-			float friction = -Math.signum(tangent.dot(bodies[i].getVel())) * mu * p; 
+		
+		float friction = -Math.signum(tangent.dot(v)) * mu * p * 0.5f;
+		
+		for(int i = 0; i < 2; i++) { 
 			// Make sure it doesn't change the direction of the body
-			if (Math.abs(tangent.dot(bodies[i].vel)) < Math.abs(friction)) {
-				bodies[i].push(tangent.clone().scale(-tangent.dot(bodies[i].vel)*(1/bodies[i].invMass)));
-			} else {
-				bodies[i].push(tangent.clone().scale(friction));
-			}
+			bodies[i].push(tangent.clone().scale(friction));
+			friction *= -1;
 		}
 	}
 	 
@@ -76,18 +74,28 @@ public class Collision {
 	 * Cleans up the collision from floating point errors, you should not call this.
 	 */
 	protected void _move() {
-		float move = MOVE_CONSTANT;
+		float move = moveConstant;
 		
 		if(bodies[0].isAbsolute() != bodies[1].isAbsolute())
 			move *= 2;
 		
 		if(!bodies[0].isAbsolute()){
-			bodies[0].getPos().setX(bodies[0].getPos().getX() + normal.getX() * depth * -move);
-			bodies[0].getPos().setY(bodies[0].getPos().getY() + normal.getY() * depth * -move);
+			bodies[0].getPos().setX(bodies[0].getPos().getX() + normal.getX() * depth * move);
+			bodies[0].getPos().setY(bodies[0].getPos().getY() + normal.getY() * depth * move);
 		}
 		if(!bodies[1].isAbsolute()){
-			bodies[1].getPos().setX(bodies[1].getPos().getX() + normal.getX() * depth * move);
-			bodies[1].getPos().setY(bodies[1].getPos().getY() + normal.getY() * depth * move);
+			bodies[1].getPos().setX(bodies[1].getPos().getX() + normal.getX() * depth * -move);
+			bodies[1].getPos().setY(bodies[1].getPos().getY() + normal.getY() * depth * -move);
 		}
+	}
+	
+	/**
+	 * 
+	 * Sets the move constant for all collisions.
+	 * 
+	 * @param moveConstant - the new move constant
+	 */
+	public static final void setMoveConstant(float moveConstant) {
+		Collision.moveConstant = moveConstant;
 	}
 }

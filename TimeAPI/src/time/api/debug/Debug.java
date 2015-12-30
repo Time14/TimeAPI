@@ -49,7 +49,7 @@ public class Debug {
 	 * @param message - the message you wish to print.
 	 * @param i  - the depth of the caller function.
 	 */
-	public static void log(String message, int i) {
+	public static void log(Object message, int i) {
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		System.out.println("[" + ste[i].getFileName() + " @ " + ste[i].getLineNumber() + "] " + message);
 	}
@@ -60,9 +60,28 @@ public class Debug {
 	 * 
 	 * @param message - the message you wish to print.
 	 */
-	public static void log(String message) {
+	public static void log(Object message) {
 		int i = 2;
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		System.out.println("[" + ste[i].getFileName() + " @ " + ste[i].getLineNumber() + "] " + message);
+	}
+	
+	/**
+	 * 
+	 * Prints the messages and where it was called.
+	 * 
+	 * @param messages - the messages you wish to print
+	 */
+	public static void log(Object... messages) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(Object o : messages) {
+			sb.append(o).append("\t");
+		}
+		
+		sb.deleteCharAt(sb.length() - 1);
+		
+		Debug.log(sb.toString());
 	}
 }

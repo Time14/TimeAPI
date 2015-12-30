@@ -3,6 +3,7 @@ package time.api.physics;
 import java.util.HashSet;
 
 import time.api.debug.Debug;
+import time.api.math.Transform;
 import time.api.math.Vector2f;
 import time.api.math.VectorXf;
 
@@ -17,16 +18,42 @@ public class Body {
 	boolean trigger;
 	boolean absolute;
 	
-	HashSet<Tag> collisionTags;
-	HashSet<Tag> myTags;
+	HashSet<String> collisionTags;
+	HashSet<String> myTags;
 
 	float invMass;
 	float epsilon;
 	float mu;
 	
 	Vector2f dim;
-	Vector2f pos;
+	Transform transform;
 	Vector2f vel;
+	
+	/**
+	 * 
+	 * Constructs a new body with the given dimensions and position.
+	 * 
+	 * @param transform - the transform of the body
+	 * @param w - the width of the new body
+	 * @param h - the height of the new body
+	 */
+	public Body(Transform transform, float w, float h) {
+		
+		trigger = false;
+		absolute = false;
+		
+		invMass = 1;
+		epsilon = 0.0f;
+		mu = 0;
+		
+		dim = new Vector2f(w, h);
+		this.transform = transform;
+		vel = new Vector2f(0, 0);
+		
+		collisionTags = new HashSet<>();
+		myTags = new HashSet<>();
+		myTags.add("body");
+	}
 	
 	/**
 	 * 
@@ -47,12 +74,12 @@ public class Body {
 		mu = 1;
 		
 		dim = new Vector2f(w, h);
-		pos = new Vector2f(x, y);
+		this.transform = new Transform(x, y);
 		vel = new Vector2f(0, 0);
 		
-		collisionTags = new HashSet<Tag>();
-		myTags = new HashSet<Tag>();
-		myTags.add(Tag.BODY);
+		collisionTags = new HashSet<>();
+		myTags = new HashSet<>();
+		myTags.add("body");
 	}
 	
 	/**
@@ -62,7 +89,7 @@ public class Body {
 	 * @param tag - the tag to check collision with
 	 * @return whether or not there is a collision
 	 */
-	public boolean isCollidingWith(Tag tag) {
+	public boolean isCollidingWith(String tag) {
 		return collisionTags.contains(tag);
 	}
 	
@@ -74,7 +101,7 @@ public class Body {
 	 * 
 	 * @param tag - the tag to add to this body
 	 */
-	private void addCollidingTag(Tag tag) {
+	private void addCollidingTag(String tag) {
 		collisionTags.add(tag);
 	}
 	
@@ -84,7 +111,7 @@ public class Body {
 	 * 
 	 * @return the collision tags of this body
 	 */
-	public HashSet<Tag> getTags() {
+	public HashSet<String> getTags() {
 		return myTags;
 	}
 	
@@ -95,7 +122,7 @@ public class Body {
 	 * @param tag - the tag to check
 	 * @return whether or not this body contains the specified tag.
 	 */
-	public boolean hasTag(Tag tag) {
+	public boolean hasTag(String tag) {
 		return myTags.contains(tag);
 	}
 	
@@ -105,7 +132,7 @@ public class Body {
 	 * 
 	 * @param tag - the tag to add to this body.
 	 */
-	public void addTag(Tag tag) {
+	public void addTag(String tag) {
 		myTags.add(tag);
 	}
 	
@@ -251,7 +278,7 @@ public class Body {
 	 * @return the position of this body
 	 */
 	public Vector2f getPos() {
-		return pos;
+		return transform.pos;
 	}
 	
 	/**
@@ -262,7 +289,7 @@ public class Body {
 	 * @return this Body instance
 	 */
 	public Body setPos(Vector2f pos) {
-		this.pos = pos;
+		transform.pos = pos;
 		return this;
 	}
 	
@@ -313,26 +340,26 @@ public class Body {
 	protected void _checkCollision(Body body, PhysicsEngine pe) {
 		
 		//Collision Check
-		float overlapX = 0.5f * Math.abs(this.dim.getX() + body.dim.getX()) - Math.abs(this.pos.getX() - body.pos.getX());
+		float overlapX = 0.5f * Math.abs(this.dim.getX() + body.dim.getX()) - Math.abs(this.transform.pos.getX() - body.transform.pos.getX());
 		if(overlapX < 0) return;		
 
-		float overlapY = 0.5f * Math.abs(this.dim.getY() + body.dim.getY()) - Math.abs(this.pos.getY() - body.pos.getY());
+		float overlapY = 0.5f * Math.abs(this.dim.getY() + body.dim.getY()) - Math.abs(this.transform.pos.getY() - body.transform.pos.getY());
 		if(overlapY < 0) return;
 		
 		//Add in all my tags
-		for(Tag t : myTags) {
+		for(String t : myTags) {
 			body.addCollidingTag(t);
 		}
 		
 		//Add in all the other bodies tags
-		for(Tag t : body.getTags()) {
+		for(String t : body.getTags()) {
 			addCollidingTag(t);
 		}
 		
 		//Make a collision event if necessary 
 		if(trigger || body.isTrigger()) return;
 		
-		VectorXf distance = this.pos.clone().sub(body.getPos());
+		VectorXf distance = this.transform.pos.clone().sub(body.getPos());
 		float depth = 0;
 		
 		if(Math.abs(distance.getN(0)) > Math.abs(distance.getN(1))) {
@@ -386,6 +413,30 @@ public class Body {
 			freezeVelocity();
 			return;
 		}
-		pos.add(vel.clone().scale(delta));
-	}	
+		transform.pos.add(vel.clone().scale(delta));
+	}
+	
+	/**
+	 * 
+	 * Checks whether or not a point is contained within this body.
+	 * 
+	 * @param x - the x coordinate of the point
+	 * @param y - the y coordinate of the point
+	 * @return true if the points is contained
+	 */
+	public boolean contains(float x, float y) {
+		return contains(new Vector2f(x, y));
+	}
+	
+	/**
+	 * 
+	 * Checks whether or not a point is contained within this body.
+	 * 
+	 * @param point - the point to check
+	 * @return true if the point is contained
+	 */
+	public boolean contains(Vector2f point) {
+		return point.getX() > transform.pos.getX() - dim.getX() / 2 && point.getX() < transform.pos.getX() + dim.getX() / 2
+				&& point.getY() > transform.pos.getY() - dim.getY() / 2 && point.getY() < transform.pos.getY() + dim.getY() / 2;
+	}
 }
