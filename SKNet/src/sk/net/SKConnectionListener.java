@@ -46,5 +46,11 @@ class SKConnectionListener implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		try {
+			server.getServerSocket().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

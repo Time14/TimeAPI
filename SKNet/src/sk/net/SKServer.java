@@ -371,6 +371,19 @@ public class SKServer {
 		return packetListeners;
 	}
 	
+	/**
+	 * Stops this server.
+	 * <p>
+	 * Disconnects all clients and closes the server socket.
+	 * 
+	 * @param msg - the disconnect message
+	 */
+	public void stop(String msg) {
+		for(SKConnection c : connections.values())
+			c.close();
+		connections.clear();
+		running = false;
+	}
 	
 	/**
 	 * 
