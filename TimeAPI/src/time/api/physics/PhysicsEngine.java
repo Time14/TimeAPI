@@ -140,8 +140,8 @@ public class PhysicsEngine {
 	 * @return This physics engine.
 	 */
 	public PhysicsEngine removeBody(Body body) {
-		if (bodies.contains(body)) {
-			trash.remove(body);
+		if (bodies.contains(body) && !trash.contains(body)) {
+			trash.add(body);
 		}
 		return this;
 	}
