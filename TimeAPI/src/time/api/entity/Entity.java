@@ -4,6 +4,7 @@ import time.api.gfx.Renderer;
 import time.api.math.Transform;
 import time.api.math.Vector2f;
 import time.api.physics.Body;
+import time.api.physics.PhysicsEngine;
 
 public class Entity {
 	
@@ -106,6 +107,11 @@ public class Entity {
 	 */
 	public Entity setBody(Body body) {
 		this.body = body;
+		return this;
+	}
+	
+	public Entity removeBody(PhysicsEngine pe, Body body) {
+		pe.removeBody(body);
 		return this;
 	}
 	

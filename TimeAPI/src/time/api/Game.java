@@ -24,6 +24,8 @@ public class Game {
 	//Decorated?
 	public static final boolean DECORATED = true;
 	
+	private static boolean fullscreen = false;
+	
 	//Controls the main loop
 	private volatile boolean running = false;
 	
@@ -154,6 +156,18 @@ public class Game {
 	 */
 	public long getWindow() {
 		return window;
+	}
+	
+	/**
+	 * 
+	 * Enables / disables fullscreen mode for this game.
+	 * <p>
+	 * Must be called before initiation.
+	 * 
+	 * @param fullscreen - true if you wish to use fullscreen mode
+	 */
+	public void setFullscreen(boolean fullscreen) {
+		Game.fullscreen = fullscreen;
 	}
 	
 	/**
